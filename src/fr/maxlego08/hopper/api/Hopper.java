@@ -1,0 +1,48 @@
+package fr.maxlego08.hopper.api;
+
+import java.util.List;
+import java.util.UUID;
+
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+
+public interface Hopper {
+
+	/**
+	 * Allows to recover the owner of the hopper
+	 * @return uuid of owner
+	 */
+	UUID getOwner();
+	
+	/**
+	 * Allows you to retrieve the list of players who have access to modify the hopper
+	 * @return uuid list
+	 */
+	List<UUID> getWhitelistPlayers();
+	
+	/**
+	 * Allows to recover the location of the hopper if the hopper is placed, otherwise a null will be returned
+	 * @return location of hopper
+	 */
+	Location getLocation();
+	
+	/**
+	 * Allows to recover the block according to the location 
+	 * @return
+	 */
+	Block getBlock();
+	
+	/**
+	 * Allows you to recover the Bukkit Hopper depending on the block.
+	 * @return hopper
+	 */
+	org.bukkit.block.Hopper toBukkitHopper();
+	
+	/**
+	 * Allows to recover the world where the hopper is placed
+	 * @return world
+	 */
+	World getWorld();
+	
+}
