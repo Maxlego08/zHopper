@@ -16,7 +16,7 @@ public class HopperEvent extends Event implements Cancellable {
 
 	private final static HandlerList handlers = new HandlerList();
 
-	private boolean cancelled;
+	protected boolean cancelled;
 
 	/**
 	 * 

@@ -37,6 +37,7 @@ public class HopperPlugin extends ZPlugin {
 		inventoryManager = InventoryManager.getInstance();
 
 		hopperManager = new HopperZManager(this);
+		hopperListener = new HopperListener(hopperManager);
 		getServer().getServicesManager().register(HopperManager.class, hopperManager, this, ServicePriority.High);
 
 		/* Add Listener */

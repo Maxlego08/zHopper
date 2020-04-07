@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 
 public interface Hopper {
 
@@ -44,5 +45,11 @@ public interface Hopper {
 	 * @return world
 	 */
 	World getWorld();
+
+	/**
+	 * 
+	 * @param player
+	 */
+	void openConfiguration(Player player);
 	
 }

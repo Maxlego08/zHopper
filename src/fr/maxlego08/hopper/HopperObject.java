@@ -7,8 +7,11 @@ import java.util.UUID;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 
 import fr.maxlego08.hopper.api.Hopper;
+import fr.maxlego08.hopper.api.events.HopperOpenConfigurationEvent;
+import fr.maxlego08.hopper.zcore.enums.Inventory;
 import fr.maxlego08.hopper.zcore.utils.ZUtils;
 
 public class HopperObject extends ZUtils implements Hopper {
@@ -57,6 +60,29 @@ public class HopperObject extends ZUtils implements Hopper {
 	@Override
 	public World getWorld() {
 		return location == null ? null : location.getWorld();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "HopperObject [owner=" + owner + ", whitelistPlayers=" + whitelistPlayers + ", location=" + location
+				+ "]";
+	}
+
+	@Override
+	public void openConfiguration(Player player) {
+		
+		HopperOpenConfigurationEvent event = new HopperOpenConfigurationEvent(this, player);
+		event.callEvent();
+		
+		if (event.isCancelled())
+			return;
+		
+		createInventory(player, Inventory.INVENTORY_CONFIGURATION, this);
 	}
 
 }

@@ -3,8 +3,10 @@ package fr.maxlego08.hopper;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 import fr.maxlego08.hopper.api.HopperManager;
 import fr.maxlego08.hopper.listener.ListenerAdapter;
@@ -33,5 +35,13 @@ public class HopperListener extends ListenerAdapter {
 			manager.createHopper(block, player);
 		
 	}
-
+	
+	@Override
+	protected void onInteractBlock(PlayerInteractEvent event, Player player, Block block, Action action) {
+		
+		if (block.getType().equals(Material.HOPPER))
+			manager.interactHopper(player, block, event);
+		
+	}
+	
 }

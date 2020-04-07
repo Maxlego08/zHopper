@@ -7,6 +7,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -107,6 +108,9 @@ public abstract class ListenerAdapter extends ZUtils{
 
 	public void onInventoryMove(Inventory source, Inventory destination, Location sourceLocation,
 			Location destinationLocation) {
+	}
+
+	protected void onInteractBlock(PlayerInteractEvent event, Player player, Block block, Action action) {
 	}
 
 }

@@ -6,25 +6,36 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 import fr.maxlego08.hopper.zcore.utils.storage.Saveable;
 
 public interface HopperManager extends Saveable{
 
 	/**
-	 * 
-	 * @return
+	 * Allows you to retrieve the list of all hoppers
+	 * @return hoppers
 	 */
 	List<Hopper> getHoppers();
 	
 	/**
+	 * Allows you to recover a hopper according to a location
 	 * 
 	 * @param location
-	 * @return
+	 * @return {@link Hopper}
 	 */
 	Hopper getHopper(Location location);
 	
 	/**
+	 * Lets check if a location is a hopper
+	 * 
+	 * @param location
+	 * @return true if location is hopper
+	 */
+	boolean isHopper(Location location);
+	
+	/**
+	 * Allows you to create a new hopper
 	 * 
 	 * @param block
 	 * @param player
@@ -32,11 +43,21 @@ public interface HopperManager extends Saveable{
 	void createHopper(Block block, Player player);
 
 	/**
+	 * Cancels the BlockBreakEvent if a player breaks a hopper
 	 * 
 	 * @param block
 	 * @param player
 	 * @param event
 	 */
 	void destroyHopper(Block block, Player player, BlockBreakEvent event);
+	
+	/**
+	 * Allows you to interact with a Hopper
+	 * 
+	 * @param player
+	 * @param block
+	 * @param event 
+	 */
+	void interactHopper(Player player, Block block, PlayerInteractEvent event);
 	
 }

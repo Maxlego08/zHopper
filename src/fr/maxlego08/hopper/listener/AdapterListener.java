@@ -85,6 +85,8 @@ public class AdapterListener extends ZUtils implements Listener {
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) {
 		template.getListenerAdapters().forEach(adapter -> adapter.onInteract(event, event.getPlayer()));
+		if (event.getClickedBlock() != null)
+			template.getListenerAdapters().forEach(adapter -> adapter.onInteractBlock(event, event.getPlayer(), event.getClickedBlock(), event.getAction()));
 	}
 
 	@EventHandler

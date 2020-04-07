@@ -33,6 +33,7 @@ import org.bukkit.permissions.Permissible;
 
 import fr.maxlego08.hopper.HopperPlugin;
 import fr.maxlego08.hopper.zcore.ZPlugin;
+import fr.maxlego08.hopper.zcore.enums.Inventory;
 import fr.maxlego08.hopper.zcore.enums.Message;
 import fr.maxlego08.hopper.zcore.enums.Permission;
 import fr.maxlego08.hopper.zcore.utils.builder.CooldownBuilder;
@@ -746,6 +747,16 @@ public abstract class ZUtils {
 	protected void createInventory(Player player, int inventoryId, int page) {
 		createInventory(player, inventoryId, page, new Object() {
 		});
+	}
+	
+	/**
+	 * 
+	 * @param player
+	 * @param inventoryId
+	 * @param page
+	 */
+	protected void createInventory(Player player, Inventory inventory, Object...objects) {
+		this.createInventory(player, inventory.getId(), 1, objects);
 	}
 
 	/**
