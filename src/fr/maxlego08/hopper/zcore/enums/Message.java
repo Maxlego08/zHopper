@@ -27,6 +27,7 @@ public enum Message {
 	COMMAND_NO_ARG("§cImpossible de trouver la commande avec ses arguments."),
 	COMMAND_SYNTAXE_HELP("§a%s §b» §7%s"),
 	
+	HOPPER_CREATE("§eVous venez d'ajouter un hopper, pour le configurer vous devez faire un clique droit dessus."),
 	
 	;
 

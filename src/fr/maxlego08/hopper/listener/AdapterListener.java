@@ -1,8 +1,7 @@
 package fr.maxlego08.hopper.listener;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import org.bukkit.entity.Item;
+import org.bukkit.Location;
+import org.bukkit.block.BlockState;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -17,18 +16,18 @@ import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.Inventory;
 
 import fr.maxlego08.hopper.HopperPlugin;
-import fr.maxlego08.hopper.save.Config;
 import fr.maxlego08.hopper.zcore.utils.ZUtils;
 
 @SuppressWarnings("deprecation")
@@ -68,12 +67,14 @@ public class AdapterListener extends ZUtils implements Listener {
 
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) {
-		template.getListenerAdapters().forEach(adapter -> adapter.onBlockBreak(event, event.getPlayer()));
+		template.getListenerAdapters()
+				.forEach(adapter -> adapter.onBlockBreak(event, event.getPlayer(), event.getBlock()));
 	}
 
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event) {
-		template.getListenerAdapters().forEach(adapter -> adapter.onBlockPlace(event, event.getPlayer()));
+		template.getListenerAdapters()
+				.forEach(adapter -> adapter.onBlockPlace(event, event.getPlayer(), event.getBlock()));
 	}
 
 	@EventHandler
@@ -119,27 +120,6 @@ public class AdapterListener extends ZUtils implements Listener {
 	}
 
 	@EventHandler
-	public void onDrop(PlayerDropItemEvent event) {
-		template.getListenerAdapters().forEach(adapter -> adapter.onDrop(event, event.getPlayer()));
-		if (!Config.useItemFallEvent)
-			return;
-		Item item = event.getItemDrop();
-		AtomicBoolean hasSendEvent = new AtomicBoolean(false);
-		scheduleFix(100, (task, isActive) -> {
-			if (!isActive)
-				return;
-			template.getListenerAdapters().forEach(adapter -> adapter.onItemMove(event, event.getPlayer(), item,
-					item.getLocation(), item.getLocation().getBlock()));
-			if (item.isOnGround() && !hasSendEvent.get()) {
-				task.cancel();
-				hasSendEvent.set(true);
-				template.getListenerAdapters().forEach(
-						adapter -> adapter.onItemisOnGround(event, event.getPlayer(), item, item.getLocation()));
-			}
-		});
-	}
-
-	@EventHandler
 	public void onPick(PlayerPickupItemEvent event) {
 		template.getListenerAdapters().forEach(adapter -> adapter.onPickUp(event, event.getPlayer()));
 	}
@@ -147,6 +127,17 @@ public class AdapterListener extends ZUtils implements Listener {
 	@EventHandler
 	public void onMobSpawn(CreatureSpawnEvent event) {
 		template.getListenerAdapters().forEach(adapter -> adapter.onMobSpawn(event));
+	}
+
+	@EventHandler
+	public void onInventoryMove(InventoryMoveItemEvent event) {
+		Inventory source = event.getSource();
+		Inventory destination = event.getDestination();
+		Location sourceLocation = source.getHolder() instanceof BlockState
+				? ((BlockState) source.getHolder()).getLocation() : null;
+		Location destinationLocation = destination.getHolder() instanceof BlockState
+				? ((BlockState) destination.getHolder()).getLocation() : null;
+		template.getListenerAdapters().forEach(adapter -> adapter.onInventoryMove(source, destination, sourceLocation, destinationLocation));
 	}
 
 	@EventHandler

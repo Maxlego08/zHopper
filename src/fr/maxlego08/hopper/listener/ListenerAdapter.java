@@ -26,6 +26,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.Inventory;
 
 import fr.maxlego08.hopper.zcore.utils.ZUtils;
 
@@ -50,10 +51,10 @@ public abstract class ListenerAdapter extends ZUtils{
 	protected void onInventoryDrag(InventoryDragEvent event, Player player) {
 	}
 
-	protected void onBlockBreak(BlockBreakEvent event, Player player) {
+	protected void onBlockBreak(BlockBreakEvent event, Player player, Block block) {
 	}
 
-	protected void onBlockPlace(BlockPlaceEvent event, Player player) {
+	protected void onBlockPlace(BlockPlaceEvent event, Player player, Block block) {
 	}
 
 	protected void onEntityDeath(EntityDeathEvent event, Entity entity) {
@@ -103,4 +104,9 @@ public abstract class ListenerAdapter extends ZUtils{
 
 	public void onPlayerWalk(PlayerMoveEvent event, Player player, int i) {
 	}
+
+	public void onInventoryMove(Inventory source, Inventory destination, Location sourceLocation,
+			Location destinationLocation) {
+	}
+
 }

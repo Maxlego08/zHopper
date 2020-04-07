@@ -22,6 +22,7 @@ public class HopperPlugin extends ZPlugin {
 	private CommandManager commandManager;
 	private InventoryManager inventoryManager;
 	private HopperManager hopperManager;
+	private HopperListener hopperListener;
 
 	@Override
 	public void onEnable() {
@@ -42,16 +43,15 @@ public class HopperPlugin extends ZPlugin {
 
 		addListener(new AdapterListener(this));
 		addListener(inventoryManager);
-		addListener(hopperManager);
+		addListener(hopperListener);
 
 		/* Add Saver */
 
 		addSave(Config.getInstance());
 		addSave(new CooldownBuilder());
+		addSave(hopperManager);
 
 		getSavers().forEach(saver -> saver.load(getPersist()));
-
-		((HopperZManager) hopperManager).add();
 
 		postEnable();
 
