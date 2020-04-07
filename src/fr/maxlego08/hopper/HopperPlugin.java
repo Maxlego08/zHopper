@@ -1,10 +1,12 @@
 package fr.maxlego08.hopper;
 
+import org.bukkit.plugin.ServicePriority;
+
+import fr.maxlego08.hopper.api.HopperManager;
 import fr.maxlego08.hopper.command.CommandManager;
 import fr.maxlego08.hopper.inventory.InventoryManager;
 import fr.maxlego08.hopper.listener.AdapterListener;
 import fr.maxlego08.hopper.save.Config;
-import fr.maxlego08.hopper.scoreboard.ScoreBoardManager;
 import fr.maxlego08.hopper.zcore.ZPlugin;
 import fr.maxlego08.hopper.zcore.utils.builder.CooldownBuilder;
 
@@ -19,7 +21,7 @@ public class HopperPlugin extends ZPlugin {
 
 	private CommandManager commandManager;
 	private InventoryManager inventoryManager;
-	private ScoreBoardManager scoreboardManager;
+	private HopperManager hopperManager;
 
 	@Override
 	public void onEnable() {
@@ -33,12 +35,14 @@ public class HopperPlugin extends ZPlugin {
 			return;
 		inventoryManager = InventoryManager.getInstance();
 
-		scoreboardManager = new ScoreBoardManager(1000);
+		hopperManager = new HopperZManager(this);
+		getServer().getServicesManager().register(HopperManager.class, hopperManager, this, ServicePriority.High);
 
 		/* Add Listener */
 
 		addListener(new AdapterListener(this));
 		addListener(inventoryManager);
+		addListener(hopperManager);
 
 		/* Add Saver */
 
@@ -46,6 +50,8 @@ public class HopperPlugin extends ZPlugin {
 		addSave(new CooldownBuilder());
 
 		getSavers().forEach(saver -> saver.load(getPersist()));
+
+		((HopperZManager) hopperManager).add();
 
 		postEnable();
 
@@ -77,10 +83,11 @@ public class HopperPlugin extends ZPlugin {
 	}
 
 	/**
-	 * @return the scoreboardManager
+	 * 
+	 * @return
 	 */
-	public ScoreBoardManager getScoreboardManager() {
-		return scoreboardManager;
+	public HopperManager getHopperManager() {
+		return hopperManager;
 	}
 
 }
