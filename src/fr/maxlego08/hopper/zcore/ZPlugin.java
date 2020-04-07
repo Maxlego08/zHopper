@@ -15,9 +15,12 @@ import org.bukkit.potion.PotionEffect;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import fr.maxlego08.hopper.HopperObject;
+import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.listener.ListenerAdapter;
 import fr.maxlego08.hopper.zcore.logger.Logger;
 import fr.maxlego08.hopper.zcore.logger.Logger.LogType;
+import fr.maxlego08.hopper.zcore.utils.gson.InterfaceSerializer;
 import fr.maxlego08.hopper.zcore.utils.gson.ItemStackAdapter;
 import fr.maxlego08.hopper.zcore.utils.gson.LocationAdapter;
 import fr.maxlego08.hopper.zcore.utils.gson.PotionEffectAdapter;
@@ -79,6 +82,7 @@ public abstract class ZPlugin extends JavaPlugin {
 
 	/**
 	 * Build gson
+	 * 
 	 * @return
 	 */
 	public GsonBuilder getGsonBuilder() {
@@ -86,31 +90,35 @@ public abstract class ZPlugin extends JavaPlugin {
 				.excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.VOLATILE)
 				.registerTypeHierarchyAdapter(ItemStack.class, new ItemStackAdapter())
 				.registerTypeAdapter(PotionEffect.class, new PotionEffectAdapter())
+				.registerTypeAdapter(Hopper.class, InterfaceSerializer.interfaceSerializer(HopperObject.class))
 				.registerTypeAdapter(Location.class, new LocationAdapter());
 	}
 
 	/**
 	 * Add a listener
+	 * 
 	 * @param listener
 	 */
 	public void addListener(Listener listener) {
-		if (listener instanceof Saveable) 
+		if (listener instanceof Saveable)
 			addSave((Saveable) listener);
 		Bukkit.getPluginManager().registerEvents(listener, this);
 	}
 
 	/**
 	 * Add a listener from ListenerAdapter
+	 * 
 	 * @param adapter
 	 */
 	public void addListener(ListenerAdapter adapter) {
-		if (adapter instanceof Saveable) 
+		if (adapter instanceof Saveable)
 			addSave((Saveable) adapter);
 		listenerAdapters.add(adapter);
 	}
 
 	/**
 	 * Add a Saveable
+	 * 
 	 * @param saver
 	 */
 	public void addSave(Saveable saver) {
@@ -119,6 +127,7 @@ public abstract class ZPlugin extends JavaPlugin {
 
 	/**
 	 * Get logger
+	 * 
 	 * @return loggers
 	 */
 	public Logger getLog() {
@@ -127,6 +136,7 @@ public abstract class ZPlugin extends JavaPlugin {
 
 	/**
 	 * Get gson
+	 * 
 	 * @return {@link Gson}
 	 */
 	public Gson getGson() {
@@ -139,6 +149,7 @@ public abstract class ZPlugin extends JavaPlugin {
 
 	/**
 	 * Get all saveables
+	 * 
 	 * @return savers
 	 */
 	public List<Saveable> getSavers() {

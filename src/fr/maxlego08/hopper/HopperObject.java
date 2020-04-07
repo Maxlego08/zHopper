@@ -17,6 +17,13 @@ public class HopperObject extends ZUtils implements Hopper {
 	private List<UUID> whitelistPlayers = new ArrayList<UUID>();
 	private Location location;
 
+	public HopperObject(UUID owner, List<UUID> whitelistPlayers, Location location) {
+		super();
+		this.owner = owner;
+		this.whitelistPlayers = whitelistPlayers;
+		this.location = location;
+	}
+
 	public HopperObject() {
 		location = null;
 		owner = UUID.randomUUID();
