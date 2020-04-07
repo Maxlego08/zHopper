@@ -6,20 +6,32 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 
 import fr.maxlego08.hopper.HopperPlugin;
 import fr.maxlego08.hopper.api.Hopper;
+import fr.maxlego08.hopper.api.Level;
 import fr.maxlego08.hopper.exceptions.InventoryOpenException;
 import fr.maxlego08.hopper.inventory.InventoryResult;
 import fr.maxlego08.hopper.inventory.VInventory;
+import fr.maxlego08.hopper.zcore.utils.builder.ItemBuilder;
 
 public class InventoryConfiguration extends VInventory {
 
 	@Override
 	public InventoryResult openInventory(HopperPlugin main, Player player, int page, Object... args)
 			throws InventoryOpenException {
-		
-		Hopper hopper = (Hopper)args[0];
-		
+
+		Hopper hopper = (Hopper) args[0];
+		Level level = hopper.toLevel();
+
 		createInventory("§7Hopper", 27);
-		
+
+		ItemBuilder builder = new ItemBuilder(getMaterial(384), "§eNiveau du hopper");
+		builder.addLine("");
+		builder.addLine("§f§l» §eNiveau du hopper§6 " + level.getInteger());
+		builder.addLine("§f§l» §eNom du niveau§6 " + level.getName());
+		builder.addLine("§f§l» §eNombre de container maximum§6 " + level.getMaxLink());
+		builder.addLine("§f§l» §eDistance maximum de link§6 " + level.getMaxDistanceLink() +" §eblocks");
+		builder.addLine("");
+		addItem(4, builder);
+
 		return InventoryResult.SUCCESS;
 	}
 

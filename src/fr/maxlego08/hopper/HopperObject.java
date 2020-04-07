@@ -10,6 +10,8 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import fr.maxlego08.hopper.api.Hopper;
+import fr.maxlego08.hopper.api.HopperManager;
+import fr.maxlego08.hopper.api.Level;
 import fr.maxlego08.hopper.api.events.HopperOpenConfigurationEvent;
 import fr.maxlego08.hopper.zcore.enums.Inventory;
 import fr.maxlego08.hopper.zcore.utils.ZUtils;
@@ -19,19 +21,31 @@ public class HopperObject extends ZUtils implements Hopper {
 	private UUID owner;
 	private List<UUID> whitelistPlayers = new ArrayList<UUID>();
 	private Location location;
+	private int level;
+	private transient Level levelObject;
+	private transient HopperManager hopperManager;
 
 	/**
 	 * 
 	 * @param owner
 	 * @param location
 	 */
-	public HopperObject(UUID owner, Location location) {
+	public HopperObject(UUID owner, Location location, HopperManager hopperManager) {
 		super();
 		this.owner = owner;
 		this.whitelistPlayers = new ArrayList<UUID>();
 		this.location = location;
+		this.hopperManager = hopperManager;
 	}
 
+	/**
+	 * 
+	 * @param hopperManager
+	 */
+	public void initHopper(HopperManager hopperManager){
+		this.hopperManager = hopperManager;
+	}
+	
 	@Override
 	public UUID getOwner() {
 		return owner;
@@ -83,6 +97,22 @@ public class HopperObject extends ZUtils implements Hopper {
 			return;
 		
 		createInventory(player, Inventory.INVENTORY_CONFIGURATION, this);
+	}
+
+	@Override
+	public int getLevel() {
+		return level;
+	}
+
+	@Override
+	public void setLevel(int level) {
+		this.level = level;
+		this.levelObject = this.hopperManager.getLevel(level);
+	}
+
+	@Override
+	public Level toLevel() {
+		return levelObject == null ? levelObject = hopperManager.getLevel(level) : levelObject;
 	}
 
 }

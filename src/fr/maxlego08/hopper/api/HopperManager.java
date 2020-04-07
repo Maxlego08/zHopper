@@ -35,6 +35,19 @@ public interface HopperManager extends Saveable{
 	boolean isHopper(Location location);
 	
 	/**
+	 * Get {@link Level} from integer
+	 * @param level
+	 * @return
+	 */
+	Level getLevel(int level);
+	
+	/**
+	 * Return default level
+	 * @return level
+	 */
+	Level getDefaultLevel();
+	
+	/**
 	 * Allows you to create a new hopper
 	 * 
 	 * @param block
@@ -59,5 +72,6 @@ public interface HopperManager extends Saveable{
 	 * @param event 
 	 */
 	void interactHopper(Player player, Block block, PlayerInteractEvent event);
+
 	
 }

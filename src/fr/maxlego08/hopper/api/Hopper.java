@@ -47,6 +47,24 @@ public interface Hopper {
 	World getWorld();
 
 	/**
+	 * Get hopper level
+	 * @return level
+	 */
+	int getLevel();
+	
+	/**
+	 * Transforme level to Level object
+	 * @return
+	 */
+	Level toLevel();
+	
+	/**
+	 * Set hopper level
+	 * @param level
+	 */
+	void setLevel(int level);
+	
+	/**
 	 * 
 	 * @param player
 	 */

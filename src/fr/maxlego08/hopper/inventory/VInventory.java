@@ -87,6 +87,16 @@ public abstract class VInventory extends ZUtils implements Cloneable{
 		this.inventory.setItem(slot, item);
 		return button;
 	}
+	
+	/**
+	 * 
+	 * @param slot
+	 * @param item
+	 * @return
+	 */
+	public ItemButton addItem(int slot, ItemBuilder item) {
+		return addItem(slot, item.build());
+	}
 
 	/**
 	 * Permet de retirer un item de la liste des items

@@ -15,6 +15,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.api.HopperManager;
+import fr.maxlego08.hopper.api.Level;
 import fr.maxlego08.hopper.api.events.HopperCreateEvent;
 import fr.maxlego08.hopper.api.events.HopperSoftDestroyEvent;
 import fr.maxlego08.hopper.zcore.enums.Message;
@@ -25,6 +26,7 @@ public class HopperZManager extends ZUtils implements HopperManager {
 
 	private volatile HopperPlugin plugin;
 	private volatile Map<Location, Hopper> hoppers = new HashMap<Location, Hopper>();
+	private volatile Map<Integer, Level> levels = new HashMap<>();
 	private static List<Hopper> hopperList = new ArrayList<Hopper>();
 
 	/**
@@ -54,7 +56,10 @@ public class HopperZManager extends ZUtils implements HopperManager {
 	public void load(Persist persist) {
 		persist.loadOrSaveDefault(this, HopperZManager.class, "hoppers");
 		hoppers = new HashMap<>();
-		hopperList.forEach(hopper -> hoppers.put(hopper.getLocation(), hopper));
+		hopperList.forEach(hopper -> {
+			((HopperObject) hopper).initHopper(this);
+			hoppers.put(hopper.getLocation(), hopper);
+		});
 	}
 
 	@Override
@@ -78,7 +83,7 @@ public class HopperZManager extends ZUtils implements HopperManager {
 		if (block == null || !block.getType().equals(Material.HOPPER))
 			return;
 
-		Hopper hopper = new HopperObject(player.getUniqueId(), block.getLocation());
+		Hopper hopper = new HopperObject(player.getUniqueId(), block.getLocation(), this);
 
 		HopperCreateEvent event = new HopperCreateEvent(hopper, player);
 		event.callEvent();
@@ -96,14 +101,14 @@ public class HopperZManager extends ZUtils implements HopperManager {
 
 		if (block == null || !block.getType().equals(Material.HOPPER))
 			return;
-		
+
 		if (!isHopper(block.getLocation()))
 			return;
-		
+
 		Hopper hopper = getHopper(block.getLocation());
 		HopperSoftDestroyEvent destroyEvent = new HopperSoftDestroyEvent(hopper, player);
 		destroyEvent.callEvent();
-		
+
 		event.setCancelled(destroyEvent.isCancelled());
 
 	}
@@ -113,18 +118,30 @@ public class HopperZManager extends ZUtils implements HopperManager {
 
 		if (block == null || !block.getType().equals(Material.HOPPER))
 			return;
-		
+
 		if (!isHopper(block.getLocation()))
 			return;
-		
+
 		if (!event.getAction().equals(Action.LEFT_CLICK_BLOCK))
 			return;
-		
+
 		Hopper hopper = getHopper(block.getLocation());
 		hopper.openConfiguration(player);
 		event.setCancelled(true);
-		
+
 	}
 
+	@Override
+	public Level getLevel(int level) {
+		return levels.getOrDefault(level, getDefaultLevel());
+	}
+
+	@Override
+	public Level getDefaultLevel() {
+		Level level = levels.getOrDefault(1, null);
+		if (level == null)
+			level = new LevelObject("premier niveau", 1, 5, 1);
+		return level;
+	}
 
 }
