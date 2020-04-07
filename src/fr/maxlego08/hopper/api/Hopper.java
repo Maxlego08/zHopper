@@ -8,6 +8,8 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import fr.maxlego08.hopper.nbt.NBTManager;
+
 public interface Hopper {
 
 	/**
@@ -59,6 +61,12 @@ public interface Hopper {
 	Level toLevel();
 	
 	/**
+	 * Get manager
+	 * @return manager
+	 */
+	HopperManager getManager();
+	
+	/**
 	 * Set hopper level
 	 * @param level
 	 */
@@ -69,5 +77,10 @@ public interface Hopper {
 	 * @param player
 	 */
 	void openConfiguration(Player player);
+
+	/**
+	 * Destroy hopper
+	 */
+	void destroy();
 	
 }

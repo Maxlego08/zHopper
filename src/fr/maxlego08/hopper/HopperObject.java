@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -113,6 +114,17 @@ public class HopperObject extends ZUtils implements Hopper {
 	@Override
 	public Level toLevel() {
 		return levelObject == null ? levelObject = hopperManager.getLevel(level) : levelObject;
+	}
+
+	@Override
+	public HopperManager getManager() {
+		return hopperManager;
+	}
+
+	@Override
+	public void destroy() {
+		if (location != null)
+			getBlock().setType(Material.AIR);
 	}
 
 }

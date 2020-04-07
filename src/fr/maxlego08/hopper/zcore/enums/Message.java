@@ -28,6 +28,7 @@ public enum Message {
 	COMMAND_SYNTAXE_HELP("§a%s §b» §7%s"),
 	
 	HOPPER_CREATE("§eVous venez d'ajouter un hopper §8(§7pour le configurer vous devez faire un clique droit dessus§8)"),
+	HOPPER_DESTROY("§eVous venez de casser votre hopper"),
 	
 	;
 

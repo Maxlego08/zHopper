@@ -18,6 +18,7 @@ import fr.maxlego08.hopper.api.HopperManager;
 import fr.maxlego08.hopper.api.Level;
 import fr.maxlego08.hopper.api.events.HopperCreateEvent;
 import fr.maxlego08.hopper.api.events.HopperSoftDestroyEvent;
+import fr.maxlego08.hopper.nbt.NBTManager;
 import fr.maxlego08.hopper.zcore.enums.Message;
 import fr.maxlego08.hopper.zcore.utils.ZUtils;
 import fr.maxlego08.hopper.zcore.utils.storage.Persist;
@@ -25,6 +26,7 @@ import fr.maxlego08.hopper.zcore.utils.storage.Persist;
 public class HopperZManager extends ZUtils implements HopperManager {
 
 	private volatile HopperPlugin plugin;
+	private volatile NBTManager manager = new NBTManager();
 	private volatile Map<Location, Hopper> hoppers = new HashMap<Location, Hopper>();
 	private volatile Map<Integer, Level> levels = new HashMap<>();
 	private static List<Hopper> hopperList = new ArrayList<Hopper>();
@@ -64,7 +66,7 @@ public class HopperZManager extends ZUtils implements HopperManager {
 
 	@Override
 	public List<Hopper> getHoppers() {
-		return hopperList;
+		return new ArrayList<>(hoppers.values());
 	}
 
 	@Override
@@ -142,6 +144,16 @@ public class HopperZManager extends ZUtils implements HopperManager {
 		if (level == null)
 			level = new LevelObject("premier niveau", 1, 5, 1);
 		return level;
+	}
+
+	@Override
+	public void destroyHopper(Player player, Hopper hopper) {
+
+		hopper.destroy();
+		manager.dropItem(hopper);
+		
+		message(player, Message.HOPPER_DESTROY);
+
 	}
 
 }

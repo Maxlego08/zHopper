@@ -155,7 +155,7 @@ public class ItemBuilder extends ZUtils implements Cloneable {
 			meta.setDisplayName(name);
 
 		if (lore != null)
-			meta.setDisplayName(name);
+			meta.setLore(lore);
 
 		item.setItemMeta(meta);
 		return item;
