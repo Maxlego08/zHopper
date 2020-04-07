@@ -22,7 +22,7 @@ public class HopperObject extends ZUtils implements Hopper {
 	private UUID owner;
 	private List<UUID> whitelistPlayers = new ArrayList<UUID>();
 	private Location location;
-	private int level;
+	private int level = 1;
 	private transient Level levelObject;
 	private transient HopperManager hopperManager;
 
@@ -39,14 +39,19 @@ public class HopperObject extends ZUtils implements Hopper {
 		this.hopperManager = hopperManager;
 	}
 
+	public HopperObject(int level) {
+		super();
+		this.level = level;
+	}
+
 	/**
 	 * 
 	 * @param hopperManager
 	 */
-	public void initHopper(HopperManager hopperManager){
+	public void initHopper(HopperManager hopperManager) {
 		this.hopperManager = hopperManager;
 	}
-	
+
 	@Override
 	public UUID getOwner() {
 		return owner;
@@ -90,13 +95,13 @@ public class HopperObject extends ZUtils implements Hopper {
 
 	@Override
 	public void openConfiguration(Player player) {
-		
+
 		HopperOpenConfigurationEvent event = new HopperOpenConfigurationEvent(this, player);
 		event.callEvent();
-		
+
 		if (event.isCancelled())
 			return;
-		
+
 		createInventory(player, Inventory.INVENTORY_CONFIGURATION, this);
 	}
 

@@ -149,6 +149,7 @@ public class HopperZManager extends ZUtils implements HopperManager {
 	@Override
 	public void destroyHopper(Player player, Hopper hopper) {
 
+		player.closeInventory();
 		hopper.destroy();
 		manager.dropItem(hopper);
 		

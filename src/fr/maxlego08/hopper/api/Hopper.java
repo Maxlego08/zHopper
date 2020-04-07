@@ -8,8 +8,6 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-import fr.maxlego08.hopper.nbt.NBTManager;
-
 public interface Hopper {
 
 	/**

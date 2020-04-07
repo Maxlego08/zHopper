@@ -39,7 +39,7 @@ public class InventoryConfiguration extends VInventory {
 		builder.addLine("");
 		builder.addLine("§f§l» §cClique pour récupérer le hopper");
 		builder.addLine("");
-		addItem(23, builder).setClick(event -> manager.destroyHopper(player, hopper));
+		addItem(22, builder).setClick(event -> manager.destroyHopper(player, hopper));
 
 		return InventoryResult.SUCCESS;
 	}
