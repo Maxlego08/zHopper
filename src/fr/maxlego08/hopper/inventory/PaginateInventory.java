@@ -9,7 +9,6 @@ import org.bukkit.inventory.ItemStack;
 
 import fr.maxlego08.hopper.HopperPlugin;
 import fr.maxlego08.hopper.exceptions.InventoryOpenException;
-import fr.maxlego08.hopper.zcore.utils.builder.ItemBuilder;
 import fr.maxlego08.hopper.zcore.utils.inventory.Pagination;
 
 public abstract class PaginateInventory<T> extends VInventory {

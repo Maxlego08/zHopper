@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -95,7 +96,10 @@ public class HopperZManager extends ZUtils implements HopperManager {
 
 		if (block == null || !block.getType().equals(Material.HOPPER))
 			return;
-
+		
+		if (!isHopper(block.getLocation()))
+			return;
+		
 		Hopper hopper = getHopper(block.getLocation());
 		HopperSoftDestroyEvent destroyEvent = new HopperSoftDestroyEvent(hopper, player);
 		destroyEvent.callEvent();
@@ -111,6 +115,9 @@ public class HopperZManager extends ZUtils implements HopperManager {
 			return;
 		
 		if (!isHopper(block.getLocation()))
+			return;
+		
+		if (!event.getAction().equals(Action.LEFT_CLICK_BLOCK))
 			return;
 		
 		Hopper hopper = getHopper(block.getLocation());

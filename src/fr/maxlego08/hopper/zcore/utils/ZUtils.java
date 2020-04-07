@@ -748,14 +748,14 @@ public abstract class ZUtils {
 		createInventory(player, inventoryId, page, new Object() {
 		});
 	}
-	
+
 	/**
 	 * 
 	 * @param player
 	 * @param inventoryId
 	 * @param page
 	 */
-	protected void createInventory(Player player, Inventory inventory, Object...objects) {
+	protected void createInventory(Player player, Inventory inventory, Object... objects) {
 		this.createInventory(player, inventory.getId(), 1, objects);
 	}
 
@@ -767,6 +767,8 @@ public abstract class ZUtils {
 	 * @param objects
 	 */
 	protected void createInventory(Player player, int inventoryId, int page, Object... objects) {
+		if (plugin == null)
+			plugin = (HopperPlugin) ZPlugin.z();
 		plugin.getInventoryManager().createInventory(inventoryId, player, page, objects);
 	}
 
@@ -1018,7 +1020,6 @@ public abstract class ZUtils {
 		else
 			return "to much";
 	}
-	
 
 	/**
 	 * Permet de conter le nombre d'item
@@ -1034,7 +1035,6 @@ public abstract class ZUtils {
 				count += itemStack.getAmount();
 		return count;
 	}
-	
 
 	protected Enchantment enchantFromString(String str) {
 		for (Enchantment enchantment : Enchantment.values())
@@ -1078,7 +1078,6 @@ public abstract class ZUtils {
 			return BlockFace.WEST;
 		}
 	}
-	
 
 	/**
 	 * 
@@ -1151,7 +1150,6 @@ public abstract class ZUtils {
 			CooldownBuilder.addCooldown(cooldown, player, timer);
 		return false;
 	}
-	
 
 	/**
 	 * @param list

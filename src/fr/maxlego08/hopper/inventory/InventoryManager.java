@@ -13,6 +13,7 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 
 import fr.maxlego08.hopper.exceptions.InventoryAlreadyExistException;
 import fr.maxlego08.hopper.exceptions.InventoryOpenException;
+import fr.maxlego08.hopper.inventory.inventories.InventoryConfiguration;
 import fr.maxlego08.hopper.listener.ListenerAdapter;
 import fr.maxlego08.hopper.zcore.ZPlugin;
 import fr.maxlego08.hopper.zcore.enums.Inventory;
@@ -27,6 +28,7 @@ public class InventoryManager extends ListenerAdapter {
 
 	private InventoryManager() {
 
+		addInventory(Inventory.INVENTORY_CONFIGURATION, new InventoryConfiguration());
 
 		plugin.getLog().log("Loading " + inventories.size() + " inventories", LogType.SUCCESS);
 	}
