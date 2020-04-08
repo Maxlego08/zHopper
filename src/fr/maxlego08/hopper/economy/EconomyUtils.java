@@ -15,8 +15,6 @@ import me.realized.tokenmanager.api.TokenManager;
 
 public class EconomyUtils extends ZUtils {
 
-	private transient TokenManager tokenManager = (TokenManager) Bukkit.getPluginManager().getPlugin("TokenManager");
-
 	/**
 	 * @param economy
 	 * @param player
@@ -28,6 +26,7 @@ public class EconomyUtils extends ZUtils {
 		case MYSQLTOKEN:
 			return Tokens.getInstance().getAPI().getTokens(player) >= price;
 		case TOKENMANAGER:
+			TokenManager tokenManager = (TokenManager) Bukkit.getPluginManager().getPlugin("TokenManager");
 			return tokenManager.getTokens(player).getAsLong() >= price;
 		case PLAYERPOINT:
 			return ZPlugin.z().getPlayerPointsAPI().look(player.getUniqueId()) >= (int) price;
@@ -70,6 +69,7 @@ public class EconomyUtils extends ZUtils {
 						LogType.ERROR);
 			break;
 		case TOKENMANAGER:
+			TokenManager tokenManager = (TokenManager) Bukkit.getPluginManager().getPlugin("TokenManager");
 			tokenManager.addTokens(
 					Bukkit.getOnlineMode() ? Bukkit.getOfflinePlayer(player).getUniqueId().toString() : player,
 					(long) value);
@@ -108,6 +108,7 @@ public class EconomyUtils extends ZUtils {
 						LogType.ERROR);
 			break;
 		case TOKENMANAGER:
+			TokenManager tokenManager = (TokenManager) Bukkit.getPluginManager().getPlugin("TokenManager");
 			tokenManager.addTokens(player, (long) value);
 			break;
 		case PLAYERPOINT:
@@ -119,7 +120,7 @@ public class EconomyUtils extends ZUtils {
 		case CUSTOM:
 			EconomyDepositEvent event = new EconomyDepositEvent(player.getName(), value);
 			Bukkit.getPluginManager().callEvent(event);
-			break;			
+			break;
 		default:
 			Logger.info("IMPOSSIBLE DE DONNER LA MONEY AU JOUEUR " + player + " NOMBRE DE POINT: " + value,
 					LogType.ERROR);
@@ -136,8 +137,9 @@ public class EconomyUtils extends ZUtils {
 	protected void withdrawMoney(Economy economy, Player player, long value) {
 		switch (economy) {
 		case MYSQLTOKEN:
-			Tokens.getInstance().getAPI().takeTokens(player, (int) value);	
+			Tokens.getInstance().getAPI().takeTokens(player, (int) value);
 		case TOKENMANAGER:
+			TokenManager tokenManager = (TokenManager) Bukkit.getPluginManager().getPlugin("TokenManager");
 			tokenManager.removeTokens(player, value);
 			break;
 		case PLAYERPOINT:
@@ -149,7 +151,7 @@ public class EconomyUtils extends ZUtils {
 		case CUSTOM:
 			EconomyWithdrawMoney event = new EconomyWithdrawMoney(player, value);
 			Bukkit.getPluginManager().callEvent(event);
-			break;			
+			break;
 		default:
 			Logger.info("IMPOSSIBLE DE PRENDRE LA MONEY AU JOUEUR " + player + " NOMBRE DE POINT: " + value,
 					LogType.ERROR);

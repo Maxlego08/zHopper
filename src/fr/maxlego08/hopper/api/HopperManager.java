@@ -107,4 +107,11 @@ public interface HopperManager extends Saveable {
 	 */
 	void saveDefaultLevel();
 
+	/**
+	 * 
+	 * @param hopper
+	 * @param player
+	 */
+	void updateLevel(Hopper hopper, Player player);
+
 }

@@ -25,8 +25,8 @@ public class InventoryConfiguration extends VInventory {
 		Level level = hopper.toLevel();
 
 		createInventory("§7Hopper", 27);
-		
-		addItem(4, level.build());
+
+		addItem(4, level.build()).setClick(event -> manager.updateLevel(hopper, player));
 
 		ItemBuilder builder = new ItemBuilder(Material.BARRIER, "§cRécupérer le hopper");
 		builder.addLine("");

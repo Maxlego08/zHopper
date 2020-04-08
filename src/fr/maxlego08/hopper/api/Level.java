@@ -1,5 +1,6 @@
 package fr.maxlego08.hopper.api;
 
+import fr.maxlego08.hopper.economy.Economy;
 import fr.maxlego08.hopper.zcore.utils.builder.ItemBuilder;
 
 public interface Level {
@@ -39,5 +40,23 @@ public interface Level {
 	 * @return
 	 */
 	ItemBuilder build();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	boolean isDefault();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	long getPrice();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	Economy getEconomy();
 	
 }

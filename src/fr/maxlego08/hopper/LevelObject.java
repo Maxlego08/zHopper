@@ -2,6 +2,7 @@ package fr.maxlego08.hopper;
 
 import fr.maxlego08.hopper.api.HopperManager;
 import fr.maxlego08.hopper.api.Level;
+import fr.maxlego08.hopper.economy.Economy;
 import fr.maxlego08.hopper.zcore.utils.ZUtils;
 import fr.maxlego08.hopper.zcore.utils.builder.ItemBuilder;
 
@@ -11,6 +12,8 @@ public class LevelObject extends ZUtils implements Level {
 	private final int level;
 	private final int maxDistanceLink;
 	private final int maxLink;
+	private final long price;
+	private final Economy economy;
 	private HopperManager hopperManager;
 
 	/**
@@ -19,13 +22,17 @@ public class LevelObject extends ZUtils implements Level {
 	 * @param level
 	 * @param maxDistanceLink
 	 * @param maxLink
+	 * @param price
+	 * @param economy
 	 */
-	public LevelObject(String name, int level, int maxDistanceLink, int maxLink) {
+	public LevelObject(String name, int level, int maxDistanceLink, int maxLink, long price, Economy economy) {
 		super();
 		this.name = name;
 		this.level = level;
 		this.maxDistanceLink = maxDistanceLink;
 		this.maxLink = maxLink;
+		this.price = price;
+		this.economy = economy;
 	}
 
 	/**
@@ -87,11 +94,27 @@ public class LevelObject extends ZUtils implements Level {
 			builder.addLine("§f§l» §eNom du niveau§b " + next.getName());
 			builder.addLine("§f§l» §eNombre de container maximum§b " + next.getMaxLink());
 			builder.addLine("§f§l» §eDistance maximum de link§b " + next.getMaxDistanceLink() + " §eblocks");
+			builder.addLine("§f§l» §ePrix§b " + next.getPrice() + next.getEconomy().toCurrency());
 		}
 
 		builder.addLine("");
 
 		return builder;
+	}
+
+	@Override
+	public boolean isDefault() {
+		return level == 1;
+	}
+
+	@Override
+	public long getPrice() {
+		return price;
+	}
+
+	@Override
+	public Economy getEconomy() {
+		return economy;
 	}
 
 }

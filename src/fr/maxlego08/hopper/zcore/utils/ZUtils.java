@@ -564,14 +564,6 @@ public abstract class ZUtils {
 
 	/**
 	 * 
-	 * @return {@link Economy}
-	 */
-	protected Economy getEconomy() {
-		return economy;
-	}
-
-	/**
-	 * 
 	 * @param player
 	 * @param item
 	 * @param itemStack

@@ -23,6 +23,8 @@ import fr.maxlego08.hopper.api.Level;
 import fr.maxlego08.hopper.api.events.HopperCreateEvent;
 import fr.maxlego08.hopper.api.events.HopperDestroyEvent;
 import fr.maxlego08.hopper.api.events.HopperSoftDestroyEvent;
+import fr.maxlego08.hopper.api.events.HopperUpgradeEvent;
+import fr.maxlego08.hopper.economy.Economy;
 import fr.maxlego08.hopper.economy.EconomyUtils;
 import fr.maxlego08.hopper.nbt.NBTManager;
 import fr.maxlego08.hopper.zcore.enums.Message;
@@ -152,8 +154,10 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 	@Override
 	public Level getDefaultLevel() {
 		Level level = levels.getOrDefault(1, null);
-		if (level == null)
-			level = new LevelObject("premier niveau", 1, 5, 1);
+		if (level == null) {
+			level = new LevelObject("Premier level", 1, 5, 1, 0, Economy.VAULT);
+			((LevelObject) level).setHopperManager(this);
+		}
 		return level;
 	}
 
@@ -161,12 +165,12 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 	public void destroyHopper(Player player, Hopper hopper) {
 
 		ItemStack itemStack = manager.dropItem(hopper);
-		
+
 		HopperDestroyEvent event = new HopperDestroyEvent(hopper, player, itemStack);
 		event.callEvent();
 		if (event.isCancelled())
 			return;
-		
+
 		hopper.getWorld().dropItem(hopper.getLocation(), event.getItemStack());
 		hopper.destroy();
 		player.closeInventory();
@@ -237,9 +241,13 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 
 		this.levels = new HashMap<>();
 
-		Level level1 = new LevelObject("Premier level", 1, 5, 1);
-		Level level2 = new LevelObject("Deuxième level", 2, 10, 2);
-		Level level3 = new LevelObject("Troisième level", 3, 15, 3);
+		Level level1 = new LevelObject("Premier level", 1, 5, 1, 0, Economy.VAULT);
+		Level level2 = new LevelObject("Deuxième level", 2, 10, 2, 100, Economy.VAULT);
+		Level level3 = new LevelObject("Troisième level", 3, 15, 3, 250, Economy.VAULT);
+
+		((LevelObject) level1).setHopperManager(this);
+		((LevelObject) level2).setHopperManager(this);
+		((LevelObject) level3).setHopperManager(this);
 
 		levels.put(1, level1);
 		levels.put(2, level2);
@@ -252,6 +260,35 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 	@Override
 	public Level next(int level) {
 		return levels.getOrDefault(level + 1, null);
+	}
+
+	@Override
+	public void updateLevel(Hopper hopper, Player player) {
+
+		Level currentLevel = hopper.toLevel();
+		Level level = currentLevel.next();
+
+		if (level == null) {
+			message(player, Message.HOPPER_LEVEL_ERROR);
+			return;
+		}
+
+		if (!hasMoney(level.getEconomy(), player, level.getPrice())) {
+			message(player, Message.HOPPER_LEVEL_ERROR_MONEY);
+			return;
+		}
+
+		HopperUpgradeEvent event = new HopperUpgradeEvent(hopper, currentLevel, level, player);
+		event.callEvent();
+		if (event.isCancelled())
+			return;
+
+		level = event.getNewLevel();
+
+		withdrawMoney(level.getEconomy(), player, level.getPrice());
+		hopper.setLevel(level.getInteger());
+
+		message(player, Message.HOPPER_LEVEL_SUCCESS, level.getInteger());
 	}
 
 }

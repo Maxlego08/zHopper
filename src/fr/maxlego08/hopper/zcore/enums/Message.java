@@ -29,6 +29,9 @@ public enum Message {
 	
 	HOPPER_CREATE("§eVous venez d'ajouter un hopper §8(§7pour le configurer vous devez faire un clique droit dessus§8)"),
 	HOPPER_DESTROY("§eVous venez de casser votre hopper"), 
+	HOPPER_LEVEL_ERROR("§cVous avez atteint le niveau maximum pour se hopper"), 
+	HOPPER_LEVEL_ERROR_MONEY("§cVous n'avez pas assez d'argent pour améliorer le hopper."), 
+	HOPPER_LEVEL_SUCCESS("§eVous venez de faire passer votre hopper au niveu §f%s§e."), 
 	
 	PLAYERPOINT_CURRENCY("P"),
 	VAULT_CURRENCY("$"),
