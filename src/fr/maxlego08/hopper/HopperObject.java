@@ -21,6 +21,7 @@ import fr.maxlego08.hopper.api.events.HopperLinkEvent;
 import fr.maxlego08.hopper.api.events.HopperOpenConfigurationEvent;
 import fr.maxlego08.hopper.zcore.enums.Inventory;
 import fr.maxlego08.hopper.zcore.enums.Message;
+import fr.maxlego08.hopper.zcore.utils.Result;
 import fr.maxlego08.hopper.zcore.utils.ZUtils;
 
 public class HopperObject extends ZUtils implements Hopper {
@@ -180,19 +181,28 @@ public class HopperObject extends ZUtils implements Hopper {
 
 		int maxItemPerSecond = toLevel().getMaxItemPerSecond();
 		Iterator<Location> iterator = this.linkedContainers.iterator();
+
+		// On parcours la liste des location
 		while (iterator.hasNext()) {
 
 			Location location = iterator.next();
 
+			// On verifie si la location n'est pas null, si elle est null alors
+			// on la retire d'ici
 			if (location == null)
 				iterator.remove();
 			else {
 
-				if (maxItemPerSecond == 0)
+				// Si le nombre d'item par seconde à retiré est égal à 0 alors
+				// pas besoin de continuer
+				if (maxItemPerSecond == 0) {
 					continue;
+				}
 
 				BlockState blockState = location.getBlock().getState();
 
+				// On récupère l'inventaire en fonction du BlockState, sinon on
+				// retire la location
 				org.bukkit.inventory.Inventory inventory = null;
 				if (blockState instanceof Chest) {
 					Chest chest = (Chest) blockState;
@@ -201,28 +211,55 @@ public class HopperObject extends ZUtils implements Hopper {
 					iterator.remove();
 					continue;
 				}
-				if (inventory == null)
+				if (inventory == null) {
 					continue;
+				}
 
 				org.bukkit.block.Hopper hopper = this.toBukkitHopper();
 
+				// On parcours la liste des items dans le hopper
 				for (ItemStack itemStack : hopper.getInventory().getContents()) {
 
 					if (itemStack != null) {
 
+						// Si il peut ajouter des items
 						if (maxItemPerSecond > 0) {
 
+							// On va clone en premier l'item a retirer
 							ItemStack clone = itemStack.clone();
 
+							// On récupère le nombre d'item de l'itemstack
 							int amount = itemStack.getAmount();
+
+							// On récupère le nombre d'item a retirer. Si le
+							// nombre d'item est inférieur au nombre d'item dans
+							// l'itemstack alors on prend le maxItemPerSecond
+							// sinon
+							// on prend le nombre d'itel dans l'itemstack
 							int toRemove = maxItemPerSecond < amount ? maxItemPerSecond : amount;
-							maxItemPerSecond -= toRemove;
 
-							int freeSpaceInContainer = getFreeSpaceFor(inventory, itemStack, toRemove);
+							// On retire le nombre d'item a retirer dans
+							// maxItemPerSecond
 
+							Result result = getFreeSpaceFor(inventory, itemStack, toRemove);
+
+							// On récupère la place dans l'inventaire
+							int freeSpaceInContainer = result.getFreeSpace();
+
+							// Si la place est différente de 0 est que la place
+							// est inférieur au nombre d'item a retirer alors on
+							// dit que la place restante sera le nombre d'item a
+							// retirer
 							if (freeSpaceInContainer != 0 && freeSpaceInContainer < toRemove)
 								toRemove = freeSpaceInContainer;
-							
+
+							if (result.getEmptySlot() == 0 && freeSpaceInContainer == 0) {
+								continue;
+							}
+							maxItemPerSecond -= toRemove;
+
+							// On ajoute l'item dans l'inventaire siblé
+							// On retirer l'item de l'inventaire
 							clone.setAmount(toRemove);
 							if (amount - toRemove <= 0)
 								hopper.getInventory().remove(itemStack);
@@ -239,21 +276,25 @@ public class HopperObject extends ZUtils implements Hopper {
 
 	/**
 	 * Get max space in inventory
+	 * 
 	 * @param inventory
 	 * @param itemStack
 	 * @return
 	 */
-	private int getFreeSpaceFor(org.bukkit.inventory.Inventory inventory, ItemStack itemStack, int amount) {
+	private Result getFreeSpaceFor(org.bukkit.inventory.Inventory inventory, ItemStack itemStack, int amount) {
 		int maxSpace = 0;
+		int emptySlot = 0;
 		for (ItemStack itemStack2 : inventory.getContents()) {
+			if (itemStack2 == null)
+				emptySlot++;
 			if (itemStack2 != null && itemStack2.isSimilar(itemStack)) {
 				int space = 64 - itemStack2.getAmount();
 				if (space >= amount)
-					return amount;
+					return new Result(emptySlot, amount);
 				maxSpace = Math.max(maxSpace, space);
 			}
 		}
-		return maxSpace;
+		return new Result(emptySlot, maxSpace);
 	}
 
 }
