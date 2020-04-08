@@ -34,6 +34,7 @@ public enum Message {
 	HOPPER_LEVEL_SUCCESS("§eVous venez de faire passer votre hopper au niveu §f%s§e."), 
 	HOPPER_LINK_START("§eVous pouvez relier un containeur à votre hopper. §8(§7Il vous suffit de cliquer sur un coffre ou autre§8)"), 
 	HOPPER_LINK_ERROR("§cVous ne pouvez plus relier d'autre containeur."), 
+	HOPPER_LINK_SUCCESS("§aVous venez de relier votre hopper."), 
 	HOPPER_LINK_ERROR_ALREADY("§cVous êtes déjà en train de relier un hopper avec un containeur."), 
 	HOPPER_LINK_ERROR_CONTAINER("§cVous devez cliquer sur un §fcontaineur §cet non sur un bloc normal."), 
 	HOPPER_LINK_ERROR_DISTANCE("§cVous devez être a moins de §f%s§c bloc de votre hopper pour le lier."), 

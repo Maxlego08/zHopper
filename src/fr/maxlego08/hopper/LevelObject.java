@@ -12,6 +12,7 @@ public class LevelObject extends ZUtils implements Level {
 	private final int level;
 	private final int maxDistanceLink;
 	private final int maxLink;
+	private final int maxItemPerSecond;
 	private final long price;
 	private final Economy economy;
 	private HopperManager hopperManager;
@@ -22,15 +23,18 @@ public class LevelObject extends ZUtils implements Level {
 	 * @param level
 	 * @param maxDistanceLink
 	 * @param maxLink
+	 * @param maxItemPerSecond
 	 * @param price
 	 * @param economy
 	 */
-	public LevelObject(String name, int level, int maxDistanceLink, int maxLink, long price, Economy economy) {
+	public LevelObject(String name, int level, int maxDistanceLink, int maxLink, int maxItemPerSecond, long price,
+			Economy economy) {
 		super();
 		this.name = name;
 		this.level = level;
 		this.maxDistanceLink = maxDistanceLink;
 		this.maxLink = maxLink;
+		this.maxItemPerSecond = maxItemPerSecond;
 		this.price = price;
 		this.economy = economy;
 	}
@@ -115,6 +119,11 @@ public class LevelObject extends ZUtils implements Level {
 	@Override
 	public Economy getEconomy() {
 		return economy;
+	}
+
+	@Override
+	public int getMaxItemPerSecond() {
+		return maxItemPerSecond;
 	}
 
 }

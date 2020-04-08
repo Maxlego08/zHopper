@@ -1,6 +1,7 @@
 package fr.maxlego08.hopper;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -8,7 +9,10 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.api.HopperManager;
@@ -155,14 +159,15 @@ public class HopperObject extends ZUtils implements Hopper {
 			message(player, Message.HOPPER_LINK_ERROR_DISTANCE, toLevel().getMaxDistanceLink());
 			return;
 		}
-		
+
 		HopperLinkEvent event = new HopperLinkEvent(player, this, block);
 		event.callEvent();
-		
+
 		if (event.isCancelled())
 			return;
-		
+
 		linkedContainers.add(block.getLocation());
+		message(player, Message.HOPPER_LINK_SUCCESS);
 	}
 
 	@Override
@@ -172,6 +177,64 @@ public class HopperObject extends ZUtils implements Hopper {
 
 	@Override
 	public void run() {
+
+		int items = 0;
+		int maxItemPerSecond = toLevel().getMaxItemPerSecond();
+
+		Iterator<Location> iterator = this.linkedContainers.iterator();
+		while (iterator.hasNext()) {
+
+			Location location = iterator.next();
+
+			if (location == null)
+				iterator.remove();
+			else {
+
+				BlockState blockState = location.getBlock().getState();
+
+				org.bukkit.inventory.Inventory inventory = null;
+				if (blockState instanceof Chest) {
+					Chest chest = (Chest) blockState;
+					inventory = chest.getInventory();
+				} else {
+					iterator.remove();
+					continue;
+				}
+				if (inventory == null)
+					continue;
+
+				if (isFull(inventory))
+					return;
+
+				org.bukkit.block.Hopper hopper = this.toBukkitHopper();
+
+				for (ItemStack itemStack : hopper.getInventory().getContents()) {
+
+					if (itemStack != null) {
+
+						if (items < maxItemPerSecond) {
+
+							ItemStack clone = itemStack.clone();
+							clone.setAmount(maxItemPerSecond);
+
+							int amount = itemStack.getAmount() - maxItemPerSecond;
+							if (amount <= 0)
+								hopper.getInventory().remove(itemStack);
+							else
+								itemStack.setAmount(itemStack.getAmount() - maxItemPerSecond);
+
+							inventory.addItem(clone);
+							items += maxItemPerSecond;
+
+						}
+
+					}
+
+				}
+
+			}
+
+		}
 
 	}
 

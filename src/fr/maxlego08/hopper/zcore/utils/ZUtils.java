@@ -210,6 +210,22 @@ public abstract class ZUtils {
 		return slot == 0;
 	}
 
+	/**
+	 * @param player
+	 * @return true if the player's inventory is full
+	 */
+	protected boolean isFull(org.bukkit.inventory.Inventory inventory) {
+		int slot = 0;
+		ItemStack[] arrayOfItemStack = inventory.getContents();
+		int x = arrayOfItemStack.length;
+		for (int i = 0; i < x; i++) {
+			ItemStack contents = arrayOfItemStack[i];
+			if ((contents == null))
+				slot++;
+		}
+		return slot == 0;
+	}
+
 	protected boolean give(ItemStack item, Player player) {
 		if (hasInventoryFull(player))
 			return false;
@@ -484,7 +500,7 @@ public abstract class ZUtils {
 	protected void depositMoney(Player player, long value) {
 		economy.depositPlayer(player, (double) value);
 	}
-	
+
 	/**
 	 * Deposit player money
 	 * 

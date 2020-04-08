@@ -33,6 +33,12 @@ public interface Level {
 	 * 
 	 * @return
 	 */
+	int getMaxItemPerSecond();
+	
+	/**
+	 * 
+	 * @return
+	 */
 	Level next();
 	
 	/**

@@ -164,7 +164,7 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 	public Level getDefaultLevel() {
 		Level level = levels.getOrDefault(1, null);
 		if (level == null) {
-			level = new LevelObject("Premier level", 1, 5, 1, 0, Economy.VAULT);
+			level = new LevelObject("Premier level", 1, 5, 1, 1, 0, Economy.VAULT);
 			((LevelObject) level).setHopperManager(this);
 		}
 		return level;
@@ -251,9 +251,9 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 
 		this.levels = new HashMap<>();
 
-		Level level1 = new LevelObject("Premier level", 1, 5, 1, 0, Economy.VAULT);
-		Level level2 = new LevelObject("Deuxième level", 2, 10, 2, 100, Economy.VAULT);
-		Level level3 = new LevelObject("Troisième level", 3, 15, 3, 250, Economy.VAULT);
+		Level level1 = new LevelObject("Premier level", 1, 5, 1, 1, 0, Economy.VAULT);
+		Level level2 = new LevelObject("Deuxième level", 2, 10, 2, 2, 100, Economy.VAULT);
+		Level level3 = new LevelObject("Troisième level", 3, 15, 3, 5, 250, Economy.VAULT);
 
 		((LevelObject) level1).setHopperManager(this);
 		((LevelObject) level2).setHopperManager(this);
@@ -331,12 +331,11 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 	@Override
 	public void interactBlock(Player player, Block block, PlayerInteractEvent event) {
 
-		System.out.println("!!");
-
 		if (linkeds.containsKey(player)) {
 
 			Hopper hopper = linkeds.get(player);
 			BlockState blockState = block.getState();
+			
 			linkeds.remove(player);
 
 			if (blockState instanceof Chest || blockState instanceof Dropper || blockState instanceof Furnace
