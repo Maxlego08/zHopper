@@ -23,16 +23,16 @@ import fr.maxlego08.hopper.api.Level;
 import fr.maxlego08.hopper.api.events.HopperCreateEvent;
 import fr.maxlego08.hopper.api.events.HopperDestroyEvent;
 import fr.maxlego08.hopper.api.events.HopperSoftDestroyEvent;
+import fr.maxlego08.hopper.economy.EconomyUtils;
 import fr.maxlego08.hopper.nbt.NBTManager;
 import fr.maxlego08.hopper.zcore.enums.Message;
 import fr.maxlego08.hopper.zcore.logger.Logger;
 import fr.maxlego08.hopper.zcore.logger.Logger.LogType;
-import fr.maxlego08.hopper.zcore.utils.ZUtils;
 import fr.maxlego08.hopper.zcore.utils.loader.LevelLoader;
 import fr.maxlego08.hopper.zcore.utils.loader.Loader;
 import fr.maxlego08.hopper.zcore.utils.storage.Persist;
 
-public class HopperZManager extends ZUtils implements HopperManager {
+public class HopperZManager extends EconomyUtils implements HopperManager {
 
 	private volatile HopperPlugin plugin;
 	private volatile NBTManager manager = new NBTManager();

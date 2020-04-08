@@ -8,6 +8,7 @@ import fr.maxlego08.hopper.inventory.InventoryManager;
 import fr.maxlego08.hopper.listener.AdapterListener;
 import fr.maxlego08.hopper.save.Config;
 import fr.maxlego08.hopper.zcore.ZPlugin;
+import fr.maxlego08.hopper.zcore.logger.Logger.LogType;
 import fr.maxlego08.hopper.zcore.utils.builder.CooldownBuilder;
 
 /**
@@ -46,6 +47,9 @@ public class HopperPlugin extends ZPlugin {
 		addListener(inventoryManager);
 		addListener(hopperListener);
 
+		if (!hookPlayerPoints()) 
+			getLog().log("Playerpoint loading done successfully", LogType.SUCCESS);
+		
 		/* Add Saver */
 
 		addSave(Config.getInstance());

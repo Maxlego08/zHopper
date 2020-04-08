@@ -484,6 +484,17 @@ public abstract class ZUtils {
 	protected void depositMoney(Player player, long value) {
 		economy.depositPlayer(player, (double) value);
 	}
+	
+	/**
+	 * Deposit player money
+	 * 
+	 * @param player
+	 * @param long
+	 *            value
+	 */
+	protected void depositMoney(String player, long value) {
+		economy.depositPlayer(player, (double) value);
+	}
 
 	/**
 	 * Deposit player money

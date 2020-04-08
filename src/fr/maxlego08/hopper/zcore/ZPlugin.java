@@ -4,10 +4,13 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.black_ixx.playerpoints.PlayerPoints;
+import org.black_ixx.playerpoints.PlayerPointsAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
@@ -38,6 +41,8 @@ public abstract class ZPlugin extends JavaPlugin {
 	private List<Saveable> savers = new ArrayList<>();
 	private List<ListenerAdapter> listenerAdapters = new ArrayList<>();
 	private Economy economy = null;
+	private PlayerPoints playerPoints;
+	private PlayerPointsAPI playerPointsAPI;
 
 	public ZPlugin() {
 		plugin = this;
@@ -185,6 +190,35 @@ public abstract class ZPlugin extends JavaPlugin {
 	 */
 	public List<ListenerAdapter> getListenerAdapters() {
 		return listenerAdapters;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	protected boolean hookPlayerPoints() {
+		try {
+			final Plugin plugin = (Plugin) this.getServer().getPluginManager().getPlugin("PlayerPoints");
+			if (plugin == null)
+				return false;
+			playerPoints = PlayerPoints.class.cast(plugin);
+			playerPointsAPI = playerPoints.getAPI();
+		} catch (Exception e) {
+		}
+		return playerPoints != null;
+	}
+
+	/**
+	 * @return the playerPoints
+	 */
+	public PlayerPoints getPlayerPoints() {
+		return playerPoints;
+	}
+
+	/**
+	 * @return the playerPointsAPI
+	 */
+	public PlayerPointsAPI getPlayerPointsAPI() {
+		return playerPointsAPI;
 	}
 
 }
