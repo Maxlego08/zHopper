@@ -188,10 +188,11 @@ public class HopperZManager extends ZUtils implements HopperManager {
 
 			String path = "levels." + str + ".";
 			Level level = loader.load(configuration, path);
+			((LevelObject) level).setHopperManager(this);
 			levels.put(level.getInteger(), level);
 
 		}
-		
+
 		Logger.info(file.getAbsolutePath() + " loaded successfully !", LogType.SUCCESS);
 		Logger.info("Loading " + levels.size() + " levels", LogType.SUCCESS);
 	}
@@ -237,6 +238,11 @@ public class HopperZManager extends ZUtils implements HopperManager {
 
 		this.saveLevel();
 
+	}
+
+	@Override
+	public Level next(int level) {
+		return levels.getOrDefault(level + 1, null);
 	}
 
 }

@@ -10,14 +10,15 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import fr.maxlego08.hopper.zcore.utils.storage.Saveable;
 
-public interface HopperManager extends Saveable{
+public interface HopperManager extends Saveable {
 
 	/**
 	 * Allows you to retrieve the list of all hoppers
+	 * 
 	 * @return hoppers
 	 */
 	List<Hopper> getHoppers();
-	
+
 	/**
 	 * Allows you to recover a hopper according to a location
 	 * 
@@ -25,7 +26,7 @@ public interface HopperManager extends Saveable{
 	 * @return {@link Hopper}
 	 */
 	Hopper getHopper(Location location);
-	
+
 	/**
 	 * Lets check if a location is a hopper
 	 * 
@@ -33,20 +34,30 @@ public interface HopperManager extends Saveable{
 	 * @return true if location is hopper
 	 */
 	boolean isHopper(Location location);
-	
+
 	/**
 	 * Get {@link Level} from integer
+	 * 
 	 * @param level
 	 * @return
 	 */
 	Level getLevel(int level);
-	
+
 	/**
 	 * Return default level
+	 * 
 	 * @return level
 	 */
 	Level getDefaultLevel();
-	
+
+	/**
+	 * Get next level
+	 * 
+	 * @param level
+	 * @return level
+	 */
+	Level next(int level);
+
 	/**
 	 * Allows you to create a new hopper
 	 * 
@@ -63,13 +74,13 @@ public interface HopperManager extends Saveable{
 	 * @param event
 	 */
 	void destroyHopper(Block block, Player player, BlockBreakEvent event);
-	
+
 	/**
 	 * Allows you to interact with a Hopper
 	 * 
 	 * @param player
 	 * @param block
-	 * @param event 
+	 * @param event
 	 */
 	void interactHopper(Player player, Block block, PlayerInteractEvent event);
 
@@ -80,21 +91,20 @@ public interface HopperManager extends Saveable{
 	 * @param hopper
 	 */
 	void destroyHopper(Player player, Hopper hopper);
-	
+
 	/**
 	 * 
 	 */
 	void loadLevel();
-	
+
 	/**
 	 * 
 	 */
 	void saveLevel();
-	
+
 	/**
 	 * 
 	 */
 	void saveDefaultLevel();
 
-	
 }
