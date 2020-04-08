@@ -178,17 +178,18 @@ public class HopperObject extends ZUtils implements Hopper {
 	@Override
 	public void run() {
 
-		int items = 0;
 		int maxItemPerSecond = toLevel().getMaxItemPerSecond();
-
 		Iterator<Location> iterator = this.linkedContainers.iterator();
 		while (iterator.hasNext()) {
-
+			
 			Location location = iterator.next();
 
 			if (location == null)
 				iterator.remove();
 			else {
+				
+				if (maxItemPerSecond == 0)
+					continue;
 
 				BlockState blockState = location.getBlock().getState();
 
@@ -203,39 +204,36 @@ public class HopperObject extends ZUtils implements Hopper {
 				if (inventory == null)
 					continue;
 
-				if (isFull(inventory))
-					return;
-
 				org.bukkit.block.Hopper hopper = this.toBukkitHopper();
 
-				for (ItemStack itemStack : hopper.getInventory().getContents()) {
+				if (isFull(inventory))
+					continue;
 
+				for (ItemStack itemStack : hopper.getInventory().getContents()) {
+					
 					if (itemStack != null) {
 
-						if (items < maxItemPerSecond) {
+						if (maxItemPerSecond > 0) {
 
 							ItemStack clone = itemStack.clone();
-							clone.setAmount(maxItemPerSecond);
 
-							int amount = itemStack.getAmount() - maxItemPerSecond;
-							if (amount <= 0)
+							int amount = itemStack.getAmount();
+							int toRemove = maxItemPerSecond < amount ? maxItemPerSecond : amount;
+							maxItemPerSecond -= toRemove;
+
+							clone.setAmount(toRemove);
+
+							if (amount - toRemove <= 0)
 								hopper.getInventory().remove(itemStack);
 							else
-								itemStack.setAmount(itemStack.getAmount() - maxItemPerSecond);
-
+								itemStack.setAmount(amount - toRemove);
 							inventory.addItem(clone);
-							items += maxItemPerSecond;
 
 						}
-
 					}
-
 				}
-
 			}
-
 		}
-
 	}
 
 }

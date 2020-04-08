@@ -335,13 +335,14 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 
 			Hopper hopper = linkeds.get(player);
 			BlockState blockState = block.getState();
-			
+
 			linkeds.remove(player);
 
 			if (blockState instanceof Chest || blockState instanceof Dropper || blockState instanceof Furnace
-					|| blockState instanceof Dispenser)
+					|| blockState instanceof Dispenser) {
+				event.setCancelled(true);
 				hopper.linkContainer(player, block);
-			else
+			} else
 				message(player, Message.HOPPER_LINK_ERROR_CONTAINER);
 
 		}
