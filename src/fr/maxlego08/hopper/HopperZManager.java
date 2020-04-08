@@ -10,6 +10,11 @@ import java.util.Map;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Chest;
+import org.bukkit.block.Dispenser;
+import org.bukkit.block.Dropper;
+import org.bukkit.block.data.type.Furnace;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
@@ -40,6 +45,8 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 	private volatile NBTManager manager = new NBTManager();
 	private volatile Map<Location, Hopper> hoppers = new HashMap<Location, Hopper>();
 	private volatile Map<Integer, Level> levels = new HashMap<>();
+	private volatile HopperRunnable runnable;
+	private volatile Map<Player, Hopper> linkeds = new HashMap<>();
 	private static List<Hopper> hopperList = new ArrayList<Hopper>();
 
 	/**
@@ -49,6 +56,8 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 	public HopperZManager(HopperPlugin plugin) {
 		super();
 		this.plugin = plugin;
+		this.runnable = new HopperRunnable(this);
+		this.runnable.runTaskTimerAsynchronously(plugin, 20, 20);
 	}
 
 	/**
@@ -174,6 +183,7 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 		hopper.getWorld().dropItem(hopper.getLocation(), event.getItemStack());
 		hopper.destroy();
 		player.closeInventory();
+		this.deleteHopper(hopper);
 
 		message(player, Message.HOPPER_DESTROY);
 
@@ -290,6 +300,53 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 		player.closeInventory();
 
 		message(player, Message.HOPPER_LEVEL_SUCCESS, level.getInteger());
+	}
+
+	@Override
+	public void deleteHopper(Hopper hopper) {
+		if (hopper == null)
+			return;
+		hoppers.remove(hopper.getLocation());
+	}
+
+	@Override
+	public void linkHopper(Player player, Hopper hopper) {
+
+		if (hopper.canLink()) {
+			message(player, Message.HOPPER_LINK_ERROR);
+			return;
+		}
+
+		if (linkeds.containsKey(player)) {
+			message(player, Message.HOPPER_LINK_ERROR_ALREADY);
+			return;
+		}
+
+		player.closeInventory();
+		linkeds.put(player, hopper);
+		message(player, Message.HOPPER_LINK_START);
+
+	}
+
+	@Override
+	public void interactBlock(Player player, Block block, PlayerInteractEvent event) {
+
+		System.out.println("!!");
+
+		if (linkeds.containsKey(player)) {
+
+			Hopper hopper = linkeds.get(player);
+			BlockState blockState = block.getState();
+			linkeds.remove(player);
+
+			if (blockState instanceof Chest || blockState instanceof Dropper || blockState instanceof Furnace
+					|| blockState instanceof Dispenser)
+				hopper.linkContainer(player, block);
+			else
+				message(player, Message.HOPPER_LINK_ERROR_CONTAINER);
+
+		}
+
 	}
 
 }

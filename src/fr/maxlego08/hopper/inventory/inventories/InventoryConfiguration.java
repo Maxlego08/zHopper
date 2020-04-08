@@ -1,5 +1,6 @@
 package fr.maxlego08.hopper.inventory.inventories;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -33,6 +34,17 @@ public class InventoryConfiguration extends VInventory {
 		builder.addLine("§f§l» §cClique pour récupérer le hopper");
 		builder.addLine("");
 		addItem(22, builder).setClick(event -> manager.destroyHopper(player, hopper));
+
+		builder = new ItemBuilder(Material.CHEST, "§eContaineurs reliés");
+		builder.addLine("");
+		builder.addLine("§f§l» §eNombre de containeur relié: §6" + hopper.getLinkedContainers().size());
+		for (Location location : hopper.getLinkedContainers())
+			builder.addLine(
+					"§f§l» §e" + location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ());
+		builder.addLine("");
+		builder.addLine("§f§l» §eClique pour relier un containeur.");
+		builder.addLine("");
+		addItem(11, builder).setClick(event -> manager.linkHopper(player, hopper));
 
 		return InventoryResult.SUCCESS;
 	}

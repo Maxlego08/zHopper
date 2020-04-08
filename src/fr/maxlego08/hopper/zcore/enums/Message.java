@@ -27,11 +27,16 @@ public enum Message {
 	COMMAND_NO_ARG("§cImpossible de trouver la commande avec ses arguments."),
 	COMMAND_SYNTAXE_HELP("§a%s §b» §7%s"),
 	
-	HOPPER_CREATE("§eVous venez d'ajouter un hopper §8(§7pour le configurer vous devez faire un clique droit dessus§8)"),
+	HOPPER_CREATE("§eVous venez d'ajouter un hopper §8(§7Pour le configurer vous devez faire un clique droit dessus§8)"),
 	HOPPER_DESTROY("§eVous venez de casser votre hopper"), 
 	HOPPER_LEVEL_ERROR("§cVous avez atteint le niveau maximum pour se hopper"), 
 	HOPPER_LEVEL_ERROR_MONEY("§cVous n'avez pas assez d'argent pour améliorer le hopper."), 
 	HOPPER_LEVEL_SUCCESS("§eVous venez de faire passer votre hopper au niveu §f%s§e."), 
+	HOPPER_LINK_START("§eVous pouvez relier un containeur à votre hopper. §8(§7Il vous suffit de cliquer sur un coffre ou autre§8)"), 
+	HOPPER_LINK_ERROR("§cVous ne pouvez plus relier d'autre containeur."), 
+	HOPPER_LINK_ERROR_ALREADY("§cVous êtes déjà en train de relier un hopper avec un containeur."), 
+	HOPPER_LINK_ERROR_CONTAINER("§cVous devez cliquer sur un §fcontaineur §cet non sur un bloc normal."), 
+	HOPPER_LINK_ERROR_DISTANCE("§cVous devez être a moins de §f%s§c bloc de votre hopper pour le lier."), 
 	
 	PLAYERPOINT_CURRENCY("P"),
 	VAULT_CURRENCY("$"),

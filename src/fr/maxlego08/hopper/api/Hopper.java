@@ -65,6 +65,24 @@ public interface Hopper {
 	HopperManager getManager();
 	
 	/**
+	 * 
+	 * @return
+	 */
+	List<Location> getLinkedContainers();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	boolean isValid();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	boolean canLink();
+	
+	/**
 	 * Set hopper level
 	 * @param level
 	 */
@@ -81,4 +99,15 @@ public interface Hopper {
 	 */
 	void destroy();
 	
+	/**
+	 * 
+	 */
+	void run();
+	
+	/**
+	 * 
+	 * @param player
+	 * @param block
+	 */
+	void linkContainer(Player player, Block block);
 }

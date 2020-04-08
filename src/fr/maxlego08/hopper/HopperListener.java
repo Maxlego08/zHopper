@@ -22,26 +22,28 @@ public class HopperListener extends ListenerAdapter {
 
 	@Override
 	protected void onBlockBreak(BlockBreakEvent event, Player player, Block block) {
-		
+
 		if (block.getType().equals(Material.HOPPER))
 			manager.destroyHopper(block, player, event);
-		
+
 	}
 
 	@Override
 	protected void onBlockPlace(BlockPlaceEvent event, Player player, Block block) {
-		
+
 		if (block.getType().equals(Material.HOPPER))
 			manager.createHopper(block, player);
-		
+
 	}
-	
+
 	@Override
 	protected void onInteractBlock(PlayerInteractEvent event, Player player, Block block, Action action) {
-		
+
 		if (block.getType().equals(Material.HOPPER))
 			manager.interactHopper(player, block, event);
-		
+		else
+			manager.interactBlock(player, block, event);
+
 	}
-	
+
 }
