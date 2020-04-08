@@ -1,5 +1,7 @@
 package fr.maxlego08.hopper;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +10,7 @@ import java.util.Map;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -20,7 +23,11 @@ import fr.maxlego08.hopper.api.events.HopperCreateEvent;
 import fr.maxlego08.hopper.api.events.HopperSoftDestroyEvent;
 import fr.maxlego08.hopper.nbt.NBTManager;
 import fr.maxlego08.hopper.zcore.enums.Message;
+import fr.maxlego08.hopper.zcore.logger.Logger;
+import fr.maxlego08.hopper.zcore.logger.Logger.LogType;
 import fr.maxlego08.hopper.zcore.utils.ZUtils;
+import fr.maxlego08.hopper.zcore.utils.loader.LevelLoader;
+import fr.maxlego08.hopper.zcore.utils.loader.Loader;
 import fr.maxlego08.hopper.zcore.utils.storage.Persist;
 
 public class HopperZManager extends ZUtils implements HopperManager {
@@ -52,11 +59,13 @@ public class HopperZManager extends ZUtils implements HopperManager {
 	public void save(Persist persist) {
 		hopperList = new ArrayList<>(hoppers.values());
 		persist.save(this, "hoppers");
+		this.saveLevel();
 	}
 
 	@Override
 	public void load(Persist persist) {
 		persist.loadOrSaveDefault(this, HopperZManager.class, "hoppers");
+		this.loadLevel();
 		hoppers = new HashMap<>();
 		hopperList.forEach(hopper -> {
 			((HopperObject) hopper).initHopper(this);
@@ -152,8 +161,81 @@ public class HopperZManager extends ZUtils implements HopperManager {
 		player.closeInventory();
 		hopper.destroy();
 		manager.dropItem(hopper);
-		
+
 		message(player, Message.HOPPER_DESTROY);
+
+	}
+
+	@Override
+	public void loadLevel() {
+		File file = new File(plugin.getDataFolder() + File.separator + "levels.yml");
+
+		if (!file.exists()) {
+			this.saveDefaultLevel();
+			return;
+		}
+		YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
+
+		if (configuration.getString("levels") == null) {
+			this.saveDefaultLevel();
+			return;
+		}
+
+		levels = new HashMap<>();
+		Loader<Level> loader = new LevelLoader();
+
+		for (String str : configuration.getConfigurationSection("levels.").getKeys(false)) {
+
+			String path = "levels." + str + ".";
+			Level level = loader.load(configuration, path);
+			levels.put(level.getInteger(), level);
+
+		}
+		
+		Logger.info(file.getAbsolutePath() + " loaded successfully !", LogType.SUCCESS);
+		Logger.info("Loading " + levels.size() + " levels", LogType.SUCCESS);
+	}
+
+	@Override
+	public void saveLevel() {
+		File file = new File(plugin.getDataFolder() + File.separator + "levels.yml");
+		if (file.exists())
+			file.delete();
+		try {
+			file.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		YamlConfiguration configuration = YamlConfiguration.loadConfiguration(file);
+		Loader<Level> loader = new LevelLoader();
+		levels.forEach((integer, level) -> {
+			String path = "levels." + integer + ".";
+			loader.save(level, configuration, path);
+		});
+
+		try {
+			configuration.save(file);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	@Override
+	public void saveDefaultLevel() {
+
+		this.levels = new HashMap<>();
+
+		Level level1 = new LevelObject("Premier level", 1, 5, 1);
+		Level level2 = new LevelObject("Deuxième level", 2, 10, 2);
+		Level level3 = new LevelObject("Troisième level", 3, 15, 3);
+
+		levels.put(1, level1);
+		levels.put(2, level2);
+		levels.put(3, level3);
+
+		this.saveLevel();
 
 	}
 

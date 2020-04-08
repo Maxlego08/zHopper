@@ -80,6 +80,21 @@ public interface HopperManager extends Saveable{
 	 * @param hopper
 	 */
 	void destroyHopper(Player player, Hopper hopper);
+	
+	/**
+	 * 
+	 */
+	void loadLevel();
+	
+	/**
+	 * 
+	 */
+	void saveLevel();
+	
+	/**
+	 * 
+	 */
+	void saveDefaultLevel();
 
 	
 }
