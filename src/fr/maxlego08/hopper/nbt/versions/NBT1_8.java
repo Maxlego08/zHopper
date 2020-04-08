@@ -4,7 +4,6 @@ import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
-import fr.maxlego08.hopper.HopperObject;
 import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.nbt.NBTListener;
 import fr.maxlego08.hopper.zcore.utils.builder.ItemBuilder;
@@ -32,18 +31,10 @@ public class NBT1_8 implements NBTListener {
 	}
 
 	@Override
-	public Hopper getHopper(ItemStack itemStack) {
-
+	public int createHopper(ItemStack itemStack) {
 		net.minecraft.server.v1_8_R3.ItemStack itemStackNMS = CraftItemStack.asNMSCopy(itemStack);
 		NBTTagCompound compound = itemStackNMS.getTag();
-
-		if (compound.hasKey("level")) {
-
-			return new HopperObject(compound.getInt("level"));
-
-		}
-
-		return null;
+		return compound == null ? 0 : compound.hasKey("level") ? compound.getInt("level") : 0;
 	}
 
 }

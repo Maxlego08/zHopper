@@ -25,22 +25,20 @@ public class HopperObject extends ZUtils implements Hopper {
 	private int level = 1;
 	private transient Level levelObject;
 	private transient HopperManager hopperManager;
-
+	
 	/**
 	 * 
 	 * @param owner
 	 * @param location
+	 * @param hopperManager
+	 * @param level
 	 */
-	public HopperObject(UUID owner, Location location, HopperManager hopperManager) {
+	public HopperObject(UUID owner, Location location, HopperManager hopperManager, int level) {
 		super();
 		this.owner = owner;
 		this.whitelistPlayers = new ArrayList<UUID>();
 		this.location = location;
 		this.hopperManager = hopperManager;
-	}
-
-	public HopperObject(int level) {
-		super();
 		this.level = level;
 	}
 

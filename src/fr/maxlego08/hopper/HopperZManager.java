@@ -98,7 +98,7 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 		if (block == null || !block.getType().equals(Material.HOPPER))
 			return;
 
-		Hopper hopper = new HopperObject(player.getUniqueId(), block.getLocation(), this);
+		Hopper hopper = new HopperObject(player.getUniqueId(), block.getLocation(), this, manager.createHopper(player));
 
 		HopperCreateEvent event = new HopperCreateEvent(hopper, player);
 		event.callEvent();
@@ -287,6 +287,7 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 
 		withdrawMoney(level.getEconomy(), player, level.getPrice());
 		hopper.setLevel(level.getInteger());
+		player.closeInventory();
 
 		message(player, Message.HOPPER_LEVEL_SUCCESS, level.getInteger());
 	}

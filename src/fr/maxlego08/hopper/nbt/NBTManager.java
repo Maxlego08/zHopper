@@ -1,5 +1,6 @@
 package fr.maxlego08.hopper.nbt;
 
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import fr.maxlego08.hopper.api.Hopper;
@@ -23,6 +24,11 @@ public class NBTManager {
 
 	public ItemStack dropItem(Hopper hopper) {
 		return listener.createItemStack(hopper);
+	}
+
+	@SuppressWarnings("deprecation")
+	public int createHopper(Player player) {
+		return listener.createHopper(player.getItemInHand());
 	}
 
 }

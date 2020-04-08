@@ -18,6 +18,6 @@ public interface NBTListener {
 	 * @param itemStack
 	 * @return
 	 */
-	Hopper getHopper(ItemStack itemStack);
+	int createHopper(ItemStack itemStack);
 	
 }
