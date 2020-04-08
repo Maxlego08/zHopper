@@ -181,13 +181,13 @@ public class HopperObject extends ZUtils implements Hopper {
 		int maxItemPerSecond = toLevel().getMaxItemPerSecond();
 		Iterator<Location> iterator = this.linkedContainers.iterator();
 		while (iterator.hasNext()) {
-			
+
 			Location location = iterator.next();
 
 			if (location == null)
 				iterator.remove();
 			else {
-				
+
 				if (maxItemPerSecond == 0)
 					continue;
 
@@ -206,11 +206,8 @@ public class HopperObject extends ZUtils implements Hopper {
 
 				org.bukkit.block.Hopper hopper = this.toBukkitHopper();
 
-				if (isFull(inventory))
-					continue;
-
 				for (ItemStack itemStack : hopper.getInventory().getContents()) {
-					
+
 					if (itemStack != null) {
 
 						if (maxItemPerSecond > 0) {
@@ -221,8 +218,12 @@ public class HopperObject extends ZUtils implements Hopper {
 							int toRemove = maxItemPerSecond < amount ? maxItemPerSecond : amount;
 							maxItemPerSecond -= toRemove;
 
-							clone.setAmount(toRemove);
+							int freeSpaceInContainer = getFreeSpaceFor(inventory, itemStack, toRemove);
 
+							if (freeSpaceInContainer != 0 && freeSpaceInContainer < toRemove)
+								toRemove = freeSpaceInContainer;
+							
+							clone.setAmount(toRemove);
 							if (amount - toRemove <= 0)
 								hopper.getInventory().remove(itemStack);
 							else
@@ -234,6 +235,25 @@ public class HopperObject extends ZUtils implements Hopper {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Get max space in inventory
+	 * @param inventory
+	 * @param itemStack
+	 * @return
+	 */
+	private int getFreeSpaceFor(org.bukkit.inventory.Inventory inventory, ItemStack itemStack, int amount) {
+		int maxSpace = 0;
+		for (ItemStack itemStack2 : inventory.getContents()) {
+			if (itemStack2 != null && itemStack2.isSimilar(itemStack)) {
+				int space = 64 - itemStack2.getAmount();
+				if (space >= amount)
+					return amount;
+				maxSpace = Math.max(maxSpace, space);
+			}
+		}
+		return maxSpace;
 	}
 
 }
