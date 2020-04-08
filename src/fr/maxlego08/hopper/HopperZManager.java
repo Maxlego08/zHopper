@@ -15,11 +15,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.api.HopperManager;
 import fr.maxlego08.hopper.api.Level;
 import fr.maxlego08.hopper.api.events.HopperCreateEvent;
+import fr.maxlego08.hopper.api.events.HopperDestroyEvent;
 import fr.maxlego08.hopper.api.events.HopperSoftDestroyEvent;
 import fr.maxlego08.hopper.nbt.NBTManager;
 import fr.maxlego08.hopper.zcore.enums.Message;
@@ -158,9 +160,16 @@ public class HopperZManager extends ZUtils implements HopperManager {
 	@Override
 	public void destroyHopper(Player player, Hopper hopper) {
 
-		player.closeInventory();
+		ItemStack itemStack = manager.dropItem(hopper);
+		
+		HopperDestroyEvent event = new HopperDestroyEvent(hopper, player, itemStack);
+		event.callEvent();
+		if (event.isCancelled())
+			return;
+		
+		hopper.getWorld().dropItem(hopper.getLocation(), event.getItemStack());
 		hopper.destroy();
-		manager.dropItem(hopper);
+		player.closeInventory();
 
 		message(player, Message.HOPPER_DESTROY);
 

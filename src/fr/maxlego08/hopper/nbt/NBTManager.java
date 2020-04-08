@@ -21,9 +21,8 @@ public class NBTManager {
 			listener = null;
 	}
 
-	public void dropItem(Hopper hopper) {
-		ItemStack itemStack = listener.createItemStack(hopper);
-		hopper.getWorld().dropItem(hopper.getLocation(), itemStack);
+	public ItemStack dropItem(Hopper hopper) {
+		return listener.createItemStack(hopper);
 	}
 
 }
