@@ -21,6 +21,10 @@ public class ModuleLinkContaineur extends Module {
 	public void execute(Hopper hopper, Level level) {
 
 		int maxItemPerSecond = level.getMaxItemPerSecond();
+		
+		if (maxItemPerSecond == 0)
+			return;
+		
 		Iterator<Location> iterator = hopper.getLinkedContainers().iterator();
 
 		// On parcours la liste des location

@@ -24,6 +24,7 @@ public class ModuleSuction extends Module {
 	public void execute(Hopper hopper, Level level) {
 
 		int distance = level.getMaxDistanceSuction();
+
 		World world = hopper.getWorld();
 		Inventory inventory = hopper.toBukkitHopper().getInventory();
 

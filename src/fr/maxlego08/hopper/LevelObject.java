@@ -166,7 +166,7 @@ public class LevelObject extends ZUtils implements Level {
 	@Override
 	public void run(Hopper hopper) {
 		Collections.sort(modules, Comparator.comparingInt(Module::getPriority));
-		modules.forEach(module -> module.execute(hopper, this));
+		modules.forEach(module -> module.preRun(hopper, this));
 	}
 
 	@Override

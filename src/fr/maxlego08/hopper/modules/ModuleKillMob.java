@@ -1,5 +1,14 @@
 package fr.maxlego08.hopper.modules;
 
+import java.util.stream.Stream;
+
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.Animals;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Monster;
+import org.bukkit.entity.Player;
+
 import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.api.Level;
 
@@ -7,12 +16,39 @@ public class ModuleKillMob extends Module {
 
 	public ModuleKillMob(int priority) {
 		super(priority);
+		runAsync = false;
 	}
 
 	@Override
 	public void execute(Hopper hopper, Level level) {
-		// TODO Auto-generated method stub
 
+		int distance = level.getMaxDistanceKill();
+		boolean canUseModule = (level.canKillMonster() || level.canKillPassive()) && distance > 0;
+
+		if (!canUseModule)
+			return;
+		
+		Location location = hopper.getLocation().clone();
+		location.add(0.5, 1, 0.5);
+
+		World world = hopper.getWorld();
+
+		if (distance <= 0 || world == null)
+			return;
+
+		Stream<LivingEntity> stream = world.getNearbyEntities(hopper.getLocation(), distance, distance, distance)
+				.stream().filter(entity -> {
+
+					boolean monster = !(!level.canKillMonster() && entity instanceof Monster);
+					boolean passive = !(!level.canKillPassive() && entity instanceof Animals);
+
+					return entity instanceof LivingEntity && monster && passive && !(entity instanceof Player);
+				}).map(e -> (LivingEntity) e);
+
+		stream.forEach(entity -> {
+			entity.teleport(location);
+			entity.damage(entity.getHealth() * 10);
+		});
 	}
 
 }
