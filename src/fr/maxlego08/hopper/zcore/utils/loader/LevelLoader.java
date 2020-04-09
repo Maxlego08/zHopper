@@ -16,7 +16,10 @@ public class LevelLoader implements Loader<Level> {
 		String name = configuration.getString(path + "name");
 		int maxDistanceLink = configuration.getInt(path + "maxDistanceLink");
 		int maxDistanceSuction = configuration.getInt(path + "maxDistanceSuction");
+		int maxDistanceKill = configuration.getInt(path + "maxDistanceKill");
 		int maxLink = configuration.getInt(path + "maxLink");
+		boolean killPassive = configuration.getBoolean(path + "killPassive");
+		boolean killMonster = configuration.getBoolean(path + "killMonster");
 		int maxItemPerSecond = configuration.getInt(path + "maxItemPerSecond");
 		long price = configuration.getLong(path + "price");
 		Economy economy = Economy.valueOf(configuration.getString(path + "economy"));
@@ -26,7 +29,8 @@ public class LevelLoader implements Loader<Level> {
 			Logger.info("Impossible de mettre plus de 64 pour le maxItemPerSecond !");
 		}
 
-		return new LevelObject(name, level, maxDistanceLink, maxLink, maxItemPerSecond, price, economy, maxDistanceSuction);
+		return new LevelObject(name, level, maxDistanceLink, maxLink, maxItemPerSecond, price, economy,
+				maxDistanceSuction, killMonster, killPassive, maxDistanceKill);
 	}
 
 	@Override
@@ -40,6 +44,9 @@ public class LevelLoader implements Loader<Level> {
 		configuration.set(path + ".price", object.getPrice());
 		configuration.set(path + ".economy", object.getEconomy().name());
 		configuration.set(path + ".maxDistanceSuction", object.getMaxDistanceSuction());
+		configuration.set(path + ".maxDistanceKill", object.getMaxDistanceKill());
+		configuration.set(path + ".killMonster", object.canKillMonster());
+		configuration.set(path + ".killPassive", object.canKillPassive());
 
 	}
 

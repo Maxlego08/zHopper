@@ -36,6 +36,12 @@ public interface Level {
 	 * 
 	 * @return
 	 */
+	int getMaxDistanceKill();
+	
+	/**
+	 * 
+	 * @return
+	 */
 	int getMaxLink();
 	
 	/**
@@ -79,6 +85,18 @@ public interface Level {
 	 * @return
 	 */
 	List<Module> getModules();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	boolean canKillMonster();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	boolean canKillPassive();
 	
 	/**
 	 * 

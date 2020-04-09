@@ -164,7 +164,7 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 	public Level getDefaultLevel() {
 		Level level = levels.getOrDefault(1, null);
 		if (level == null) {
-			level = new LevelObject("Premier level", 1, 5, 1, 1, 0, Economy.VAULT, 0);
+			level = new LevelObject("Premier level", 1, 5, 1, 1, 0, Economy.VAULT, 0, false, false, 0);
 			((LevelObject) level).setHopperManager(this);
 		}
 		return level;
@@ -251,9 +251,9 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 
 		this.levels = new HashMap<>();
 
-		Level level1 = new LevelObject("Premier level", 1, 5, 1, 1, 0, Economy.VAULT, 0);
-		Level level2 = new LevelObject("Deuxième level", 2, 10, 2, 2, 100, Economy.VAULT, 5);
-		Level level3 = new LevelObject("Troisième level", 3, 15, 3, 5, 250, Economy.VAULT, 10);
+		Level level1 = new LevelObject("Premier level", 1, 5, 1, 1, 0, Economy.VAULT, 0, false, false, 0);
+		Level level2 = new LevelObject("Deuxième level", 2, 10, 2, 2, 100, Economy.VAULT, 5, true, false, 5);
+		Level level3 = new LevelObject("Troisième level", 3, 15, 3, 5, 250, Economy.VAULT, 10, true, true, 10);
 
 		((LevelObject) level1).setHopperManager(this);
 		((LevelObject) level2).setHopperManager(this);

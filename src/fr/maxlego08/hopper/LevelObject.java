@@ -11,6 +11,7 @@ import fr.maxlego08.hopper.api.Level;
 import fr.maxlego08.hopper.api.events.HopperModuleRegisterEvent;
 import fr.maxlego08.hopper.economy.Economy;
 import fr.maxlego08.hopper.modules.Module;
+import fr.maxlego08.hopper.modules.ModuleKillMob;
 import fr.maxlego08.hopper.modules.ModuleLinkContaineur;
 import fr.maxlego08.hopper.modules.ModuleSuction;
 import fr.maxlego08.hopper.zcore.utils.ZUtils;
@@ -24,6 +25,9 @@ public class LevelObject extends ZUtils implements Level {
 	private final int maxDistanceSuction;
 	private final int maxLink;
 	private final int maxItemPerSecond;
+	private final boolean monsterKill;
+	private final boolean passiveKill;
+	private final int maxDistanceKill;
 	private final long price;
 	private final Economy economy;
 	private HopperManager hopperManager;
@@ -40,7 +44,7 @@ public class LevelObject extends ZUtils implements Level {
 	 * @param economy
 	 */
 	public LevelObject(String name, int level, int maxDistanceLink, int maxLink, int maxItemPerSecond, long price,
-			Economy economy, int maxDistanceSuction) {
+			Economy economy, int maxDistanceSuction, boolean monsterKill, boolean passiveKill, int maxDistanceKill) {
 		super();
 		this.name = name;
 		this.level = level;
@@ -50,11 +54,15 @@ public class LevelObject extends ZUtils implements Level {
 		this.price = price;
 		this.economy = economy;
 		this.maxDistanceSuction = maxDistanceSuction;
+		this.maxDistanceKill = maxDistanceKill;
+		this.passiveKill = passiveKill;
+		this.monsterKill = monsterKill;
 
 		// On va register les modules en fonction des options du niveau
 
 		modules.add(new ModuleSuction(1));
 		modules.add(new ModuleLinkContaineur(2));
+		modules.add(new ModuleKillMob(3));
 
 		HopperModuleRegisterEvent event = new HopperModuleRegisterEvent(modules, this);
 		event.callEvent();
@@ -164,6 +172,21 @@ public class LevelObject extends ZUtils implements Level {
 	@Override
 	public int getMaxDistanceSuction() {
 		return maxDistanceSuction;
+	}
+
+	@Override
+	public int getMaxDistanceKill() {
+		return maxDistanceKill;
+	}
+
+	@Override
+	public boolean canKillMonster() {
+		return monsterKill;
+	}
+
+	@Override
+	public boolean canKillPassive() {
+		return passiveKill;
 	}
 
 }
