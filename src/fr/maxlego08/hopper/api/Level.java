@@ -30,6 +30,12 @@ public interface Level {
 	 * 
 	 * @return
 	 */
+	int getMaxDistanceSuction();
+	
+	/**
+	 * 
+	 * @return
+	 */
 	int getMaxLink();
 	
 	/**

@@ -12,6 +12,7 @@ import fr.maxlego08.hopper.api.events.HopperModuleRegisterEvent;
 import fr.maxlego08.hopper.economy.Economy;
 import fr.maxlego08.hopper.modules.Module;
 import fr.maxlego08.hopper.modules.ModuleLinkContaineur;
+import fr.maxlego08.hopper.modules.ModuleSuction;
 import fr.maxlego08.hopper.zcore.utils.ZUtils;
 import fr.maxlego08.hopper.zcore.utils.builder.ItemBuilder;
 
@@ -20,6 +21,7 @@ public class LevelObject extends ZUtils implements Level {
 	private final String name;
 	private final int level;
 	private final int maxDistanceLink;
+	private final int maxDistanceSuction;
 	private final int maxLink;
 	private final int maxItemPerSecond;
 	private final long price;
@@ -38,7 +40,7 @@ public class LevelObject extends ZUtils implements Level {
 	 * @param economy
 	 */
 	public LevelObject(String name, int level, int maxDistanceLink, int maxLink, int maxItemPerSecond, long price,
-			Economy economy) {
+			Economy economy, int maxDistanceSuction) {
 		super();
 		this.name = name;
 		this.level = level;
@@ -47,10 +49,12 @@ public class LevelObject extends ZUtils implements Level {
 		this.maxItemPerSecond = maxItemPerSecond;
 		this.price = price;
 		this.economy = economy;
+		this.maxDistanceSuction = maxDistanceSuction;
 
 		// On va register les modules en fonction des options du niveau
 
-		modules.add(new ModuleLinkContaineur(1));
+		modules.add(new ModuleSuction(1));
+		modules.add(new ModuleLinkContaineur(2));
 
 		HopperModuleRegisterEvent event = new HopperModuleRegisterEvent(modules, this);
 		event.callEvent();
@@ -155,6 +159,11 @@ public class LevelObject extends ZUtils implements Level {
 	public void run(Hopper hopper) {
 		Collections.sort(modules, Comparator.comparingInt(Module::getPriority));
 		modules.forEach(module -> module.execute(hopper, this));
+	}
+
+	@Override
+	public int getMaxDistanceSuction() {
+		return maxDistanceSuction;
 	}
 
 }

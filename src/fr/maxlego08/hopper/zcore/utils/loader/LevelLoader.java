@@ -15,17 +15,18 @@ public class LevelLoader implements Loader<Level> {
 		int level = configuration.getInt(path + "level");
 		String name = configuration.getString(path + "name");
 		int maxDistanceLink = configuration.getInt(path + "maxDistanceLink");
+		int maxDistanceSuction = configuration.getInt(path + "maxDistanceSuction");
 		int maxLink = configuration.getInt(path + "maxLink");
 		int maxItemPerSecond = configuration.getInt(path + "maxItemPerSecond");
 		long price = configuration.getLong(path + "price");
 		Economy economy = Economy.valueOf(configuration.getString(path + "economy"));
 
-		if (maxDistanceLink > 64){
+		if (maxDistanceLink > 64) {
 			maxDistanceLink = 64;
 			Logger.info("Impossible de mettre plus de 64 pour le maxItemPerSecond !");
 		}
-		
-		return new LevelObject(name, level, maxDistanceLink, maxLink, maxItemPerSecond, price, economy);
+
+		return new LevelObject(name, level, maxDistanceLink, maxLink, maxItemPerSecond, price, economy, maxDistanceSuction);
 	}
 
 	@Override
@@ -38,6 +39,7 @@ public class LevelLoader implements Loader<Level> {
 		configuration.set(path + ".maxItemPerSecond", object.getMaxItemPerSecond());
 		configuration.set(path + ".price", object.getPrice());
 		configuration.set(path + ".economy", object.getEconomy().name());
+		configuration.set(path + ".maxDistanceSuction", object.getMaxDistanceSuction());
 
 	}
 
