@@ -156,6 +156,11 @@ public class HopperObject extends ZUtils implements Hopper {
 			return;
 		}
 
+		if (linkedContainers.contains(block.getLocation())){
+			message(player, Message.HOPPER_LINK_ERROR_ALREADY_LINK);
+			return;
+		}
+		
 		HopperLinkEvent event = new HopperLinkEvent(player, this, block);
 		event.callEvent();
 

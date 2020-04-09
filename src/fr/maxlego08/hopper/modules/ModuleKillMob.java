@@ -50,7 +50,7 @@ public class ModuleKillMob extends Module {
 		int amount = 0;
 		for (LivingEntity entity : stream.collect(Collectors.toList())) {
 			
-			if (amount > maxPerSecond)
+			if (amount >= maxPerSecond)
 				return;
 			
 			entity.teleport(location);

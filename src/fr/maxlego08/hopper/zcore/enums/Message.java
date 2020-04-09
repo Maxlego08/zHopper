@@ -38,6 +38,7 @@ public enum Message {
 	HOPPER_LINK_ERROR_ALREADY("§cVous êtes déjà en train de relier un hopper avec un containeur."), 
 	HOPPER_LINK_ERROR_CONTAINER("§cVous devez cliquer sur un §fcontaineur §cet non sur un bloc normal."), 
 	HOPPER_LINK_ERROR_DISTANCE("§cVous devez être a moins de §f%s§c bloc de votre hopper pour le lier."), 
+	HOPPER_LINK_ERROR_ALREADY_LINK("§cVous avez déjà relié le ce block."), 
 	
 	PLAYERPOINT_CURRENCY("P"),
 	VAULT_CURRENCY("$"),
