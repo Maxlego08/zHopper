@@ -1,5 +1,6 @@
 package fr.maxlego08.hopper.modules;
 
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.bukkit.Location;
@@ -23,11 +24,12 @@ public class ModuleKillMob extends Module {
 	public void execute(Hopper hopper, Level level) {
 
 		int distance = level.getMaxDistanceKill();
-		boolean canUseModule = (level.canKillMonster() || level.canKillPassive()) && distance > 0;
+		int maxPerSecond = level.getMaxKillPerSecond();
+		boolean canUseModule = (level.canKillMonster() || level.canKillPassive()) && distance > 0 && maxPerSecond > 0;
 
 		if (!canUseModule)
 			return;
-		
+
 		Location location = hopper.getLocation().clone();
 		location.add(0.5, 1, 0.5);
 
@@ -45,10 +47,16 @@ public class ModuleKillMob extends Module {
 					return entity instanceof LivingEntity && monster && passive && !(entity instanceof Player);
 				}).map(e -> (LivingEntity) e);
 
-		stream.forEach(entity -> {
+		int amount = 0;
+		for (LivingEntity entity : stream.collect(Collectors.toList())) {
+			
+			if (amount > maxPerSecond)
+				return;
+			
 			entity.teleport(location);
 			entity.damage(entity.getHealth() * 10);
-		});
-	}
+			amount++;
+		}
 
+	}
 }

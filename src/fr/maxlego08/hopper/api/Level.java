@@ -54,6 +54,12 @@ public interface Level {
 	 * 
 	 * @return
 	 */
+	int getMaxKillPerSecond();
+	
+	/**
+	 * 
+	 * @return
+	 */
 	Level next();
 	
 	/**

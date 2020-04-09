@@ -28,6 +28,7 @@ public class LevelObject extends ZUtils implements Level {
 	private final boolean monsterKill;
 	private final boolean passiveKill;
 	private final int maxDistanceKill;
+	private final int maxKillPerSecond;
 	private final long price;
 	private final Economy economy;
 	private HopperManager hopperManager;
@@ -44,7 +45,7 @@ public class LevelObject extends ZUtils implements Level {
 	 * @param economy
 	 */
 	public LevelObject(String name, int level, int maxDistanceLink, int maxLink, int maxItemPerSecond, long price,
-			Economy economy, int maxDistanceSuction, boolean monsterKill, boolean passiveKill, int maxDistanceKill) {
+			Economy economy, int maxDistanceSuction, boolean monsterKill, boolean passiveKill, int maxDistanceKill, int maxKillPerSecond) {
 		super();
 		this.name = name;
 		this.level = level;
@@ -57,6 +58,7 @@ public class LevelObject extends ZUtils implements Level {
 		this.maxDistanceKill = maxDistanceKill;
 		this.passiveKill = passiveKill;
 		this.monsterKill = monsterKill;
+		this.maxKillPerSecond = maxKillPerSecond;
 
 		// On va register les modules en fonction des options du niveau
 
@@ -187,6 +189,11 @@ public class LevelObject extends ZUtils implements Level {
 	@Override
 	public boolean canKillPassive() {
 		return passiveKill;
+	}
+
+	@Override
+	public int getMaxKillPerSecond() {
+		return maxKillPerSecond;
 	}
 
 }
