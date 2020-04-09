@@ -174,10 +174,15 @@ public class HopperObject extends ZUtils implements Hopper {
 	@Override
 	public void run() {
 
+		if (!isValid()) {
+			destroy();
+			return;
+		}
+
 		Level level = toLevel();
 		if (level == null)
 			return;
-		
+
 		level.run(this);
 	}
 
