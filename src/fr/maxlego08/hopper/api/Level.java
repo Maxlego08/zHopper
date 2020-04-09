@@ -1,6 +1,9 @@
 package fr.maxlego08.hopper.api;
 
+import java.util.List;
+
 import fr.maxlego08.hopper.economy.Economy;
+import fr.maxlego08.hopper.modules.Module;
 import fr.maxlego08.hopper.zcore.utils.builder.ItemBuilder;
 
 public interface Level {
@@ -64,5 +67,17 @@ public interface Level {
 	 * @return
 	 */
 	Economy getEconomy();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	List<Module> getModules();
+	
+	/**
+	 * 
+	 * @param hopper
+	 */
+	void run(Hopper hopper);
 	
 }

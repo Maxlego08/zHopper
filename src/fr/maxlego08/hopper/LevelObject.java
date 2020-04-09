@@ -1,8 +1,17 @@
 package fr.maxlego08.hopper;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.api.HopperManager;
 import fr.maxlego08.hopper.api.Level;
+import fr.maxlego08.hopper.api.events.HopperModuleRegisterEvent;
 import fr.maxlego08.hopper.economy.Economy;
+import fr.maxlego08.hopper.modules.Module;
+import fr.maxlego08.hopper.modules.ModuleLinkContaineur;
 import fr.maxlego08.hopper.zcore.utils.ZUtils;
 import fr.maxlego08.hopper.zcore.utils.builder.ItemBuilder;
 
@@ -16,6 +25,7 @@ public class LevelObject extends ZUtils implements Level {
 	private final long price;
 	private final Economy economy;
 	private HopperManager hopperManager;
+	private List<Module> modules = new ArrayList<Module>();
 
 	/**
 	 * 
@@ -37,6 +47,16 @@ public class LevelObject extends ZUtils implements Level {
 		this.maxItemPerSecond = maxItemPerSecond;
 		this.price = price;
 		this.economy = economy;
+
+		// On va register les modules en fonction des options du niveau
+
+		modules.add(new ModuleLinkContaineur(1));
+
+		HopperModuleRegisterEvent event = new HopperModuleRegisterEvent(modules, this);
+		event.callEvent();
+
+		if (event.isCancelled())
+			modules.clear();
 	}
 
 	/**
@@ -124,6 +144,17 @@ public class LevelObject extends ZUtils implements Level {
 	@Override
 	public int getMaxItemPerSecond() {
 		return maxItemPerSecond;
+	}
+
+	@Override
+	public List<Module> getModules() {
+		return modules;
+	}
+
+	@Override
+	public void run(Hopper hopper) {
+		Collections.sort(modules, Comparator.comparingInt(Module::getPriority));
+		modules.forEach(module -> module.execute(hopper, this));
 	}
 
 }
