@@ -1,6 +1,7 @@
 package fr.maxlego08.hopper;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -8,13 +9,19 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.api.HopperManager;
 import fr.maxlego08.hopper.api.Level;
+import fr.maxlego08.hopper.api.events.HopperLinkEvent;
 import fr.maxlego08.hopper.api.events.HopperOpenConfigurationEvent;
 import fr.maxlego08.hopper.zcore.enums.Inventory;
+import fr.maxlego08.hopper.zcore.enums.Message;
+import fr.maxlego08.hopper.zcore.utils.Result;
 import fr.maxlego08.hopper.zcore.utils.ZUtils;
 
 public class HopperObject extends ZUtils implements Hopper {
@@ -23,9 +30,10 @@ public class HopperObject extends ZUtils implements Hopper {
 	private List<UUID> whitelistPlayers = new ArrayList<UUID>();
 	private Location location;
 	private int level = 1;
+	private List<Location> linkedContainers = new ArrayList<>();
 	private transient Level levelObject;
 	private transient HopperManager hopperManager;
-	
+
 	/**
 	 * 
 	 * @param owner
@@ -40,6 +48,7 @@ public class HopperObject extends ZUtils implements Hopper {
 		this.location = location;
 		this.hopperManager = hopperManager;
 		this.level = level;
+		this.linkedContainers = new ArrayList<>();
 	}
 
 	/**
@@ -128,6 +137,53 @@ public class HopperObject extends ZUtils implements Hopper {
 	public void destroy() {
 		if (location != null)
 			getBlock().setType(Material.AIR);
+	}
+
+	@Override
+	public List<Location> getLinkedContainers() {
+		return linkedContainers;
+	}
+
+	@Override
+	public boolean isValid() {
+		return location != null && getBlock().getType().equals(Material.HOPPER);
+	}
+
+	@Override
+	public void linkContainer(Player player, Block block) {
+
+		if (location == null)
+			return;
+
+		if (!block.getLocation().getWorld().equals(location.getWorld())
+				|| block.getLocation().distance(location) > toLevel().getMaxDistanceLink()) {
+			message(player, Message.HOPPER_LINK_ERROR_DISTANCE, toLevel().getMaxDistanceLink());
+			return;
+		}
+
+		HopperLinkEvent event = new HopperLinkEvent(player, this, block);
+		event.callEvent();
+
+		if (event.isCancelled())
+			return;
+
+		linkedContainers.add(block.getLocation());
+		message(player, Message.HOPPER_LINK_SUCCESS);
+	}
+
+	@Override
+	public boolean canLink() {
+		return linkedContainers.size() >= toLevel().getMaxLink();
+	}
+
+	@Override
+	public void run() {
+
+		Level level = toLevel();
+		if (level == null)
+			return;
+		
+		level.run(this);
 	}
 
 }

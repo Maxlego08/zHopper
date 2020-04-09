@@ -83,6 +83,15 @@ public interface HopperManager extends Saveable {
 	 * @param event
 	 */
 	void interactHopper(Player player, Block block, PlayerInteractEvent event);
+	
+	/**
+	 * Allows you to interact with a Hopper
+	 * 
+	 * @param player
+	 * @param block
+	 * @param event
+	 */
+	void interactBlock(Player player, Block block, PlayerInteractEvent event);
 
 	/**
 	 * 
@@ -113,5 +122,18 @@ public interface HopperManager extends Saveable {
 	 * @param player
 	 */
 	void updateLevel(Hopper hopper, Player player);
+	
+	/**
+	 * 
+	 * @param hopper
+	 */
+	void deleteHopper(Hopper hopper);
+	
+	/**
+	 * 
+	 * @param player
+	 * @param hopper
+	 */
+	void linkHopper(Player player, Hopper hopper);
 
 }
