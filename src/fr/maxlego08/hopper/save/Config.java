@@ -5,7 +5,6 @@ import fr.maxlego08.hopper.zcore.utils.storage.Saveable;
 
 public class Config implements Saveable {
 
-	
 	/**
 	 * static Singleton instance.
 	 */

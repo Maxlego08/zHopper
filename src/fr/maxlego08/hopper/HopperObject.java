@@ -1,7 +1,6 @@
 package fr.maxlego08.hopper;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -9,10 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.api.HopperManager;
@@ -21,7 +17,6 @@ import fr.maxlego08.hopper.api.events.HopperLinkEvent;
 import fr.maxlego08.hopper.api.events.HopperOpenConfigurationEvent;
 import fr.maxlego08.hopper.zcore.enums.Inventory;
 import fr.maxlego08.hopper.zcore.enums.Message;
-import fr.maxlego08.hopper.zcore.utils.Result;
 import fr.maxlego08.hopper.zcore.utils.ZUtils;
 
 public class HopperObject extends ZUtils implements Hopper {

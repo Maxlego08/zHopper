@@ -17,6 +17,9 @@ public class NBTManager {
 		if (version == 1.8) {
 
 			listener = new NBT1_8();
+		}else			if (version == 1.15) {
+				
+				listener = new NBT1_8();
 
 		} else
 			listener = null;
