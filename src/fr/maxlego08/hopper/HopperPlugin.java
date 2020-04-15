@@ -7,9 +7,9 @@ import fr.maxlego08.hopper.command.CommandManager;
 import fr.maxlego08.hopper.inventory.InventoryManager;
 import fr.maxlego08.hopper.listener.AdapterListener;
 import fr.maxlego08.hopper.save.Config;
+import fr.maxlego08.hopper.save.Lang;
 import fr.maxlego08.hopper.zcore.ZPlugin;
 import fr.maxlego08.hopper.zcore.logger.Logger.LogType;
-import fr.maxlego08.hopper.zcore.utils.builder.CooldownBuilder;
 
 /**
  * System to create your plugins very simply Projet:
@@ -53,7 +53,7 @@ public class HopperPlugin extends ZPlugin {
 		/* Add Saver */
 
 		addSave(Config.getInstance());
-		addSave(new CooldownBuilder());
+		addSave(Lang.getInstance());
 		addSave(hopperManager);
 
 		getSavers().forEach(saver -> saver.load(getPersist()));
