@@ -1,11 +1,24 @@
 package fr.maxlego08.hopper.save;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.Material;
+
 import fr.maxlego08.hopper.zcore.utils.storage.Persist;
 import fr.maxlego08.hopper.zcore.utils.storage.Saveable;
 
 public class Config implements Saveable {
 
 	public static int taskTickPerSecond = 20;
+	public static List<String> blacklistBlockBreak = new ArrayList<String>();
+	
+	static {
+		
+		blacklistBlockBreak.add(Material.BEDROCK.name());
+		blacklistBlockBreak.add(Material.HOPPER.name());
+		
+	}
 
 	/**
 	 * static Singleton instance.

@@ -1,12 +1,12 @@
 package fr.maxlego08.hopper.modules;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
 import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.api.Level;
+import fr.maxlego08.hopper.save.Config;
 
 public class ModuleBlockBreak extends Module {
 
@@ -30,7 +30,8 @@ public class ModuleBlockBreak extends Module {
 
 		Block block = location.getBlock().getRelative(BlockFace.UP);
 		for (int a = 0; a != nb; a++) {
-			if (!block.getType().equals(Material.HOPPER))
+			String type = block.getType().name().toLowerCase();
+			if (Config.blacklistBlockBreak.stream().filter(bl -> type.equalsIgnoreCase(type)).findAny().isPresent())
 				block.breakNaturally();
 			block = block.getRelative(BlockFace.UP);
 		}
