@@ -11,9 +11,9 @@ import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.api.Level;
 import fr.maxlego08.hopper.zcore.utils.Result;
 
-public class ModuleLinkContaineur extends Module {
+public class ModuleLinkContainer extends Module {
 
-	public ModuleLinkContaineur(int p) {
+	public ModuleLinkContainer(int p) {
 		super(p);
 	}
 
@@ -119,4 +119,10 @@ public class ModuleLinkContaineur extends Module {
 		}
 	}
 
+
+	@Override
+	public boolean isCooldown(Hopper hopper, Level level) {
+		return super.isCooldown(hopper, "modulecontainer", level.getLongAsProperty("milliSecondModuleItem"));
+	}
+	
 }

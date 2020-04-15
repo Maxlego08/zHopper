@@ -33,6 +33,7 @@ import fr.maxlego08.hopper.economy.Economy;
 import fr.maxlego08.hopper.economy.EconomyUtils;
 import fr.maxlego08.hopper.modules.Module;
 import fr.maxlego08.hopper.nbt.NBTManager;
+import fr.maxlego08.hopper.save.Config;
 import fr.maxlego08.hopper.zcore.enums.Message;
 import fr.maxlego08.hopper.zcore.logger.Logger;
 import fr.maxlego08.hopper.zcore.logger.Logger.LogType;
@@ -58,10 +59,15 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 	public HopperZManager(HopperPlugin plugin) {
 		super();
 		this.plugin = plugin;
-		this.runnable = new HopperRunnable(this);
-		this.runnable.runTaskTimerAsynchronously(plugin, 20, 20);
 	}
 
+	public void run(){
+		if (runnable != null)
+			return;
+		this.runnable = new HopperRunnable(this);
+		this.runnable.runTaskTimerAsynchronously(plugin, Config.taskTickPerSecond, Config.taskTickPerSecond);
+	}
+	
 	/**
 	 * 
 	 * @return plugin

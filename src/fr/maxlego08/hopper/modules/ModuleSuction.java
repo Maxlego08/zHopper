@@ -66,5 +66,11 @@ public class ModuleSuction extends Module {
 		});
 
 	}
+	
+
+	@Override
+	public boolean isCooldown(Hopper hopper, Level level) {
+		return super.isCooldown(hopper, "modulesuction", level.getLongAsProperty("milliSecondModuleSuction"));
+	}
 
 }

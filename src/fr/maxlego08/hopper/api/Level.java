@@ -134,6 +134,13 @@ public interface Level {
 	boolean getBooleanAsProperty(String key);
 	
 	/**
+	 * 
+	 * @param key
+	 * @return
+	 */
+	long getLongAsProperty(String key);
+	
+	/**
 	 *
 	 * @return
 	 */

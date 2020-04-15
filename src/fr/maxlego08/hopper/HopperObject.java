@@ -21,6 +21,7 @@ import fr.maxlego08.hopper.zcore.utils.ZUtils;
 
 public class HopperObject extends ZUtils implements Hopper {
 
+	private final UUID uuid = UUID.randomUUID();
 	private UUID owner;
 	private List<UUID> whitelistPlayers = new ArrayList<UUID>();
 	private Location location;
@@ -189,6 +190,11 @@ public class HopperObject extends ZUtils implements Hopper {
 			return;
 
 		level.run(this);
+	}
+
+	@Override
+	public UUID getUniqueId() {
+		return uuid;
 	}
 
 }

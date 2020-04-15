@@ -19,8 +19,10 @@ import fr.maxlego08.hopper.api.events.HopperModuleRegisterEvent;
 import fr.maxlego08.hopper.economy.Economy;
 import fr.maxlego08.hopper.modules.Module;
 import fr.maxlego08.hopper.modules.ModuleKillMob;
-import fr.maxlego08.hopper.modules.ModuleLinkContaineur;
+import fr.maxlego08.hopper.modules.ModuleLinkContainer;
 import fr.maxlego08.hopper.modules.ModuleSuction;
+import fr.maxlego08.hopper.zcore.logger.Logger;
+import fr.maxlego08.hopper.zcore.logger.Logger.LogType;
 import fr.maxlego08.hopper.zcore.utils.ZUtils;
 
 public class LevelObject extends ZUtils implements Level {
@@ -58,7 +60,7 @@ public class LevelObject extends ZUtils implements Level {
 		// On va register les modules en fonction des options du niveau
 
 		modules.add(new ModuleSuction(1));
-		modules.add(new ModuleLinkContaineur(2));
+		modules.add(new ModuleLinkContainer(2));
 		modules.add(new ModuleKillMob(3));
 
 		HopperModuleRegisterEvent event = new HopperModuleRegisterEvent(modules, this);
@@ -93,6 +95,9 @@ public class LevelObject extends ZUtils implements Level {
 		properties.put("passiveKill", false);
 		properties.put("maxDistanceKill", 0);
 		properties.put("maxKillPerSecond", 0);
+		properties.put("milliSecondModuleItem", 1000);
+		properties.put("milliSecondModuleSuction", 1000);
+		properties.put("milliSecondModuleKill", 1000);
 		this.defaultProprieties.put(1, properties);
 
 		properties = new HashMap<String, Object>();
@@ -104,6 +109,9 @@ public class LevelObject extends ZUtils implements Level {
 		properties.put("passiveKill", true);
 		properties.put("maxDistanceKill", 5);
 		properties.put("maxKillPerSecond", 1);
+		properties.put("milliSecondModuleItem", 1000);
+		properties.put("milliSecondModuleSuction", 1000);
+		properties.put("milliSecondModuleKill", 1000);
 		this.defaultProprieties.put(2, properties);
 
 		properties = new HashMap<String, Object>();
@@ -115,6 +123,9 @@ public class LevelObject extends ZUtils implements Level {
 		properties.put("passiveKill", true);
 		properties.put("maxDistanceKill", 10);
 		properties.put("maxKillPerSecond", 3);
+		properties.put("milliSecondModuleItem", 1000);
+		properties.put("milliSecondModuleSuction", 1000);
+		properties.put("milliSecondModuleKill", 1000);
 		this.defaultProprieties.put(3, properties);
 
 	}
@@ -214,7 +225,7 @@ public class LevelObject extends ZUtils implements Level {
 			string = string.replace("%nextName%", level.getName());
 			string = string.replace("%nextPrice%", String.valueOf(level.getPrice()));
 			string = string.replace("%nextEconomy%", level.getEconomy().toCurrency());
-			for (Entry<String, Object> entry : level.getProperties().entrySet()) 
+			for (Entry<String, Object> entry : level.getProperties().entrySet())
 				string = string.replace("%next" + name(entry.getKey()) + "%", entry.getValue().toString());
 		}
 		return string;
@@ -292,12 +303,16 @@ public class LevelObject extends ZUtils implements Level {
 	@Override
 	public int getIntegerAsProperty(String key) {
 		Object object = getProperty(key);
+		if (object == null)
+			Logger.info("Attention la propriété '" + key + "' n'existe pas !", LogType.WARNING);
 		return object != null && object instanceof Integer ? (int) object : 0;
 	}
 
 	@Override
 	public boolean getBooleanAsProperty(String key) {
 		Object object = getProperty(key);
+		if (object == null)
+			Logger.info("Attention la propriété '" + key + "' n'existe pas !", LogType.WARNING);
 		return object != null && object instanceof Boolean ? (boolean) object : false;
 	}
 
@@ -309,6 +324,14 @@ public class LevelObject extends ZUtils implements Level {
 	@Override
 	public ItemStack getItemStack() {
 		return itemStack;
+	}
+
+	@Override
+	public long getLongAsProperty(String key) {
+		Object object = getProperty(key);
+		if (object == null)
+			Logger.info("Attention la propriété '" + key + "' n'existe pas !", LogType.WARNING);
+		return object != null && object instanceof Long ? (long) object : 0;
 	}
 
 }

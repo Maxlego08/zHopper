@@ -1,5 +1,8 @@
 package fr.maxlego08.hopper.modules;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -15,6 +18,7 @@ public abstract class Module extends ZUtils {
 
 	private final int priority;
 	protected boolean runAsync = true;
+	protected Map<Hopper, Long> cooldows = new HashMap<Hopper, Long>();
 
 	public Module(int priority) {
 		super();
@@ -30,6 +34,9 @@ public abstract class Module extends ZUtils {
 
 	public void preRun(Hopper hopper, Level level) {
 
+		if (isCooldown(hopper, level))
+			return;
+		
 		HopperModuleRunEvent event = new HopperModuleRunEvent(hopper, this, runAsync);
 		event.callEvent();
 		if (event.isCancelled())
@@ -43,8 +50,21 @@ public abstract class Module extends ZUtils {
 		}
 	}
 
+	/**
+	 * 
+	 * @param hopper
+	 * @param level
+	 */
 	public abstract void execute(Hopper hopper, Level level);
 
+	/**
+	 * 
+	 * @param hopper
+	 * @param level
+	 * @return
+	 */
+	public abstract boolean isCooldown(Hopper hopper, Level level);
+	
 	/**
 	 * Get max space in inventory
 	 * 

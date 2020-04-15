@@ -32,6 +32,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.Permissible;
 
 import fr.maxlego08.hopper.HopperPlugin;
+import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.zcore.ZPlugin;
 import fr.maxlego08.hopper.zcore.enums.Inventory;
 import fr.maxlego08.hopper.zcore.enums.Message;
@@ -1165,6 +1166,21 @@ public abstract class ZUtils {
 							timerFormat(player, cooldown)));
 			return true;
 		}
+		if (timer != 0)
+			CooldownBuilder.addCooldown(cooldown, player, timer);
+		return false;
+	}
+	
+	/**
+	 * 
+	 * @param player
+	 * @param cooldown
+	 * @param timer
+	 * @return
+	 */
+	protected boolean isCooldown(Hopper player, String cooldown, long timer) {
+		if (CooldownBuilder.isCooldown(cooldown, player)) 
+			return true;
 		if (timer != 0)
 			CooldownBuilder.addCooldown(cooldown, player, timer);
 		return false;

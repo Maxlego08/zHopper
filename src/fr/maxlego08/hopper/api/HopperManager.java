@@ -146,5 +146,10 @@ public interface HopperManager extends Saveable {
 	 * @param module
 	 */
 	void addModule(Module module);
+	
+	/**
+	 * 
+	 */
+	void run();
 
 }

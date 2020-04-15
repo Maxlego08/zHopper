@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.bukkit.entity.Player;
 
+import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.zcore.utils.storage.Persist;
 import fr.maxlego08.hopper.zcore.utils.storage.Saveable;
 
@@ -37,14 +38,24 @@ public class CooldownBuilder implements Saveable{
 	}
 
 	public static void addCooldown(String s, Player joueur, int seconds){
-		if (!cooldowns.containsKey(s)) {
-			throw new IllegalArgumentException(String.valueOf(s) + " n'existe pas.");
-		}
+		cooldowns.putIfAbsent(s, new HashMap<>());
 		long next = System.currentTimeMillis() + seconds * 1000L;
+		(cooldowns.get(s)).put(joueur.getUniqueId(), Long.valueOf(next));
+	}
+	
+	public static void addCooldown(String s, Hopper joueur, long seconds){
+		cooldowns.putIfAbsent(s, new HashMap<>());
+		long next = System.currentTimeMillis() + seconds;
 		(cooldowns.get(s)).put(joueur.getUniqueId(), Long.valueOf(next));
 	}
 
 	public static boolean isCooldown(String s, Player joueur) {
+		return (cooldowns.containsKey(s)) && ((cooldowns.get(s)).containsKey(joueur.getUniqueId()))
+				&& (System.currentTimeMillis() <= ((Long) (cooldowns.get(s)).get(joueur.getUniqueId())).longValue());
+	}
+	
+	public static boolean isCooldown(String s, Hopper joueur) {
+		cooldowns.putIfAbsent(s, new HashMap<>());
 		return (cooldowns.containsKey(s)) && ((cooldowns.get(s)).containsKey(joueur.getUniqueId()))
 				&& (System.currentTimeMillis() <= ((Long) (cooldowns.get(s)).get(joueur.getUniqueId())).longValue());
 	}

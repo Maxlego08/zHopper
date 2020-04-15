@@ -58,6 +58,8 @@ public class HopperPlugin extends ZPlugin {
 
 		getSavers().forEach(saver -> saver.load(getPersist()));
 
+		hopperManager.run();
+		
 		postEnable();
 
 	}

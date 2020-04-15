@@ -5,6 +5,8 @@ import fr.maxlego08.hopper.zcore.utils.storage.Saveable;
 
 public class Config implements Saveable {
 
+	public static int taskTickPerSecond = 20;
+
 	/**
 	 * static Singleton instance.
 	 */
@@ -37,6 +39,8 @@ public class Config implements Saveable {
 
 	public void load(Persist persist) {
 		persist.loadOrSaveDefault(getInstance(), Config.class);
+		if (taskTickPerSecond < 1)
+			taskTickPerSecond = 1;
 	}
 
 }

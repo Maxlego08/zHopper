@@ -17,6 +17,12 @@ public interface Hopper {
 	UUID getOwner();
 	
 	/**
+	 * 
+	 * @return uuid of hopper
+	 */
+	UUID getUniqueId();
+	
+	/**
 	 * Allows you to retrieve the list of players who have access to modify the hopper
 	 * @return uuid list
 	 */

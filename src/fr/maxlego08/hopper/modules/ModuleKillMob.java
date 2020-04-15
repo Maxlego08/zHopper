@@ -59,4 +59,9 @@ public class ModuleKillMob extends Module {
 		}
 
 	}
+
+	@Override
+	public boolean isCooldown(Hopper hopper, Level level) {
+		return super.isCooldown(hopper, "modulekillmob", level.getLongAsProperty("milliSecondModuleKill"));
+	}
 }
