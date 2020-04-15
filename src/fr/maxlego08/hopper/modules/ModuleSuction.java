@@ -31,7 +31,7 @@ public class ModuleSuction extends Module {
 		if (distance <= 0 || world == null)
 			return;
 
-		//On récupère tout les items valides dans un certain rayon
+		// On récupère tout les items valides dans un certain rayon
 		Stream<Item> stream = world.getNearbyEntities(hopper.getLocation(), distance, distance, distance).stream()
 				.filter(entity -> entity instanceof Item && entity.isValid()).map(entity -> (Item) entity);
 		List<Item> items = stream.collect(Collectors.toList());
@@ -66,7 +66,6 @@ public class ModuleSuction extends Module {
 		});
 
 	}
-	
 
 	@Override
 	public boolean isCooldown(Hopper hopper, Level level) {

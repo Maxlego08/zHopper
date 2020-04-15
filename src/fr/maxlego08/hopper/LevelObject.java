@@ -82,6 +82,7 @@ public class LevelObject extends ZUtils implements Level {
 	public LevelObject(String name, int level, long price, Economy economy, ItemStack itemStack,
 			Map<String, Object> properties) {
 		this(name, level, price, economy, itemStack);
+		System.out.println(properties);
 		this.properties = properties;
 	}
 
@@ -297,7 +298,7 @@ public class LevelObject extends ZUtils implements Level {
 
 	@Override
 	public Object getProperty(String key) {
-		return properties.getOrDefault(key, defaultProprieties.getOrDefault(key, null));
+		return properties.getOrDefault(key, defaultProprieties.get(level).getOrDefault(key, null));
 	}
 
 	@Override
@@ -331,7 +332,8 @@ public class LevelObject extends ZUtils implements Level {
 		Object object = getProperty(key);
 		if (object == null)
 			Logger.info("Attention la propriété '" + key + "' n'existe pas !", LogType.WARNING);
-		return object != null && object instanceof Long ? (long) object : 0;
+		return object != null && object instanceof Long ? (long) object
+				: object != null && object instanceof Integer ? (int) object : -1l;
 	}
 
 }
