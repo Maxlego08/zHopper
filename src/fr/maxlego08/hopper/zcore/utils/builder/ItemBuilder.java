@@ -89,7 +89,7 @@ public class ItemBuilder extends ZUtils implements Cloneable {
 	public ItemBuilder addLine(String format, Object... args) {
 		if (lore == null)
 			lore = new ArrayList<>();
-		lore.add(String.format(format, args));
+		lore.add(args.length == 0 ? format : String.format(format, args));
 		return this;
 	}
 

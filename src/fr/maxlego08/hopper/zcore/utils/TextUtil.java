@@ -36,6 +36,12 @@ public class TextUtil {
 		return name.substring(0, 1).toUpperCase() + name.substring(1);
 	}
 	
+	
+	public static String nameD(String m) {
+		String name =  m.replace("_", " ");
+		return name.substring(0, 1).toUpperCase() + name.substring(1);
+	}
+	
 	/*
 	 * Parse text
 	 */

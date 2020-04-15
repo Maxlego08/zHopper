@@ -36,6 +36,7 @@ import fr.maxlego08.hopper.nbt.NBTManager;
 import fr.maxlego08.hopper.zcore.enums.Message;
 import fr.maxlego08.hopper.zcore.logger.Logger;
 import fr.maxlego08.hopper.zcore.logger.Logger.LogType;
+import fr.maxlego08.hopper.zcore.utils.builder.ItemBuilder;
 import fr.maxlego08.hopper.zcore.utils.loader.LevelLoader;
 import fr.maxlego08.hopper.zcore.utils.loader.Loader;
 import fr.maxlego08.hopper.zcore.utils.storage.Persist;
@@ -165,7 +166,7 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 	public Level getDefaultLevel() {
 		Level level = levels.getOrDefault(1, null);
 		if (level == null) {
-			level = new LevelObject("Premier level", 1, 5, 1, 1, 0, Economy.VAULT, 0, false, false, 0, 0);
+			level = new LevelObject("Premier level", 1, 0, Economy.VAULT, new ItemBuilder(Material.STONE, "§cSomething is rong").build());
 			((LevelObject) level).setHopperManager(this);
 		}
 		return level;
@@ -252,9 +253,38 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 
 		this.levels = new HashMap<>();
 
-		Level level1 = new LevelObject("Premier level", 1, 5, 1, 1, 0, Economy.VAULT, 0, false, false, 0, 0);
-		Level level2 = new LevelObject("Deuxième level", 2, 10, 2, 2, 100, Economy.VAULT, 5, true, false, 5, 1);
-		Level level3 = new LevelObject("Troisième level", 3, 15, 3, 5, 250, Economy.VAULT, 10, true, true, 10, 2);
+		ItemBuilder builder = new ItemBuilder(getMaterial(384), "§eHopper");
+		builder.addLine("§f§l» §eNiveau§8: §6%level%");
+		builder.addLine("§f§l» §eNom§8: §6%name%");
+		builder.addLine("§f§l» §eNombre de containeur§8: §6%maxLink%");
+		builder.addLine("§f§l» §eDistance maximum§8: §6%maxItemPerSecond%");
+		builder.addLine("");
+		builder.addLine("§f§l» §eProchain Niveau§8: §6%nextLevel%");
+		builder.addLine("§f§l» §eNom§8: §6%nextName%");
+		builder.addLine("§f§l» §eNombre de containeur§8: §6%nextMaxLink%");
+		builder.addLine("§f§l» §eDistance maximum§8: §6%nextMaxItemPerSecond%");
+		Level level1 = new LevelObject("Premier level", 1, 0, Economy.VAULT, builder.build());
+		
+		builder = new ItemBuilder(getMaterial(384), "§eHopper");
+		builder.addLine("§f§l» §eNiveau§8: §6%level%");
+		builder.addLine("§f§l» §eNom§8: §6%name%");
+		builder.addLine("§f§l» §eNombre de containeur§8: §6%maxLink%");
+		builder.addLine("§f§l» §eDistance maximum§8: §6%maxItemPerSecond%");
+		builder.addLine("");
+		builder.addLine("§f§l» §eProchain Niveau§8: §6%nextLevel%");
+		builder.addLine("§f§l» §eNom§8: §6%nextName%");
+		builder.addLine("§f§l» §eNombre de containeur§8: §6%nextMaxLink%");
+		builder.addLine("§f§l» §eDistance maximum§8: §6%nextMaxItemPerSecond%");
+		
+		Level level2 = new LevelObject("Deuxième level", 2, 100, Economy.VAULT, builder.build());
+		
+		builder = new ItemBuilder(getMaterial(384), "§eHopper");
+		builder.addLine("§f§l» §eNiveau§8: §6%level%");
+		builder.addLine("§f§l» §eNom§8: §6%name%");
+		builder.addLine("§f§l» §eNombre de containeur§8: §6%maxLink%");
+		builder.addLine("§f§l» §eDistance maximum§8: §6%maxItemPerSecond%");
+		
+		Level level3 = new LevelObject("Troisième level", 3, 250, Economy.VAULT, builder.build());
 
 		((LevelObject) level1).setHopperManager(this);
 		((LevelObject) level2).setHopperManager(this);

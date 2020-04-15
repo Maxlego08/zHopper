@@ -619,7 +619,7 @@ public abstract class ZUtils {
 	 * @return
 	 */
 	protected String name(String string) {
-		return TextUtil.name(string);
+		return TextUtil.nameD(string);
 	}
 
 	/**

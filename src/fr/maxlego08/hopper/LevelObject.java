@@ -3,8 +3,14 @@ package fr.maxlego08.hopper;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.api.HopperManager;
@@ -16,51 +22,38 @@ import fr.maxlego08.hopper.modules.ModuleKillMob;
 import fr.maxlego08.hopper.modules.ModuleLinkContaineur;
 import fr.maxlego08.hopper.modules.ModuleSuction;
 import fr.maxlego08.hopper.zcore.utils.ZUtils;
-import fr.maxlego08.hopper.zcore.utils.builder.ItemBuilder;
 
 public class LevelObject extends ZUtils implements Level {
 
 	private final String name;
 	private final int level;
-	private final int maxDistanceLink;
-	private final int maxDistanceSuction;
-	private final int maxLink;
-	private final int maxItemPerSecond;
-	private final boolean monsterKill;
-	private final boolean passiveKill;
-	private final int maxDistanceKill;
-	private final int maxKillPerSecond;
 	private final long price;
 	private final Economy economy;
+	private final ItemStack itemStack;
 	private HopperManager hopperManager;
 	private List<Module> modules = new ArrayList<Module>();
+	private final transient Map<Integer, Map<String, Object>> defaultProprieties = new HashMap<Integer, Map<String, Object>>();
+	private Map<String, Object> properties = new HashMap<String, Object>();
 
 	/**
 	 * 
 	 * @param name
 	 * @param level
-	 * @param maxDistanceLink
-	 * @param maxLink
-	 * @param maxItemPerSecond
 	 * @param price
 	 * @param economy
+	 * @param itemStack
 	 */
-	public LevelObject(String name, int level, int maxDistanceLink, int maxLink, int maxItemPerSecond, long price,
-			Economy economy, int maxDistanceSuction, boolean monsterKill, boolean passiveKill, int maxDistanceKill,
-			int maxKillPerSecond) {
+	public LevelObject(String name, int level, long price, Economy economy, ItemStack itemStack) {
 		super();
+
+		this.initDefault();
+		this.properties = getProperties(level);
+
 		this.name = name;
 		this.level = level;
-		this.maxDistanceLink = maxDistanceLink;
-		this.maxLink = maxLink;
-		this.maxItemPerSecond = maxItemPerSecond;
 		this.price = price;
 		this.economy = economy;
-		this.maxDistanceSuction = maxDistanceSuction;
-		this.maxDistanceKill = maxDistanceKill;
-		this.passiveKill = passiveKill;
-		this.monsterKill = monsterKill;
-		this.maxKillPerSecond = maxKillPerSecond;
+		this.itemStack = itemStack;
 
 		// On va register les modules en fonction des options du niveau
 
@@ -73,6 +66,70 @@ public class LevelObject extends ZUtils implements Level {
 
 		if (event.isCancelled())
 			modules.clear();
+	}
+
+	/**
+	 * 
+	 * @param name
+	 * @param level
+	 * @param price
+	 * @param economy
+	 * @param itemStack
+	 * @param properties
+	 */
+	public LevelObject(String name, int level, long price, Economy economy, ItemStack itemStack,
+			Map<String, Object> properties) {
+		this(name, level, price, economy, itemStack);
+		this.properties = properties;
+	}
+
+	private void initDefault() {
+		Map<String, Object> properties = new HashMap<String, Object>();
+		properties.put("maxDistanceLink", 5);
+		properties.put("maxLink", 1);
+		properties.put("maxItemPerSecond", 1);
+		properties.put("maxDistanceSuction", 2);
+		properties.put("monsterKill", false);
+		properties.put("passiveKill", false);
+		properties.put("maxDistanceKill", 0);
+		properties.put("maxKillPerSecond", 0);
+		this.defaultProprieties.put(1, properties);
+
+		properties = new HashMap<String, Object>();
+		properties.put("maxDistanceLink", 10);
+		properties.put("maxLink", 2);
+		properties.put("maxItemPerSecond", 2);
+		properties.put("maxDistanceSuction", 5);
+		properties.put("monsterKill", false);
+		properties.put("passiveKill", true);
+		properties.put("maxDistanceKill", 5);
+		properties.put("maxKillPerSecond", 1);
+		this.defaultProprieties.put(2, properties);
+
+		properties = new HashMap<String, Object>();
+		properties.put("maxDistanceLink", 20);
+		properties.put("maxLink", 5);
+		properties.put("maxItemPerSecond", 32);
+		properties.put("maxDistanceSuction", 10);
+		properties.put("monsterKill", true);
+		properties.put("passiveKill", true);
+		properties.put("maxDistanceKill", 10);
+		properties.put("maxKillPerSecond", 3);
+		this.defaultProprieties.put(3, properties);
+
+	}
+
+	/**
+	 * 
+	 * @param level
+	 * @return
+	 */
+	private Map<String, Object> getProperties(int level) {
+		if (!this.defaultProprieties.containsKey(level)) {
+			Map<String, Object> properties = new HashMap<String, Object>();
+			this.defaultProprieties.put(level, properties);
+		}
+		return this.defaultProprieties.get(level);
 	}
 
 	/**
@@ -101,14 +158,14 @@ public class LevelObject extends ZUtils implements Level {
 	 * @return the maxDistanceLink
 	 */
 	public int getMaxDistanceLink() {
-		return maxDistanceLink;
+		return getIntegerAsProperty("maxDistanceLink");
 	}
 
 	/**
 	 * @return the maxLink
 	 */
 	public int getMaxLink() {
-		return maxLink;
+		return getIntegerAsProperty("maxLink");
 	}
 
 	@Override
@@ -117,29 +174,50 @@ public class LevelObject extends ZUtils implements Level {
 	}
 
 	@Override
-	public ItemBuilder build() {
+	public ItemStack build() {
 
 		Level next = next();
 
-		ItemBuilder builder = new ItemBuilder(getMaterial(384), "§eNiveau du hopper");
-		builder.addLine("");
-		builder.addLine("§f§l» §eNiveau du hopper§6 " + getInteger());
-		builder.addLine("§f§l» §eNom du niveau§6 " + getName());
-		builder.addLine("§f§l» §eNombre de container maximum§6 " + getMaxLink());
-		builder.addLine("§f§l» §eDistance maximum de link§6 " + getMaxDistanceLink() + " §eblocks");
+		ItemStack builder = itemStack.clone();
+		ItemMeta itemMeta = builder.getItemMeta();
 
-		if (next != null) {
-			builder.addLine("");
-			builder.addLine("§f§l» §eProchain niveau§b " + next.getInteger());
-			builder.addLine("§f§l» §eNom du niveau§b " + next.getName());
-			builder.addLine("§f§l» §eNombre de container maximum§b " + next.getMaxLink());
-			builder.addLine("§f§l» §eDistance maximum de link§b " + next.getMaxDistanceLink() + " §eblocks");
-			builder.addLine("§f§l» §ePrix§b " + next.getPrice() + next.getEconomy().toCurrency());
+		if (itemMeta.hasDisplayName())
+			itemMeta.setDisplayName(toString(itemMeta.getDisplayName(), next));
+
+		if (itemMeta.hasLore()) {
+			List<String> lore = new ArrayList<>();
+			itemMeta.getLore().forEach(e -> lore.add(toString(e, next)));
+			itemMeta.setLore(lore);
 		}
 
-		builder.addLine("");
-
+		builder.setItemMeta(itemMeta);
 		return builder;
+	}
+
+	/**
+	 * 
+	 * @param string
+	 * @return
+	 */
+	private String toString(String string, Level level) {
+
+		string = string.replace("&", "§");
+		string = string.replace("%level%", String.valueOf(getInteger()));
+		string = string.replace("%name%", getName());
+		string = string.replace("%price%", String.valueOf(getPrice()));
+		string = string.replace("%economy%", getEconomy().toCurrency());
+		for (Entry<String, Object> entry : getProperties().entrySet())
+			string = string.replace("%" + entry.getKey() + "%", entry.getValue().toString());
+
+		if (level != null) {
+			string = string.replace("%nextLevel%", String.valueOf(level.getInteger()));
+			string = string.replace("%nextName%", level.getName());
+			string = string.replace("%nextPrice%", String.valueOf(level.getPrice()));
+			string = string.replace("%nextEconomy%", level.getEconomy().toCurrency());
+			for (Entry<String, Object> entry : level.getProperties().entrySet()) 
+				string = string.replace("%next" + name(entry.getKey()) + "%", entry.getValue().toString());
+		}
+		return string;
 	}
 
 	@Override
@@ -159,7 +237,7 @@ public class LevelObject extends ZUtils implements Level {
 
 	@Override
 	public int getMaxItemPerSecond() {
-		return maxItemPerSecond;
+		return getIntegerAsProperty("maxItemPerSecond");
 	}
 
 	@Override
@@ -170,7 +248,7 @@ public class LevelObject extends ZUtils implements Level {
 	@Override
 	public void run(Hopper hopper) {
 		Collections.sort(modules, Comparator.comparingInt(Module::getPriority));
-		
+
 		Module module;
 		for (Iterator<Module> iterator = modules.iterator(); iterator.hasNext(); module.preRun(hopper, this))
 			module = iterator.next();
@@ -178,32 +256,59 @@ public class LevelObject extends ZUtils implements Level {
 
 	@Override
 	public int getMaxDistanceSuction() {
-		return maxDistanceSuction;
+		return getIntegerAsProperty("maxDistanceSuction");
 	}
 
 	@Override
 	public int getMaxDistanceKill() {
-		return maxDistanceKill;
+		return getIntegerAsProperty("maxDistanceKill");
 	}
 
 	@Override
 	public boolean canKillMonster() {
-		return monsterKill;
+		return getBooleanAsProperty("monsterKill");
 	}
 
 	@Override
 	public boolean canKillPassive() {
-		return passiveKill;
+		return getBooleanAsProperty("passiveKill");
 	}
 
 	@Override
 	public int getMaxKillPerSecond() {
-		return maxKillPerSecond;
+		return getIntegerAsProperty("maxKillPerSecond");
 	}
 
 	@Override
 	public void addModule(Module module) {
 		modules.add(module);
+	}
+
+	@Override
+	public Object getProperty(String key) {
+		return properties.getOrDefault(key, defaultProprieties.getOrDefault(key, null));
+	}
+
+	@Override
+	public int getIntegerAsProperty(String key) {
+		Object object = getProperty(key);
+		return object != null && object instanceof Integer ? (int) object : 0;
+	}
+
+	@Override
+	public boolean getBooleanAsProperty(String key) {
+		Object object = getProperty(key);
+		return object != null && object instanceof Boolean ? (boolean) object : false;
+	}
+
+	@Override
+	public Map<String, Object> getProperties() {
+		return properties;
+	}
+
+	@Override
+	public ItemStack getItemStack() {
+		return itemStack;
 	}
 
 }

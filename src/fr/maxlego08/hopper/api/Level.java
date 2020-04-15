@@ -1,10 +1,12 @@
 package fr.maxlego08.hopper.api;
 
 import java.util.List;
+import java.util.Map;
+
+import org.bukkit.inventory.ItemStack;
 
 import fr.maxlego08.hopper.economy.Economy;
 import fr.maxlego08.hopper.modules.Module;
-import fr.maxlego08.hopper.zcore.utils.builder.ItemBuilder;
 
 public interface Level {
 
@@ -66,7 +68,13 @@ public interface Level {
 	 * 
 	 * @return
 	 */
-	ItemBuilder build();
+	ItemStack build();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	ItemStack getItemStack();
 	
 	/**
 	 * 
@@ -103,6 +111,33 @@ public interface Level {
 	 * @return
 	 */
 	boolean canKillPassive();
+	
+	/**
+	 * 
+	 * @param key
+	 * @return
+	 */
+	Object getProperty(String key);
+	
+	/**
+	 * 
+	 * @param key
+	 * @return
+	 */
+	int getIntegerAsProperty(String key);
+	
+	/**
+	 * 
+	 * @param key
+	 * @return
+	 */
+	boolean getBooleanAsProperty(String key);
+	
+	/**
+	 *
+	 * @return
+	 */
+	Map<String, Object> getProperties();
 	
 	/**
 	 * 
