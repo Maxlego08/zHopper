@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import fr.maxlego08.hopper.HopperPlugin;
+import fr.maxlego08.hopper.command.commands.CommandHopper;
 import fr.maxlego08.hopper.zcore.ZPlugin;
 import fr.maxlego08.hopper.zcore.enums.Message;
 import fr.maxlego08.hopper.zcore.logger.Logger;
@@ -35,6 +36,8 @@ public class CommandManager extends ZUtils implements CommandExecutor {
 
 	public void registerCommands() {
 
+		registerCommand("zhopper", new CommandHopper());
+		
 		main.getLog().log("Loading " + getUniqueCommand() + " commands", LogType.SUCCESS);
 		this.commandChecking();
 	}

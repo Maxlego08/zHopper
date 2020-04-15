@@ -2,6 +2,7 @@ package fr.maxlego08.hopper.zcore.enums;
 
 public enum Permission {
 
+	ZHOPPER_RELOAD("zhopper.reload"),
 	
 	;
 

@@ -2,7 +2,8 @@ package fr.maxlego08.hopper.zcore.enums;
 
 public enum Message {
 
-	PREFIX("§7(§bTemplate§7)"),
+	PREFIX("§8(§ezHopper§8)"),
+	PREFIX_END("§8(§ezHopper§8)", false),
 	
 	TELEPORT_MOVE("§cVous ne devez pas bouger !", false),
 	TELEPORT_MESSAGE("§7Téléportatio dans §3%s §7secondes !", false),
