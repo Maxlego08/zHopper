@@ -31,6 +31,7 @@ import fr.maxlego08.hopper.api.events.HopperSoftDestroyEvent;
 import fr.maxlego08.hopper.api.events.HopperUpgradeEvent;
 import fr.maxlego08.hopper.economy.Economy;
 import fr.maxlego08.hopper.economy.EconomyUtils;
+import fr.maxlego08.hopper.modules.Module;
 import fr.maxlego08.hopper.nbt.NBTManager;
 import fr.maxlego08.hopper.zcore.enums.Message;
 import fr.maxlego08.hopper.zcore.logger.Logger;
@@ -347,6 +348,11 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 
 		}
 
+	}
+
+	@Override
+	public void addModule(Module module) {
+		levels.values().forEach(level -> level.addModule(module));
 	}
 
 }

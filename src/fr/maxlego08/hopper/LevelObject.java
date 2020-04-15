@@ -3,6 +3,7 @@ package fr.maxlego08.hopper;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 import fr.maxlego08.hopper.api.Hopper;
@@ -45,7 +46,8 @@ public class LevelObject extends ZUtils implements Level {
 	 * @param economy
 	 */
 	public LevelObject(String name, int level, int maxDistanceLink, int maxLink, int maxItemPerSecond, long price,
-			Economy economy, int maxDistanceSuction, boolean monsterKill, boolean passiveKill, int maxDistanceKill, int maxKillPerSecond) {
+			Economy economy, int maxDistanceSuction, boolean monsterKill, boolean passiveKill, int maxDistanceKill,
+			int maxKillPerSecond) {
 		super();
 		this.name = name;
 		this.level = level;
@@ -162,13 +164,16 @@ public class LevelObject extends ZUtils implements Level {
 
 	@Override
 	public List<Module> getModules() {
-		return modules;
+		return new ArrayList<>(modules);
 	}
 
 	@Override
 	public void run(Hopper hopper) {
 		Collections.sort(modules, Comparator.comparingInt(Module::getPriority));
-		modules.forEach(module -> module.preRun(hopper, this));
+		
+		Module module;
+		for (Iterator<Module> iterator = modules.iterator(); iterator.hasNext(); module.preRun(hopper, this))
+			module = iterator.next();
 	}
 
 	@Override
@@ -194,6 +199,11 @@ public class LevelObject extends ZUtils implements Level {
 	@Override
 	public int getMaxKillPerSecond() {
 		return maxKillPerSecond;
+	}
+
+	@Override
+	public void addModule(Module module) {
+		modules.add(module);
 	}
 
 }

@@ -88,7 +88,7 @@ public interface Level {
 	
 	/**
 	 * 
-	 * @return
+	 * @return You will get a copy of the list of modules
 	 */
 	List<Module> getModules();
 	
@@ -109,5 +109,11 @@ public interface Level {
 	 * @param hopper
 	 */
 	void run(Hopper hopper);
+	
+	/**
+	 * When you add a module the priorities will be recalculated
+	 * @param module
+	 */
+	void addModule(Module module);
 	
 }

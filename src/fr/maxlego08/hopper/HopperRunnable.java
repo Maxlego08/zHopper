@@ -17,13 +17,12 @@ public class HopperRunnable extends BukkitRunnable {
 	public void run() {
 
 		hopperManager.getHoppers().forEach(hopper -> {
-			
-			hopper.run();
 			if (!hopper.isValid())
 				hopperManager.deleteHopper(hopper);
-			
+			else
+				hopper.run();
 		});
-		
+
 	}
 
 }
