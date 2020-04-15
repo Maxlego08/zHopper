@@ -1178,11 +1178,11 @@ public abstract class ZUtils {
 	 * @param timer
 	 * @return
 	 */
-	protected boolean isCooldown(Hopper player, String cooldown, long timer) {
-		if (CooldownBuilder.isCooldown(cooldown, player)) 
+	protected boolean isCooldown(Hopper hopper, String key, long timer) {
+		if (CooldownBuilder.isCooldown(key, hopper)) 
 			return true;
 		if (timer != 0)
-			CooldownBuilder.addCooldown(cooldown, player, timer);
+			CooldownBuilder.addCooldown(key, hopper, timer);
 		return false;
 	}
 
