@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import fr.maxlego08.hopper.HopperZManager;
 import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.api.Level;
+import fr.maxlego08.hopper.api.events.HopperModuleRunEvent;
 import fr.maxlego08.hopper.zcore.utils.Result;
 import fr.maxlego08.hopper.zcore.utils.ZUtils;
 
@@ -28,6 +29,12 @@ public abstract class Module extends ZUtils {
 	}
 
 	public void preRun(Hopper hopper, Level level) {
+
+		HopperModuleRunEvent event = new HopperModuleRunEvent(hopper, this, runAsync);
+		event.callEvent();
+		if (event.isCancelled())
+			return;
+			
 		if (runAsync)
 			execute(hopper, level);
 		else {
