@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import com.bgsoftware.wildstacker.api.WildStackerAPI;
 
 import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.api.Level;
@@ -16,6 +19,8 @@ import fr.maxlego08.hopper.zcore.utils.Result;
 import fr.maxlego08.hopper.zcore.utils.inventory.Button;
 
 public class ModuleSuction extends Module {
+
+	private final boolean isWildStacker = Bukkit.getPluginManager().isPluginEnabled("WildStacker");
 
 	public ModuleSuction(int priority) {
 		super("Suction", priority);
@@ -33,7 +38,7 @@ public class ModuleSuction extends Module {
 		if (distance <= 0 || world == null)
 			return;
 
-		// On récupère tout les items valides dans un certain rayon
+		// On rï¿½cupï¿½re tout les items valides dans un certain rayon
 		Stream<Item> stream = world.getNearbyEntities(hopper.getLocation(), distance, distance, distance).stream()
 				.filter(entity -> entity instanceof Item && entity.isValid()).map(entity -> (Item) entity);
 		List<Item> items = stream.collect(Collectors.toList());
@@ -42,8 +47,8 @@ public class ModuleSuction extends Module {
 			ItemStack itemStack = item.getItemStack();
 			ItemStack clone = itemStack.clone();
 
-			int defaultAmount = itemStack.getAmount();
-			int amount = itemStack.getAmount();
+			int defaultAmount = getAmount(item);
+			int amount = defaultAmount;
 
 			Result result = getFreeSpaceFor(inventory, itemStack, amount);
 			int freeSpaceInContainer = result.getFreeSpace();
@@ -51,24 +56,46 @@ public class ModuleSuction extends Module {
 			if (freeSpaceInContainer != 0 && freeSpaceInContainer < amount)
 				amount = freeSpaceInContainer;
 
+			int maxAmount = result.getEmptySlot() * 64;
+			if (amount > maxAmount)
+				amount = maxAmount;
+			
 			if (result.getEmptySlot() == 0 && freeSpaceInContainer == 0)
 				return;
 
 			int toRemove = defaultAmount - amount;
 
-			if (toRemove <= 0)
+			if (toRemove == 0)
 				item.remove();
-			else {
-				itemStack.setAmount(toRemove);
-				clone.setAmount(amount);
-			}
+			else
+				setAmount(item, toRemove);
 
+			clone.setAmount(amount);
 			inventory.addItem(clone);
 
 		});
 
 	}
 
+	/**
+	 * 
+	 * @param item
+	 * @return
+	 */
+	private int getAmount(Item item) {
+		if (isWildStacker)
+			return WildStackerAPI.getItemAmount(item);
+		else
+			return item.getItemStack().getAmount();
+	}
+
+	private void setAmount(Item item, int toRemove) {
+		if (isWildStacker)
+			WildStackerAPI.getStackedItem(item).setStackAmount(toRemove, true);
+		else
+			item.getItemStack().setAmount(toRemove);
+	}
+	
 	@Override
 	public boolean isCooldown(Hopper hopper, Level level) {
 		return super.isCooldown(hopper, "modulesuction", level.getLongAsProperty("milliSecondModuleSuction"));
