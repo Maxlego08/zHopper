@@ -1,7 +1,9 @@
 package fr.maxlego08.hopper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Location;
@@ -15,6 +17,7 @@ import fr.maxlego08.hopper.api.HopperManager;
 import fr.maxlego08.hopper.api.Level;
 import fr.maxlego08.hopper.api.events.HopperLinkEvent;
 import fr.maxlego08.hopper.api.events.HopperOpenConfigurationEvent;
+import fr.maxlego08.hopper.modules.Module;
 import fr.maxlego08.hopper.zcore.enums.Inventory;
 import fr.maxlego08.hopper.zcore.enums.Message;
 import fr.maxlego08.hopper.zcore.utils.ZUtils;
@@ -27,6 +30,7 @@ public class HopperObject extends ZUtils implements Hopper {
 	private Location location;
 	private int level = 1;
 	private List<Location> linkedContainers = new ArrayList<>();
+	private Map<String, Boolean> modules = new HashMap<String, Boolean>();
 	private transient Level levelObject;
 	private transient HopperManager hopperManager;
 
@@ -195,6 +199,16 @@ public class HopperObject extends ZUtils implements Hopper {
 	@Override
 	public UUID getUniqueId() {
 		return uuid;
+	}
+
+	@Override
+	public boolean isActive(Module module) {
+		return modules.getOrDefault(module.getName(), true);
+	}
+
+	@Override
+	public void setActive(Module module, boolean active) {
+		modules.put(module.getName(), active);
 	}
 
 }

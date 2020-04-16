@@ -7,11 +7,12 @@ import org.bukkit.block.BlockFace;
 import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.api.Level;
 import fr.maxlego08.hopper.save.Config;
+import fr.maxlego08.hopper.zcore.utils.inventory.Button;
 
 public class ModuleBlockBreak extends Module {
 
 	public ModuleBlockBreak(int priority) {
-		super(priority);
+		super("BlockBreak", priority);
 		runAsync = false;
 	}
 
@@ -41,6 +42,11 @@ public class ModuleBlockBreak extends Module {
 	@Override
 	public boolean isCooldown(Hopper hopper, Level level) {
 		return super.isCooldown(hopper, "moduleblockbreak", level.getLongAsProperty("milliSecondModuleBlock"));
+	}
+
+	@Override
+	public Button getButton() {
+		return Config.blockButton;
 	}
 
 }

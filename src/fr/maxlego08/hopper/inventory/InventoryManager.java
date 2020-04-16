@@ -29,6 +29,7 @@ public class InventoryManager extends ListenerAdapter {
 	private InventoryManager() {
 
 		addInventory(Inventory.INVENTORY_CONFIGURATION, new InventoryConfiguration());
+		addInventory(Inventory.INVENTORY_MODULE, new InventoryConfiguration());
 
 		plugin.getLog().log("Loading " + inventories.size() + " inventories", LogType.SUCCESS);
 	}

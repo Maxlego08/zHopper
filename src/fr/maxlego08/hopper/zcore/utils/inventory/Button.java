@@ -1,5 +1,6 @@
 package fr.maxlego08.hopper.zcore.utils.inventory;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.inventory.ItemStack;
@@ -9,33 +10,32 @@ import fr.maxlego08.hopper.zcore.utils.ZUtils;
 
 public class Button extends ZUtils {
 
+	private final int slot;
 	private final String name;
 	private final int item;
 	private final int data;
 	private final List<String> lore;
-	private int category;
 
-
-	public Button(String name, int item, int data, List<String> lore) {
+	public Button(int slot, String name, int item, int data, String... lore) {
+		super();
+		this.slot = slot;
 		this.name = name;
+		this.item = item;
+		this.data = data;
+		this.lore = Arrays.asList(lore);
+	}
+
+	public Button(int slot, String name, int item, int data, List<String> lore) {
+		super();
+		this.slot = slot;
+		this.name = name;
+		this.item = item;
+		this.data = data;
 		this.lore = lore;
-		this.item = item;
-		this.data = data;
 	}
 
-	public Button(String name, int item, int data) {
-		this.name = name;
-		this.item = item;
-		this.data = data;
-		this.lore = null;
-	}
-
-	public Button(String name, int item, int data, int category) {
-		this.name = name;
-		this.item = item;
-		this.category = category;
-		this.data = data;
-		this.lore = null;
+	public int getSlot() {
+		return slot;
 	}
 
 	public String getName() {
@@ -52,21 +52,6 @@ public class Button extends ZUtils {
 
 	public int getItemInInteger() {
 		return item;
-	}
-
-	/**
-	 * @return the category
-	 */
-	public int getCategory() {
-		return category;
-	}
-
-	/**
-	 * @param category
-	 *            the category to set
-	 */
-	public void setCategory(int category) {
-		this.category = category;
 	}
 
 	@SuppressWarnings("deprecation")
@@ -102,17 +87,6 @@ public class Button extends ZUtils {
 			itemM.setLore(getLore());
 		item.setItemMeta(itemM);
 		return item;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Button [name=" + name + ", item=" + item + ", data=" + data + ", lore=" + lore + ", category="
-				+ category + "]";
 	}
 
 }

@@ -13,16 +13,19 @@ import fr.maxlego08.hopper.api.Level;
 import fr.maxlego08.hopper.api.events.HopperModuleRunEvent;
 import fr.maxlego08.hopper.zcore.utils.Result;
 import fr.maxlego08.hopper.zcore.utils.ZUtils;
+import fr.maxlego08.hopper.zcore.utils.inventory.Button;
 
 public abstract class Module extends ZUtils {
 
+	private final String name;
 	private final int priority;
 	protected boolean runAsync = true;
 	protected Map<Hopper, Long> cooldows = new HashMap<Hopper, Long>();
 
-	public Module(int priority) {
+	public Module(String name, int priority) {
 		super();
 		this.priority = priority;
+		this.name = name;
 	}
 
 	/**
@@ -32,6 +35,10 @@ public abstract class Module extends ZUtils {
 		return priority;
 	}
 
+	public String getName() {
+		return name;
+	}
+	
 	public void preRun(Hopper hopper, Level level) {
 
 		if (isCooldown(hopper, level))
@@ -64,6 +71,12 @@ public abstract class Module extends ZUtils {
 	 * @return
 	 */
 	public abstract boolean isCooldown(Hopper hopper, Level level);
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public abstract Button getButton();
 	
 	/**
 	 * Get max space in inventory

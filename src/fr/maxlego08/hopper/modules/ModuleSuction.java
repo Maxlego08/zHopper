@@ -11,12 +11,14 @@ import org.bukkit.inventory.ItemStack;
 
 import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.api.Level;
+import fr.maxlego08.hopper.save.Config;
 import fr.maxlego08.hopper.zcore.utils.Result;
+import fr.maxlego08.hopper.zcore.utils.inventory.Button;
 
 public class ModuleSuction extends Module {
 
 	public ModuleSuction(int priority) {
-		super(priority);
+		super("Suction", priority);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -70,6 +72,11 @@ public class ModuleSuction extends Module {
 	@Override
 	public boolean isCooldown(Hopper hopper, Level level) {
 		return super.isCooldown(hopper, "modulesuction", level.getLongAsProperty("milliSecondModuleSuction"));
+	}
+
+	@Override
+	public Button getButton() {
+		return Config.suctionButton;
 	}
 
 }

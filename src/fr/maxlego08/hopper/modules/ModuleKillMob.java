@@ -12,11 +12,13 @@ import org.bukkit.entity.Player;
 
 import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.api.Level;
+import fr.maxlego08.hopper.save.Config;
+import fr.maxlego08.hopper.zcore.utils.inventory.Button;
 
 public class ModuleKillMob extends Module {
 
 	public ModuleKillMob(int priority) {
-		super(priority);
+		super("KillMob", priority);
 		runAsync = false;
 	}
 
@@ -63,5 +65,10 @@ public class ModuleKillMob extends Module {
 	@Override
 	public boolean isCooldown(Hopper hopper, Level level) {
 		return super.isCooldown(hopper, "modulekillmob", level.getLongAsProperty("milliSecondModuleKill"));
+	}
+
+	@Override
+	public Button getButton() {
+		return Config.killButton;
 	}
 }

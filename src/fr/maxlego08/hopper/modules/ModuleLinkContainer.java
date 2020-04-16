@@ -9,12 +9,14 @@ import org.bukkit.inventory.ItemStack;
 
 import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.api.Level;
+import fr.maxlego08.hopper.save.Config;
 import fr.maxlego08.hopper.zcore.utils.Result;
+import fr.maxlego08.hopper.zcore.utils.inventory.Button;
 
 public class ModuleLinkContainer extends Module {
 
 	public ModuleLinkContainer(int p) {
-		super(p);
+		super("Container", p);
 	}
 
 	@Override
@@ -123,6 +125,11 @@ public class ModuleLinkContainer extends Module {
 	@Override
 	public boolean isCooldown(Hopper hopper, Level level) {
 		return super.isCooldown(hopper, "modulecontainer", level.getLongAsProperty("milliSecondModuleItem"));
+	}
+
+	@Override
+	public Button getButton() {
+		return Config.linkButton;
 	}
 	
 }
