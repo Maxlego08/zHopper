@@ -13,6 +13,7 @@ import fr.maxlego08.hopper.api.Level;
 import fr.maxlego08.hopper.exceptions.InventoryOpenException;
 import fr.maxlego08.hopper.inventory.InventoryResult;
 import fr.maxlego08.hopper.inventory.VInventory;
+import fr.maxlego08.hopper.zcore.enums.Inventory;
 import fr.maxlego08.hopper.zcore.utils.builder.ItemBuilder;
 
 public class InventoryConfiguration extends VInventory {
@@ -45,6 +46,11 @@ public class InventoryConfiguration extends VInventory {
 		builder.addLine("§f§l» §eClique pour relier un containeur.");
 		builder.addLine("");
 		addItem(11, builder).setClick(event -> manager.linkHopper(player, hopper));
+
+		builder = new ItemBuilder(Material.BEACON, "§eModules");
+		addItem(15, builder).setClick(event -> {
+			createInventory(player, Inventory.INVENTORY_MODULE.getId(), page, hopper);
+		});
 
 		return InventoryResult.SUCCESS;
 	}

@@ -14,6 +14,7 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import fr.maxlego08.hopper.exceptions.InventoryAlreadyExistException;
 import fr.maxlego08.hopper.exceptions.InventoryOpenException;
 import fr.maxlego08.hopper.inventory.inventories.InventoryConfiguration;
+import fr.maxlego08.hopper.inventory.inventories.InventoryModule;
 import fr.maxlego08.hopper.listener.ListenerAdapter;
 import fr.maxlego08.hopper.zcore.ZPlugin;
 import fr.maxlego08.hopper.zcore.enums.Inventory;
@@ -29,7 +30,7 @@ public class InventoryManager extends ListenerAdapter {
 	private InventoryManager() {
 
 		addInventory(Inventory.INVENTORY_CONFIGURATION, new InventoryConfiguration());
-		addInventory(Inventory.INVENTORY_MODULE, new InventoryConfiguration());
+		addInventory(Inventory.INVENTORY_MODULE, new InventoryModule());
 
 		plugin.getLog().log("Loading " + inventories.size() + " inventories", LogType.SUCCESS);
 	}
@@ -46,6 +47,7 @@ public class InventoryManager extends ListenerAdapter {
 	}
 
 	public void createInventory(int id, Player player, int page, Object... objects) {
+		
 		VInventory inventory = getInventory(id);
 		if (inventory == null) {
 			message(player, Message.INVENTORY_CLONE_NULL, id);
