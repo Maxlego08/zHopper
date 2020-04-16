@@ -30,8 +30,8 @@ public class ModuleBlockBreak extends Module {
 
 		Block block = location.getBlock().getRelative(BlockFace.UP);
 		for (int a = 0; a != nb; a++) {
-			String type = block.getType().name().toLowerCase();
-			if (Config.blacklistBlockBreak.stream().filter(bl -> type.equalsIgnoreCase(type)).findAny().isPresent())
+
+			if (!Config.isBlacklist(block))
 				block.breakNaturally();
 			block = block.getRelative(BlockFace.UP);
 		}
