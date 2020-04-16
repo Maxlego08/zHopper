@@ -18,6 +18,7 @@ import fr.maxlego08.hopper.api.Level;
 import fr.maxlego08.hopper.api.events.HopperModuleRegisterEvent;
 import fr.maxlego08.hopper.economy.Economy;
 import fr.maxlego08.hopper.modules.Module;
+import fr.maxlego08.hopper.modules.ModuleBlockBreak;
 import fr.maxlego08.hopper.modules.ModuleKillMob;
 import fr.maxlego08.hopper.modules.ModuleLinkContainer;
 import fr.maxlego08.hopper.modules.ModuleSuction;
@@ -62,6 +63,7 @@ public class LevelObject extends ZUtils implements Level {
 		modules.add(new ModuleSuction(1));
 		modules.add(new ModuleLinkContainer(2));
 		modules.add(new ModuleKillMob(3));
+		modules.add(new ModuleBlockBreak(4));
 
 		HopperModuleRegisterEvent event = new HopperModuleRegisterEvent(modules, this);
 		event.callEvent();
@@ -82,7 +84,6 @@ public class LevelObject extends ZUtils implements Level {
 	public LevelObject(String name, int level, long price, Economy economy, ItemStack itemStack,
 			Map<String, Object> properties) {
 		this(name, level, price, economy, itemStack);
-		System.out.println(properties);
 		this.properties = properties;
 	}
 
@@ -99,6 +100,8 @@ public class LevelObject extends ZUtils implements Level {
 		properties.put("milliSecondModuleItem", 1000);
 		properties.put("milliSecondModuleSuction", 1000);
 		properties.put("milliSecondModuleKill", 1000);
+		properties.put("milliSecondModuleBlock", 1000);
+		properties.put("maxDistanceBlock", 1);
 		this.defaultProprieties.put(1, properties);
 
 		properties = new HashMap<String, Object>();
@@ -113,6 +116,8 @@ public class LevelObject extends ZUtils implements Level {
 		properties.put("milliSecondModuleItem", 1000);
 		properties.put("milliSecondModuleSuction", 1000);
 		properties.put("milliSecondModuleKill", 1000);
+		properties.put("milliSecondModuleBlock", 1000);
+		properties.put("maxDistanceBlock", 2);
 		this.defaultProprieties.put(2, properties);
 
 		properties = new HashMap<String, Object>();
@@ -127,6 +132,8 @@ public class LevelObject extends ZUtils implements Level {
 		properties.put("milliSecondModuleItem", 1000);
 		properties.put("milliSecondModuleSuction", 1000);
 		properties.put("milliSecondModuleKill", 1000);
+		properties.put("milliSecondModuleBlock", 1000);
+		properties.put("maxDistanceBlock", 3);
 		this.defaultProprieties.put(3, properties);
 
 	}
