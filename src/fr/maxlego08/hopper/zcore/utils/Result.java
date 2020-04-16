@@ -25,4 +25,14 @@ public class Result {
 		return freeSpace;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Result [emptySlot=" + emptySlot + ", freeSpace=" + freeSpace + "]";
+	}
+
 }
