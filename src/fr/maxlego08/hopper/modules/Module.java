@@ -38,17 +38,25 @@ public abstract class Module extends ZUtils {
 	public String getName() {
 		return name;
 	}
-	
+
+	/**
+	 * 
+	 * @param hopper
+	 * @param level
+	 */
 	public void preRun(Hopper hopper, Level level) {
+
+		if (!hopper.isActive(this))
+			return;
 
 		if (isCooldown(hopper, level))
 			return;
-		
+
 		HopperModuleRunEvent event = new HopperModuleRunEvent(hopper, this, runAsync);
 		event.callEvent();
 		if (event.isCancelled())
 			return;
-			
+
 		if (runAsync)
 			execute(hopper, level);
 		else {
@@ -71,13 +79,13 @@ public abstract class Module extends ZUtils {
 	 * @return
 	 */
 	public abstract boolean isCooldown(Hopper hopper, Level level);
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	public abstract Button getButton();
-	
+
 	/**
 	 * Get max space in inventory
 	 * 

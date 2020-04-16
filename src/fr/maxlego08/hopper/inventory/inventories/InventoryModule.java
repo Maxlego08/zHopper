@@ -10,6 +10,9 @@ import fr.maxlego08.hopper.api.Level;
 import fr.maxlego08.hopper.exceptions.InventoryOpenException;
 import fr.maxlego08.hopper.inventory.InventoryResult;
 import fr.maxlego08.hopper.inventory.VInventory;
+import fr.maxlego08.hopper.save.Config;
+import fr.maxlego08.hopper.zcore.enums.Inventory;
+import fr.maxlego08.hopper.zcore.enums.Message;
 import fr.maxlego08.hopper.zcore.utils.inventory.Button;
 
 public class InventoryModule extends VInventory {
@@ -29,9 +32,17 @@ public class InventoryModule extends VInventory {
 
 		level.getModules().forEach(module -> {
 			Button button = module.getButton();
-			addItem(button.getSlot(), button.getInitButton()).setClick(event -> {
-
+			Message status = hopper.isActive(module) ? Message.CLIKC_TO_DISABLE : Message.CLIKC_TO_ENABLE;
+			addItem(button.getSlot(), button.getInitButton("%status%", status.getMessage())).setClick(event -> {
+				hopper.setActive(module, !hopper.isActive(module));
+				Message message = hopper.isActive(module) ? Message.CLIKC_TO_DISABLE : Message.CLIKC_TO_ENABLE;
+				inventory.setItem(button.getSlot(), button.getInitButton("%status%", message.getMessage()));
 			});
+		});
+		
+		Button button = Config.backButton;
+		addItem(button.getSlot(), button.getInitButton()).setClick(event -> {
+			createInventory(player, Inventory.INVENTORY_CONFIGURATION.getId(), page, hopper);
 		});
 
 		return InventoryResult.SUCCESS;

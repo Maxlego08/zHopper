@@ -1,5 +1,6 @@
 package fr.maxlego08.hopper.zcore.utils.inventory;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -83,8 +84,11 @@ public class Button extends ZUtils {
 		ItemMeta itemM = item.getItemMeta();
 		if (hasName())
 			itemM.setDisplayName(getName().replace(type, replace));
-		if (hasLore())
-			itemM.setLore(getLore());
+		if (hasLore()) {
+			List<String> lore = new ArrayList<String>();
+			getLore().forEach(line -> lore.add(line.replace(type, replace)));
+			itemM.setLore(lore);
+		}
 		item.setItemMeta(itemM);
 		return item;
 	}

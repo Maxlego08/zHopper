@@ -61,13 +61,13 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 		this.plugin = plugin;
 	}
 
-	public void run(){
+	public void run() {
 		if (runnable != null)
 			return;
 		this.runnable = new HopperRunnable(this);
 		this.runnable.runTaskTimerAsynchronously(plugin, Config.taskTickPerSecond, Config.taskTickPerSecond);
 	}
-	
+
 	/**
 	 * 
 	 * @return plugin
@@ -172,7 +172,8 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 	public Level getDefaultLevel() {
 		Level level = levels.getOrDefault(1, null);
 		if (level == null) {
-			level = new LevelObject("Premier level", 1, 0, Economy.VAULT, new ItemBuilder(Material.STONE, "§cSomething is rong").build());
+			level = new LevelObject("Premier level", 1, 0, Economy.VAULT,
+					new ItemBuilder(Material.STONE, "§cSomething is rong").build());
 			((LevelObject) level).setHopperManager(this);
 		}
 		return level;
@@ -270,7 +271,7 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 		builder.addLine("§f§l» §eNombre de containeur§8: §6%nextMaxLink%");
 		builder.addLine("§f§l» §eDistance maximum§8: §6%nextMaxItemPerSecond%");
 		Level level1 = new LevelObject("Premier level", 1, 0, Economy.VAULT, builder.build());
-		
+
 		builder = new ItemBuilder(getMaterial(384), "§eHopper");
 		builder.addLine("§f§l» §eNiveau§8: §6%level%");
 		builder.addLine("§f§l» §eNom§8: §6%name%");
@@ -281,15 +282,15 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 		builder.addLine("§f§l» §eNom§8: §6%nextName%");
 		builder.addLine("§f§l» §eNombre de containeur§8: §6%nextMaxLink%");
 		builder.addLine("§f§l» §eDistance maximum§8: §6%nextMaxItemPerSecond%");
-		
+
 		Level level2 = new LevelObject("Deuxième level", 2, 100, Economy.VAULT, builder.build());
-		
+
 		builder = new ItemBuilder(getMaterial(384), "§eHopper");
 		builder.addLine("§f§l» §eNiveau§8: §6%level%");
 		builder.addLine("§f§l» §eNom§8: §6%name%");
 		builder.addLine("§f§l» §eNombre de containeur§8: §6%maxLink%");
 		builder.addLine("§f§l» §eDistance maximum§8: §6%maxItemPerSecond%");
-		
+
 		Level level3 = new LevelObject("Troisième level", 3, 250, Economy.VAULT, builder.build());
 
 		((LevelObject) level1).setHopperManager(this);
@@ -375,8 +376,7 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 
 			linkeds.remove(player);
 
-			if (blockState instanceof Chest || blockState instanceof Dropper || blockState instanceof Furnace
-					|| blockState instanceof Dispenser) {
+			if (blockState instanceof Chest) {
 				event.setCancelled(true);
 				hopper.linkContainer(player, block);
 			} else

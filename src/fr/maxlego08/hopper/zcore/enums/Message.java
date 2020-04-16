@@ -41,6 +41,9 @@ public enum Message {
 	HOPPER_LINK_ERROR_DISTANCE("§cVous devez être a moins de §f%s§c bloc de votre hopper pour le lier."), 
 	HOPPER_LINK_ERROR_ALREADY_LINK("§cVous avez déjà relié le ce block."), 
 	
+	CLIKC_TO_ENABLE("§aClick to enable"),
+	CLIKC_TO_DISABLE("§cClick to disable"),
+	
 	PLAYERPOINT_CURRENCY("P"),
 	VAULT_CURRENCY("$"),
 	TOKENMANAGER_CURRENCY("T"),
