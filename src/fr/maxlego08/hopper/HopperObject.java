@@ -103,11 +103,17 @@ public class HopperObject extends ZUtils implements Hopper {
 	@Override
 	public void openConfiguration(Player player) {
 
-		HopperOpenConfigurationEvent event = new HopperOpenConfigurationEvent(this, player);
+		HopperOpenConfigurationEvent event = new HopperOpenConfigurationEvent(this, player,
+				player.getUniqueId().equals(owner));
 		event.callEvent();
 
 		if (event.isCancelled())
 			return;
+
+		if (!event.isOwner()) {
+			message(player, Message.HOPPER_OPEN_ERROR);
+			return;
+		}
 
 		createInventory(player, Inventory.INVENTORY_CONFIGURATION, this);
 	}
@@ -161,11 +167,11 @@ public class HopperObject extends ZUtils implements Hopper {
 			return;
 		}
 
-		if (linkedContainers.contains(block.getLocation())){
+		if (linkedContainers.contains(block.getLocation())) {
 			message(player, Message.HOPPER_LINK_ERROR_ALREADY_LINK);
 			return;
 		}
-		
+
 		HopperLinkEvent event = new HopperLinkEvent(player, this, block);
 		event.callEvent();
 

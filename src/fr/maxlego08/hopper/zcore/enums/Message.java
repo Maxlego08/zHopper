@@ -40,6 +40,7 @@ public enum Message {
 	HOPPER_LINK_ERROR_CONTAINER("§cVous devez cliquer sur un §fcontaineur §cet non sur un bloc normal."), 
 	HOPPER_LINK_ERROR_DISTANCE("§cVous devez être a moins de §f%s§c bloc de votre hopper pour le lier."), 
 	HOPPER_LINK_ERROR_ALREADY_LINK("§cVous avez déjà relié le ce block."), 
+	HOPPER_OPEN_ERROR("§cOnly the owner of the hopper can open it."), 
 	
 	CLIKC_TO_ENABLE("§aClick to enable"),
 	CLIKC_TO_DISABLE("§cClick to disable"),
