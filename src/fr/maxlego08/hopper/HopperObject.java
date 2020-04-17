@@ -161,6 +161,11 @@ public class HopperObject extends ZUtils implements Hopper {
 		if (location == null)
 			return;
 
+		if (!block.getWorld().equals(location.getWorld())) {
+			message(player, Message.HOPPER_LINK_ERROR_WORLD);
+			return;
+		}
+
 		if (!block.getLocation().getWorld().equals(location.getWorld())
 				|| block.getLocation().distance(location) > toLevel().getMaxDistanceLink()) {
 			message(player, Message.HOPPER_LINK_ERROR_DISTANCE, toLevel().getMaxDistanceLink());

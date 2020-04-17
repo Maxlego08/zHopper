@@ -37,6 +37,7 @@ public enum Message {
 	HOPPER_LINK_ERROR("§cYou can no longer connect other chest."), 
 	HOPPER_LINK_SUCCESS("§aYou just connected your hopper."), 
 	HOPPER_LINK_ERROR_ALREADY("§cYou are already connecting a hopper with a chest."), 
+	HOPPER_LINK_ERROR_WORLD("§cYou must be in the same world to connect your hopper.."), 
 	HOPPER_LINK_ERROR_CONTAINER("§cYou must click on a §fchest§c."), 
 	HOPPER_LINK_ERROR_DISTANCE("§cYou must be less than §f%s§c block your hopper to link it."), 
 	HOPPER_LINK_ERROR_ALREADY_LINK("§cYou have already linked this block."), 
