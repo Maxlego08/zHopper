@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import fr.maxlego08.hopper.api.Hopper;
+import fr.maxlego08.hopper.save.Config;
 import fr.maxlego08.hopper.zcore.utils.ZUtils;
 
 public class Button extends ZUtils {
@@ -87,6 +90,29 @@ public class Button extends ZUtils {
 		if (hasLore()) {
 			List<String> lore = new ArrayList<String>();
 			getLore().forEach(line -> lore.add(line.replace(type, replace)));
+			itemM.setLore(lore);
+		}
+		item.setItemMeta(itemM);
+		return item;
+	}
+
+	public ItemStack getButton(Hopper hopper) {
+
+		ItemStack item = getItem();
+		ItemMeta itemM = item.getItemMeta();
+		if (hasName())
+			itemM.setDisplayName(getName().replace("%amount%", String.valueOf(hopper.getLinkedContainers().size())));
+		if (hasLore()) {
+			List<String> lore = new ArrayList<String>();
+			getLore().forEach(line -> {
+				if (line.equalsIgnoreCase("%chestLocations%")) {
+					for (Location location : hopper.getLinkedContainers())
+						lore.add(Config.linkedChestLine.replace("%x%", String.valueOf(location.getBlockX()))
+								.replace("%z%", String.valueOf(location.getBlockZ()))
+								.replace("%y%", String.valueOf(location.getBlockY())));
+				} else
+					lore.add(line.replace("%amount%", String.valueOf(hopper.getLinkedContainers().size())));
+			});
 			itemM.setLore(lore);
 		}
 		item.setItemMeta(itemM);

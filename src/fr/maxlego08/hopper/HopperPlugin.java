@@ -10,6 +10,7 @@ import fr.maxlego08.hopper.save.Config;
 import fr.maxlego08.hopper.save.Lang;
 import fr.maxlego08.hopper.zcore.ZPlugin;
 import fr.maxlego08.hopper.zcore.logger.Logger.LogType;
+import fr.maxlego08.hopper.zcore.utils.Metrics;
 
 /**
  * System to create your plugins very simply Projet:
@@ -47,9 +48,9 @@ public class HopperPlugin extends ZPlugin {
 		addListener(inventoryManager);
 		addListener(hopperListener);
 
-		if (!hookPlayerPoints()) 
+		if (!hookPlayerPoints())
 			getLog().log("Playerpoint loading done successfully", LogType.SUCCESS);
-		
+
 		/* Add Saver */
 
 		addSave(Config.getInstance());
@@ -59,7 +60,9 @@ public class HopperPlugin extends ZPlugin {
 		getSavers().forEach(saver -> saver.load(getPersist()));
 
 		hopperManager.run();
-		
+
+		new Metrics(this);
+
 		postEnable();
 
 	}

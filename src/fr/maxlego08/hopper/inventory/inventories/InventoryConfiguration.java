@@ -1,7 +1,5 @@
 package fr.maxlego08.hopper.inventory.inventories;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -13,8 +11,9 @@ import fr.maxlego08.hopper.api.Level;
 import fr.maxlego08.hopper.exceptions.InventoryOpenException;
 import fr.maxlego08.hopper.inventory.InventoryResult;
 import fr.maxlego08.hopper.inventory.VInventory;
+import fr.maxlego08.hopper.save.Config;
 import fr.maxlego08.hopper.zcore.enums.Inventory;
-import fr.maxlego08.hopper.zcore.utils.builder.ItemBuilder;
+import fr.maxlego08.hopper.zcore.utils.inventory.Button;
 
 public class InventoryConfiguration extends VInventory {
 
@@ -26,29 +25,18 @@ public class InventoryConfiguration extends VInventory {
 		HopperManager manager = hopper.getManager();
 		Level level = hopper.toLevel();
 
-		createInventory("§7Hopper", 27);
+		createInventory(Config.inventoryHopperName, Config.inventoryHopperSize);
 
-		addItem(4, level.build()).setClick(event -> manager.updateLevel(hopper, player));
+		addItem(Config.hopperInformationSlot, level.build()).setClick(event -> manager.updateLevel(hopper, player));
 
-		ItemBuilder builder = new ItemBuilder(Material.BARRIER, "§cRécupérer le hopper");
-		builder.addLine("");
-		builder.addLine("§f§l» §cClique pour récupérer le hopper");
-		builder.addLine("");
-		addItem(22, builder).setClick(event -> manager.destroyHopper(player, hopper));
+		Button button = Config.removeHopperButton;
+		addItem(button.getSlot(), button.getInitButton()).setClick(event -> manager.destroyHopper(player, hopper));
 
-		builder = new ItemBuilder(Material.CHEST, "§eContaineurs reliés");
-		builder.addLine("");
-		builder.addLine("§f§l» §eNombre de containeur relié: §6" + hopper.getLinkedContainers().size());
-		for (Location location : hopper.getLinkedContainers())
-			builder.addLine(
-					"§f§l» §e" + location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ());
-		builder.addLine("");
-		builder.addLine("§f§l» §eClique pour relier un containeur.");
-		builder.addLine("");
-		addItem(11, builder).setClick(event -> manager.linkHopper(player, hopper));
+		button = Config.linkedChestButton;
+		addItem(button.getSlot(), button.getButton(hopper)).setClick(event -> manager.linkHopper(player, hopper));
 
-		builder = new ItemBuilder(Material.BEACON, "§eModules");
-		addItem(15, builder).setClick(event -> {
+		button = Config.moduleConfigurationButton;
+		addItem(button.getSlot(), button.getInitButton()).setClick(event -> {
 			createInventory(player, Inventory.INVENTORY_MODULE.getId(), page, hopper);
 		});
 
