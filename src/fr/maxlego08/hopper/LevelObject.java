@@ -343,4 +343,25 @@ public class LevelObject extends ZUtils implements Level {
 				: object != null && object instanceof Integer ? (int) object : -1l;
 	}
 
+	@Override
+	public void addProperty(String key, Object value) {
+		properties.put(key, value);
+	}
+
+	@Override
+	public void addPropertyIfAbsent(String key, Object value) {
+		properties.putIfAbsent(key, value);
+	}
+
+	@Override
+	public void removeProperty(String key) {
+		if (!isDefaultProperty(key))
+			properties.remove(key);
+	}
+
+	@Override
+	public boolean isDefaultProperty(String key) {
+		return defaultProprieties.containsKey(key);
+	}
+
 }

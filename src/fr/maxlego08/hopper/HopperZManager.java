@@ -388,4 +388,19 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 		levels.values().forEach(level -> level.addModule(module));
 	}
 
+	@Override
+	public void addProperty(String key, Object value) {
+		levels.values().forEach(level -> level.addProperty(key, value));
+	}
+
+	@Override
+	public void addPropertyIfAbsent(String key, Object value) {
+		levels.values().forEach(level -> level.addPropertyIfAbsent(key, value));
+	}
+
+	@Override
+	public void removeProperty(String key) {
+		levels.values().forEach(level -> level.removeProperty(key));
+	}
+
 }

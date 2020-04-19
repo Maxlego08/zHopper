@@ -157,4 +157,31 @@ public interface Level {
 	 */
 	void addModule(Module module);
 	
+	/**
+	 * Allows you to add a property in a level, be careful if the property already exists it will be replaced.
+	 * @param key
+	 * @param value
+	 */
+	void addProperty(String key, Object value);
+	
+	/**
+	 * Add a property to a level if it does not exist
+	 * @param key
+	 * @param value
+	 */
+	void addPropertyIfAbsent(String key, Object value);
+	
+	/**
+	 * Allows you to remove a property, be careful if this property is a default then it will not be removed.
+	 * @param key
+	 */
+	void removeProperty(String key);
+
+	/**
+	 * Lets you know if a property is a default
+	 * @param key
+	 * @return
+	 */
+	boolean isDefaultProperty(String key);
+	
 }
