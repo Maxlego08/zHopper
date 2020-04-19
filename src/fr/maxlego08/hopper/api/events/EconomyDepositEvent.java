@@ -1,5 +1,10 @@
 package fr.maxlego08.hopper.api.events;
 
+/**
+ * 
+ * @author Maxlego08
+ *
+ */
 public class EconomyDepositEvent extends EconomyEvent {
 
 	private final String player;

@@ -4,6 +4,11 @@ import org.bukkit.entity.Player;
 
 import fr.maxlego08.hopper.api.Hopper;
 
+/**
+ * 
+ * @author Maxlego08
+ *
+ */
 public class HopperSoftDestroyEvent extends HopperEvent {
 
 	private final Hopper hopper;

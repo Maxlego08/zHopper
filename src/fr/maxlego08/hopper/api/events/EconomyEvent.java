@@ -4,6 +4,11 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+/**
+ * 
+ * @author Maxlego08
+ *
+ */
 public class EconomyEvent extends Event implements Cancellable {
 
 	private final static HandlerList handlers = new HandlerList();

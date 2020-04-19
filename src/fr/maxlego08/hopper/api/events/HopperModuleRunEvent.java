@@ -4,6 +4,11 @@ import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.api.Level;
 import fr.maxlego08.hopper.modules.Module;
 
+/**
+ * 
+ * @author Maxlego08
+ *
+ */
 public class HopperModuleRunEvent extends HopperEvent {
 
 	private final Hopper hopper;

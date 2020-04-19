@@ -2,6 +2,11 @@ package fr.maxlego08.hopper.api.events;
 
 import org.bukkit.entity.Player;
 
+/**
+ * 
+ * @author Maxlego08
+ *
+ */
 public class EconomyWithdrawMoney extends EconomyEvent {
 
 	private final Player player;

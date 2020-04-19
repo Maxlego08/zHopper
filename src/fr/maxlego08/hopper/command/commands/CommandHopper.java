@@ -15,7 +15,8 @@ public class CommandHopper extends VCommand {
 	@Override
 	protected CommandType perform(HopperPlugin main) {
 
-		message(sender, "§6zHopper§e, développé par Maxlego08.");
+		message(sender, "§6zHopper§e, create by Maxlego08");
+		message(sender, "§6WIKI§e: https://github.com/Maxlego08/zHopper-API/wiki");
 
 		return CommandType.SUCCESS;
 	}

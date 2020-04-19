@@ -1,5 +1,10 @@
 package fr.maxlego08.hopper.api.events;
 
+/**
+ * 
+ * @author Maxlego08
+ *
+ */
 public class EconomyCurrencyEvent extends EconomyEvent {
 
 	private String currency = "$";

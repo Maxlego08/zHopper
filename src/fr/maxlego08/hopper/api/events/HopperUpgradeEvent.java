@@ -5,6 +5,11 @@ import org.bukkit.entity.Player;
 import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.api.Level;
 
+/**
+ * 
+ * @author Maxlego08
+ *
+ */
 public class HopperUpgradeEvent extends HopperEvent {
 
 	private final Hopper hopper;

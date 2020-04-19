@@ -5,6 +5,11 @@ import java.util.List;
 import fr.maxlego08.hopper.api.Level;
 import fr.maxlego08.hopper.modules.Module;
 
+/**
+ * 
+ * @author Maxlego08
+ *
+ */
 public class HopperModuleRegisterEvent extends HopperEvent{
 
 	private final List<Module> modules;

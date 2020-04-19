@@ -7,6 +7,11 @@ import org.bukkit.inventory.ItemStack;
 
 import fr.maxlego08.hopper.api.Hopper;
 
+/**
+ * 
+ * @author Maxlego08
+ *
+ */
 public class HopperDestroyEvent extends HopperEvent {
 
 	private final Hopper hopper;
