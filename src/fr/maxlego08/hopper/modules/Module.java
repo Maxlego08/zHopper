@@ -52,7 +52,7 @@ public abstract class Module extends ZUtils {
 		if (isCooldown(hopper, level))
 			return;
 
-		HopperModuleRunEvent event = new HopperModuleRunEvent(hopper, this, runAsync);
+		HopperModuleRunEvent event = new HopperModuleRunEvent(hopper, this, level, runAsync);
 		event.callEvent();
 		if (event.isCancelled())
 			return;
