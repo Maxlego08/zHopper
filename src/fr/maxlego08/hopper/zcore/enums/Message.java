@@ -43,6 +43,8 @@ public enum Message {
 	HOPPER_LINK_ERROR_ALREADY_LINK("§cYou have already linked this block."), 
 	HOPPER_OPEN_ERROR("§cOnly the owner of the hopper can open it."), 
 	
+	HOPPER_RELOAD_CLOSE("§cYour inventory has just been closed automatically."),
+	
 	CLIKC_TO_ENABLE("§aClick to enable"),
 	CLIKC_TO_DISABLE("§cClick to disable"),
 	

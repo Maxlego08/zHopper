@@ -16,9 +16,16 @@ public class Config implements Saveable {
 	public static int inventoryHopperSize = 27;
 	public static String inventoryHopperName = "§eHopper";
 	public static int hopperInformationSlot = 4;
+
+	public static boolean enableModuleSuction = true;
+	public static boolean enableModuleKillMob = true;
+	public static boolean enableModuleLinkChest = true;
+	public static boolean enableModuleItemTransfert = true;
+	public static boolean enableModuleBlockBreak = true;
+	public static boolean closeInventoryOnReload = false;
 	
 	public static List<String> blacklistBlockBreak = new ArrayList<String>();
-	
+
 	public static Button suctionButton = new Button(0, "§eSuction", 154, 0, "§f§l» §eDescription§7:",
 			"  §7Pick up objects in a radius according to the level of the hopper.", "", "§f§l» §e%status%");
 	public static Button killButton = new Button(1, "§eKill", 256, 0, "§f§l» §eDescription§7:",
@@ -29,12 +36,14 @@ public class Config implements Saveable {
 			"  §7Destroys a certain number of blocks above the hopper", "", "§f§l» §e%status%");
 	public static Button backButton = new Button(22, "§cBack to hopper", 166, 0);
 
-	public static Button removeHopperButton = new Button(22, "§cRemove hopper", 166, 0, "", "§f§l» §cClick to remove hopper", "");
-	public static Button linkedChestButton = new Button(11, "§eLinked chest", 54, 0, "", "§f§l» §eAmount of chest link: §6%amount%", "%chestLocations%","","§f§l» §eClick to link an other chest.","");
+	public static Button removeHopperButton = new Button(22, "§cRemove hopper", 166, 0, "",
+			"§f§l» §cClick to remove hopper", "");
+	public static Button linkedChestButton = new Button(11, "§eLinked chest", 54, 0, "",
+			"§f§l» §eAmount of chest link: §6%amount%", "%chestLocations%", "", "§f§l» §eClick to link an other chest.",
+			"");
 	public static Button moduleConfigurationButton = new Button(15, "§eModules", 138, 0);
 	public static String linkedChestLine = "§f§l» §e%x%, %y%, %z%";
-	
-	
+
 	static {
 
 		blacklistBlockBreak.add(Material.BEDROCK.name());
