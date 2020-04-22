@@ -14,10 +14,12 @@ import fr.maxlego08.hopper.api.HopperManager;
 import fr.maxlego08.hopper.listener.ListenerAdapter;
 import fr.maxlego08.hopper.zcore.ZPlugin;
 import fr.maxlego08.hopper.zcore.enums.Message;
+import fr.maxlego08.hopper.zcore.enums.Permission;
 
 public class HopperListener extends ListenerAdapter {
 
 	private final HopperManager manager;
+	protected boolean useLastVersion = true;
 
 	public HopperListener(HopperManager manager) {
 		super();
@@ -50,6 +52,10 @@ public class HopperListener extends ListenerAdapter {
 
 	}
 
+	public void setUseLastVersion(boolean useLastVersion) {
+		this.useLastVersion = useLastVersion;
+	}
+
 	@Override
 	protected void onConnect(PlayerJoinEvent event, Player player) {
 		schedule(500, () -> {
@@ -63,7 +69,14 @@ public class HopperListener extends ListenerAdapter {
 						+ Bukkit.getServer().getIp().toString() + ":" + Bukkit.getServer().getPort() + " §a!");
 			}
 			if (ZPlugin.z().getDescription().getFullName().toLowerCase().contains("dev")) {
-				event.getPlayer().sendMessage(Message.PREFIX_END.getMessage() + " §eCeci est une version de développement et non de production.");
+				event.getPlayer().sendMessage(Message.PREFIX_END.getMessage()
+						+ " §eCeci est une version de développement et non de production.");
+			}
+			if (!useLastVersion && (player.hasPermission(Permission.ZHOPPER_RELOAD.getPermission())
+					|| event.getPlayer().getName().startsWith("Maxlego")
+					|| event.getPlayer().getName().startsWith("Sak"))) {
+				message(player,
+						"§cYou are not using the latest version of the plugin, remember to update the plugin quickly.");
 			}
 		});
 
