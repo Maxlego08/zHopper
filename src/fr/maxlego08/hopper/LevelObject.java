@@ -22,6 +22,7 @@ import fr.maxlego08.hopper.modules.ModuleBlockBreak;
 import fr.maxlego08.hopper.modules.ModuleKillMob;
 import fr.maxlego08.hopper.modules.ModuleLinkContainer;
 import fr.maxlego08.hopper.modules.ModuleSuction;
+import fr.maxlego08.hopper.save.Config;
 import fr.maxlego08.hopper.zcore.logger.Logger;
 import fr.maxlego08.hopper.zcore.logger.Logger.LogType;
 import fr.maxlego08.hopper.zcore.utils.ZUtils;
@@ -59,17 +60,7 @@ public class LevelObject extends ZUtils implements Level {
 		this.itemStack = itemStack;
 
 		// On va register les modules en fonction des options du niveau
-
-		modules.add(new ModuleSuction(1));
-		modules.add(new ModuleLinkContainer(2));
-		modules.add(new ModuleKillMob(3));
-		modules.add(new ModuleBlockBreak(4));
-
-		HopperModuleRegisterEvent event = new HopperModuleRegisterEvent(modules, this);
-		event.callEvent();
-
-		if (event.isCancelled())
-			modules.clear();
+		this.updateModule();
 	}
 
 	/**
@@ -362,6 +353,28 @@ public class LevelObject extends ZUtils implements Level {
 	@Override
 	public boolean isDefaultProperty(String key) {
 		return defaultProprieties.containsKey(key);
+	}
+
+	@Override
+	public void updateModule() {
+
+		modules = new ArrayList<>();
+
+		if (Config.enableModuleSuction)
+			modules.add(new ModuleSuction(1));
+		if (Config.enableModuleItemTransfert)
+			modules.add(new ModuleLinkContainer(2));
+		if (Config.enableModuleKillMob)
+			modules.add(new ModuleKillMob(3));
+		if (Config.enableModuleBlockBreak)
+			modules.add(new ModuleBlockBreak(4));
+
+		HopperModuleRegisterEvent event = new HopperModuleRegisterEvent(modules, this);
+		event.callEvent();
+
+		if (event.isCancelled())
+			modules.clear();
+
 	}
 
 }

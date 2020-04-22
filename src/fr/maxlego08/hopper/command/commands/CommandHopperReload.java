@@ -16,6 +16,8 @@ public class CommandHopperReload extends VCommand {
 	protected CommandType perform(HopperPlugin main) {
 
 		main.getSavers().forEach(load -> load.load(main.getPersist()));
+		main.getHopperManager().updateLevel();
+
 		message(sender, "§aReloaded !");
 
 		return CommandType.SUCCESS;

@@ -32,8 +32,10 @@ public class InventoryConfiguration extends VInventory {
 		Button button = Config.removeHopperButton;
 		addItem(button.getSlot(), button.getInitButton()).setClick(event -> manager.destroyHopper(player, hopper));
 
-		button = Config.linkedChestButton;
-		addItem(button.getSlot(), button.getButton(hopper)).setClick(event -> manager.linkHopper(player, hopper));
+		if (Config.enableModuleLinkChest) {
+			button = Config.linkedChestButton;
+			addItem(button.getSlot(), button.getButton(hopper)).setClick(event -> manager.linkHopper(player, hopper));
+		}
 
 		button = Config.moduleConfigurationButton;
 		addItem(button.getSlot(), button.getInitButton()).setClick(event -> {
