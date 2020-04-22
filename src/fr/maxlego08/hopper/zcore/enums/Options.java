@@ -15,6 +15,8 @@ public enum Options {
 	MODULE_KILL_MOB(Material.DIAMOND_SWORD),
 
 	MODULE_ITEM_TRANSFERT(Material.IRON_INGOT),
+	
+	CLOSE_INVENTORY_ON_RELOAD,
 
 	;
 
@@ -48,6 +50,9 @@ public enum Options {
 		case MODULE_SUCTION:
 			Config.enableModuleSuction = !Config.enableModuleSuction;
 			break;
+		case CLOSE_INVENTORY_ON_RELOAD:
+			Config.closeInventoryOnReload = !Config.closeInventoryOnReload;
+			break;
 		default:
 			break;
 		}
@@ -65,6 +70,8 @@ public enum Options {
 			return Config.enableModuleLinkChest;
 		case MODULE_SUCTION:
 			return Config.enableModuleSuction;
+		case CLOSE_INVENTORY_ON_RELOAD:
+			return Config.closeInventoryOnReload;
 		default:
 			break;
 		}

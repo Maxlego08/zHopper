@@ -22,7 +22,6 @@ public class Config implements Saveable {
 	public static boolean enableModuleLinkChest = true;
 	public static boolean enableModuleItemTransfert = true;
 	public static boolean enableModuleBlockBreak = true;
-
 	public static boolean closeInventoryOnReload = false;
 	
 	public static List<String> blacklistBlockBreak = new ArrayList<String>();
