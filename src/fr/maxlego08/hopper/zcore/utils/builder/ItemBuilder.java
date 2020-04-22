@@ -157,6 +157,9 @@ public class ItemBuilder extends ZUtils implements Cloneable {
 		if (lore != null)
 			meta.setLore(lore);
 
+		if (enchantments != null)
+			enchantments.forEach((e, k) -> meta.addEnchant(e, k, true));
+
 		item.setItemMeta(meta);
 		return item;
 	}

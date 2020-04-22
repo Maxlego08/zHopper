@@ -23,6 +23,8 @@ public class Config implements Saveable {
 	public static boolean enableModuleItemTransfert = true;
 	public static boolean enableModuleBlockBreak = true;
 
+	public static boolean closeInventoryOnReload = false;
+	
 	public static List<String> blacklistBlockBreak = new ArrayList<String>();
 
 	public static Button suctionButton = new Button(0, "§eSuction", 154, 0, "§f§l» §eDescription§7:",

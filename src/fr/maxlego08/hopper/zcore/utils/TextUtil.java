@@ -39,7 +39,7 @@ public class TextUtil {
 	
 	public static String nameD(String m) {
 		String name =  m.replace("_", " ");
-		return name.substring(0, 1).toUpperCase() + name.substring(1);
+		return name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
 	}
 	
 	/*

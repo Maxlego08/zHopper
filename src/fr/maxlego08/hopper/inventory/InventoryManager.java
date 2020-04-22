@@ -13,6 +13,7 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 
 import fr.maxlego08.hopper.exceptions.InventoryAlreadyExistException;
 import fr.maxlego08.hopper.exceptions.InventoryOpenException;
+import fr.maxlego08.hopper.inventory.inventories.InventoryConfig;
 import fr.maxlego08.hopper.inventory.inventories.InventoryConfiguration;
 import fr.maxlego08.hopper.inventory.inventories.InventoryModule;
 import fr.maxlego08.hopper.listener.ListenerAdapter;
@@ -31,6 +32,7 @@ public class InventoryManager extends ListenerAdapter {
 
 		addInventory(Inventory.INVENTORY_CONFIGURATION, new InventoryConfiguration());
 		addInventory(Inventory.INVENTORY_MODULE, new InventoryModule());
+		addInventory(Inventory.INVENTORY_CONFIG, new InventoryConfig());
 
 		plugin.getLog().log("Loading " + inventories.size() + " inventories", LogType.SUCCESS);
 	}
@@ -47,7 +49,7 @@ public class InventoryManager extends ListenerAdapter {
 	}
 
 	public void createInventory(int id, Player player, int page, Object... objects) {
-		
+
 		VInventory inventory = getInventory(id);
 		if (inventory == null) {
 			message(player, Message.INVENTORY_CLONE_NULL, id);
@@ -189,6 +191,35 @@ public class InventoryManager extends ListenerAdapter {
 			}
 		}
 		return instance;
+	}
+
+	public void close() {
+		Iterator<VInventory> iterator = this.playerInventories.values().iterator();
+		while (iterator.hasNext()) {
+			VInventory inventory = iterator.next();
+			inventory.getPlayer().closeInventory();
+			message(inventory.getPlayer(), Message.HOPPER_RELOAD_CLOSE);
+		}
+	}
+
+	/**
+	 * @param id
+	 */
+	public void update() {
+		Iterator<VInventory> iterator = this.playerInventories.values().iterator();
+		while (iterator.hasNext()) {
+			VInventory inventory = iterator.next();
+			Bukkit.getScheduler().runTask(ZPlugin.z(), () -> createInventory(inventory, inventory.getPlayer()));
+		}
+	}
+
+	/**
+	 * @param id
+	 */
+	public void update(Player player) {
+		VInventory inventory = playerInventories.getOrDefault(player, null);
+		if (inventory != null)
+			createInventory(inventory, player);
 	}
 
 }
