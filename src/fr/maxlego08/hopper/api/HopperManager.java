@@ -61,6 +61,12 @@ public interface HopperManager extends Saveable {
 	Level next(int level);
 	
 	/**
+	 * Allows you to retrieve the last level
+	 * @return {@link Level}
+	 */
+	Level getLastLevel();
+	
+	/**
 	 * Allows you to create a new hopper
 	 * 
 	 * @param block
