@@ -17,6 +17,10 @@ public enum Options {
 	MODULE_ITEM_TRANSFERT(Material.IRON_INGOT),
 	
 	CLOSE_INVENTORY_ON_RELOAD,
+	
+	USE_LEVEL_FOR_EVERY_HOPPER,
+	
+	GIVE_CUSTOM_HOPPER_IF_LEVEL_IS_DEFAULT,
 
 	;
 
@@ -53,6 +57,12 @@ public enum Options {
 		case CLOSE_INVENTORY_ON_RELOAD:
 			Config.closeInventoryOnReload = !Config.closeInventoryOnReload;
 			break;
+		case USE_LEVEL_FOR_EVERY_HOPPER:
+			Config.useLevelForEveryHopper = !Config.useLevelForEveryHopper;
+			break;
+		case GIVE_CUSTOM_HOPPER_IF_LEVEL_IS_DEFAULT:
+			Config.giveCustomHopperIfLevelIsDefault = !Config.giveCustomHopperIfLevelIsDefault;
+			break;
 		default:
 			break;
 		}
@@ -72,6 +82,10 @@ public enum Options {
 			return Config.enableModuleSuction;
 		case CLOSE_INVENTORY_ON_RELOAD:
 			return Config.closeInventoryOnReload;
+		case USE_LEVEL_FOR_EVERY_HOPPER:
+			return Config.useLevelForEveryHopper;
+		case GIVE_CUSTOM_HOPPER_IF_LEVEL_IS_DEFAULT:
+			return Config.giveCustomHopperIfLevelIsDefault;
 		default:
 			break;
 		}
