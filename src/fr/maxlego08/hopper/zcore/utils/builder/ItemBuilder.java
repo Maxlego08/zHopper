@@ -93,6 +93,22 @@ public class ItemBuilder extends ZUtils implements Cloneable {
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param string
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	public ItemBuilder addLine(String string, String from, Object to) {
+		if (lore == null)
+			lore = new ArrayList<>();
+		if (from == null || to == null || string == null)
+			return this;
+		lore.add(string.replace(from, to.toString()));
+		return this;
+	}
+
 	public ItemBuilder setFlag(ItemFlag... flags) {
 		this.flags = Arrays.asList(flags);
 		return this;
