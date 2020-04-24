@@ -15,8 +15,10 @@ public enum Options {
 	MODULE_KILL_MOB(Material.DIAMOND_SWORD),
 
 	MODULE_ITEM_TRANSFERT(Material.IRON_INGOT),
-	
+
 	CLOSE_INVENTORY_ON_RELOAD,
+
+	MODULE_AUTO_CRAFT(),
 
 	;
 
@@ -53,6 +55,9 @@ public enum Options {
 		case CLOSE_INVENTORY_ON_RELOAD:
 			Config.closeInventoryOnReload = !Config.closeInventoryOnReload;
 			break;
+		case MODULE_AUTO_CRAFT:
+			Config.enableModuleAutoCraft = !Config.enableModuleAutoCraft;
+			break;
 		default:
 			break;
 		}
@@ -72,6 +77,8 @@ public enum Options {
 			return Config.enableModuleSuction;
 		case CLOSE_INVENTORY_ON_RELOAD:
 			return Config.closeInventoryOnReload;
+		case MODULE_AUTO_CRAFT:
+			return Config.enableModuleAutoCraft;
 		default:
 			break;
 		}

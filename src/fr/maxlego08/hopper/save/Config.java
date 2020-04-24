@@ -22,6 +22,7 @@ public class Config implements Saveable {
 	public static boolean enableModuleLinkChest = true;
 	public static boolean enableModuleItemTransfert = true;
 	public static boolean enableModuleBlockBreak = true;
+	public static boolean enableModuleAutoCraft = true;
 	public static boolean closeInventoryOnReload = false;
 	
 	public static List<String> blacklistBlockBreak = new ArrayList<String>();
@@ -34,6 +35,8 @@ public class Config implements Saveable {
 			"  §7Transfer the items from the hopper to the different chests", "", "§f§l» §e%status%");
 	public static Button blockButton = new Button(3, "§eBlock", 2, 0, "§f§l» §eDescription§7:",
 			"  §7Destroys a certain number of blocks above the hopper", "", "§f§l» §e%status%");
+	public static Button craftButton = new Button(4, "§eCraft", 58, 0, "§f§l» §eDescription§7:",
+			"  §7Craft items automatically", "", "§f§l» §e%status%");
 	public static Button backButton = new Button(22, "§cBack to hopper", 166, 0);
 
 	public static Button removeHopperButton = new Button(22, "§cRemove hopper", 166, 0, "",

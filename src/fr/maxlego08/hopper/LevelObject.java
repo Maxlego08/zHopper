@@ -76,6 +76,7 @@ public class LevelObject extends ZUtils implements Level {
 			Map<String, Object> properties) {
 		this(name, level, price, economy, itemStack);
 		this.properties = properties;
+		getProperties(level).forEach((k, v) -> this.properties.putIfAbsent(k, v));
 	}
 
 	private void initDefault() {
@@ -92,6 +93,7 @@ public class LevelObject extends ZUtils implements Level {
 		properties.put("milliSecondModuleSuction", 1000);
 		properties.put("milliSecondModuleKill", 1000);
 		properties.put("milliSecondModuleBlock", 1000);
+		properties.put("milliSecondModuleAutoCraft", 1000);
 		properties.put("maxDistanceBlock", 1);
 		this.defaultProprieties.put(1, properties);
 
@@ -108,6 +110,7 @@ public class LevelObject extends ZUtils implements Level {
 		properties.put("milliSecondModuleSuction", 1000);
 		properties.put("milliSecondModuleKill", 1000);
 		properties.put("milliSecondModuleBlock", 1000);
+		properties.put("milliSecondModuleAutoCraft", 1000);
 		properties.put("maxDistanceBlock", 2);
 		this.defaultProprieties.put(2, properties);
 
@@ -124,6 +127,7 @@ public class LevelObject extends ZUtils implements Level {
 		properties.put("milliSecondModuleSuction", 1000);
 		properties.put("milliSecondModuleKill", 1000);
 		properties.put("milliSecondModuleBlock", 1000);
+		properties.put("milliSecondModuleAutoCraft", 1000);
 		properties.put("maxDistanceBlock", 3);
 		this.defaultProprieties.put(3, properties);
 

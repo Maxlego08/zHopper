@@ -17,13 +17,11 @@ import fr.maxlego08.hopper.zcore.utils.ItemDecoder;
 
 public class NBTManager {
 
-	private final double version = ItemDecoder.getNMSVersion();
+	public static final double version = ItemDecoder.getNMSVersion();
 	private final NBTListener listener;
 
 	public NBTManager() {
-
 		if (version == 1.8) {
-
 			listener = new NBT1_8();
 		} else if (version == 1.15) {
 			listener = new NBT1_15();
