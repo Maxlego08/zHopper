@@ -42,6 +42,8 @@ public enum Message {
 	HOPPER_LINK_ERROR_DISTANCE("§cYou must be less than §f%s§c block your hopper to link it."), 
 	HOPPER_LINK_ERROR_ALREADY_LINK("§cYou have already linked this block."), 
 	HOPPER_OPEN_ERROR("§cOnly the owner of the hopper can open it."), 
+	HOPPER_GIVE_SENDER("§eYou just gave a hoper to §f%s§e."),
+	HOPPER_GIVE_RECEIVER("§eYou have just received a level §f%s §ehopper."),
 	
 	HOPPER_RELOAD_CLOSE("§cYour inventory has just been closed automatically."),
 	

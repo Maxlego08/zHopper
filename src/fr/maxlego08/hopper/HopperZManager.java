@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
@@ -19,11 +21,14 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
+import fr.maxlego08.hopper.api.FakeHopper;
 import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.api.HopperManager;
 import fr.maxlego08.hopper.api.Level;
 import fr.maxlego08.hopper.api.events.HopperCreateEvent;
 import fr.maxlego08.hopper.api.events.HopperDestroyEvent;
+import fr.maxlego08.hopper.api.events.HopperGiveEvent;
+import fr.maxlego08.hopper.api.events.HopperPreCreateEvent;
 import fr.maxlego08.hopper.api.events.HopperSoftDestroyEvent;
 import fr.maxlego08.hopper.api.events.HopperUpgradeEvent;
 import fr.maxlego08.hopper.economy.Economy;
@@ -112,6 +117,20 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 		if (block == null || !block.getType().equals(Material.HOPPER))
 			return;
 
+		// On verif si le mec peut créer le hopper
+		if (!Config.useLevelForEveryHopper) {
+
+			@SuppressWarnings("deprecation")
+			boolean createHopper = same(player.getItemInHand(), Config.hopperName);
+
+			HopperPreCreateEvent event = new HopperPreCreateEvent(player, block, createHopper);
+			event.callEvent();
+
+			if (event.isCancelled() || !event.isCreateHopper())
+				return;
+
+		}
+
 		Hopper hopper = new HopperObject(player.getUniqueId(), block.getLocation(), this, manager.createHopper(player));
 
 		HopperCreateEvent event = new HopperCreateEvent(hopper, player);
@@ -179,7 +198,7 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 	@Override
 	public void destroyHopper(Player player, Hopper hopper) {
 
-		ItemStack itemStack = manager.dropItem(hopper);
+		ItemStack itemStack = manager.createItemStack(hopper);
 
 		HopperDestroyEvent event = new HopperDestroyEvent(hopper, player, itemStack);
 		event.callEvent();
@@ -406,6 +425,40 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 	@Override
 	public void updateLevel() {
 		levels.values().forEach(level -> level.updateModule());
+	}
+
+	@Override
+	public void giveHopper(CommandSender sender, Player player, int level) {
+
+		Level lastLevel = getLastLevel();
+		level = level < 0 ? 1 : level > lastLevel.getInteger() ? lastLevel.getInteger() : level; 
+		
+		FakeHopper fakeHopper = new HopperFakeObject(this, level);
+		ItemStack itemStack = manager.createItemStack(fakeHopper);
+		
+		HopperGiveEvent event = new HopperGiveEvent(fakeHopper, sender, player, itemStack);
+		event.callEvent();
+		
+		if (event.isCancelled())
+			return;
+		
+		give(player, event.getItemStack());
+		
+		message(sender, Message.HOPPER_GIVE_SENDER, player.getName());
+		message(player, Message.HOPPER_GIVE_RECEIVER, level);
+		
+	}
+
+	@Override
+	public Level getLastLevel() {
+		Level level = getDefaultLevel();
+		Iterator<Level> iterator = this.levels.values().iterator();
+		while(iterator.hasNext()){
+			Level currentLevel = iterator.next();
+			if (currentLevel.getInteger() > level.getInteger())
+				level = currentLevel;
+		}
+		return level;
 	}
 
 }

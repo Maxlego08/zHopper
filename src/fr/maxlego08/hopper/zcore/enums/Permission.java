@@ -4,6 +4,7 @@ public enum Permission {
 
 	ZHOPPER_RELOAD("zhopper.reload"),
 	ZHOPPER_CONFIG("zhopper.config"),
+	ZHOPPER_GIVE("zhopper.give"),
 	
 	;
 

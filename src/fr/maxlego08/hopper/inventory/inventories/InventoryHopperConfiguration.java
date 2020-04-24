@@ -15,7 +15,7 @@ import fr.maxlego08.hopper.save.Config;
 import fr.maxlego08.hopper.zcore.enums.Inventory;
 import fr.maxlego08.hopper.zcore.utils.inventory.Button;
 
-public class InventoryConfiguration extends VInventory {
+public class InventoryHopperConfiguration extends VInventory {
 
 	@Override
 	public InventoryResult openInventory(HopperPlugin main, Player player, int page, Object... args)

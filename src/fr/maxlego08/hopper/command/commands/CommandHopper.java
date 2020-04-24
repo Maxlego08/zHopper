@@ -10,6 +10,7 @@ public class CommandHopper extends VCommand {
 		this.addSubCommand(new CommandHopperVersion());
 		this.addSubCommand(new CommandHopperReload());
 		this.addSubCommand(new CommandHopperConfig());
+		this.addSubCommand(new CommandHopperGive());
 	}
 	
 	

@@ -92,6 +92,12 @@ public interface Hopper {
 	boolean isActive(Module module);
 
 	/**
+	 * Lets you know if a hopper is fake or not
+	 * @return
+	 */
+	boolean isFake();
+	
+	/**
 	 * Allows you to deactivate or activate a module
 	 * @param module
 	 * @param active

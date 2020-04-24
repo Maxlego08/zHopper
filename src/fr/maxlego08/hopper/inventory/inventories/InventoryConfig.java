@@ -44,6 +44,8 @@ public class InventoryConfig extends VInventory {
 						main.getInventoryManager().close();
 					else
 						main.getInventoryManager().update();
+					
+					message(player, "§eReload !");
 
 				});
 

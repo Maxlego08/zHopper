@@ -47,7 +47,7 @@ public class HopperObject extends ZUtils implements Hopper {
 		this.whitelistPlayers = new ArrayList<UUID>();
 		this.location = location;
 		this.hopperManager = hopperManager;
-		this.level = level;
+		this.level = level < 1 ? 1 : level;
 		this.linkedContainers = new ArrayList<>();
 	}
 
@@ -220,6 +220,11 @@ public class HopperObject extends ZUtils implements Hopper {
 	@Override
 	public void setActive(Module module, boolean active) {
 		modules.put(module.getName(), active);
+	}
+
+	@Override
+	public boolean isFake() {
+		return false;
 	}
 
 }

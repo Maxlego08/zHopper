@@ -1,7 +1,10 @@
 package fr.maxlego08.hopper.save;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -17,6 +20,13 @@ public class Config implements Saveable {
 	public static String inventoryHopperName = "§eHopper";
 	public static int hopperInformationSlot = 4;
 
+	public static boolean useLevelForEveryHopper = true;
+	public static boolean giveCustomHopperIfLevelIsDefault = false;
+	
+	public static String hopperName = "§eHopper";
+	public static Map<Integer, List<String>> hopperLorePerLevel = new HashMap<Integer, List<String>>();
+	public static List<String> defaultLore = Arrays.asList("§f§l» §7Hopper Level: §6%level%");
+	
 	public static boolean enableModuleSuction = true;
 	public static boolean enableModuleKillMob = true;
 	public static boolean enableModuleLinkChest = true;
@@ -49,6 +59,19 @@ public class Config implements Saveable {
 		blacklistBlockBreak.add(Material.BEDROCK.name());
 		blacklistBlockBreak.add(Material.HOPPER.name());
 
+		List<String> loreLevel1 = new ArrayList<>();
+		loreLevel1.add("§f§l» §7Hopper Level: §6%level%");
+		
+		List<String> loreLevel2 = new ArrayList<>();
+		loreLevel2.add("§f§l» §7Hopper Level: §6%level%");
+		
+		List<String> loreLevel3 = new ArrayList<>();
+		loreLevel3.add("§f§l» §7Hopper Level: §6%level%");
+		
+		hopperLorePerLevel.put(1, loreLevel1);
+		hopperLorePerLevel.put(2, loreLevel2);
+		hopperLorePerLevel.put(3, loreLevel3);
+		
 	}
 
 	/**

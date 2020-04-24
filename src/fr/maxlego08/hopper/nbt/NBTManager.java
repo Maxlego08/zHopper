@@ -45,7 +45,7 @@ public class NBTManager {
 			listener = null;
 	}
 
-	public ItemStack dropItem(Hopper hopper) {
+	public ItemStack createItemStack(Hopper hopper) {
 		return listener.createItemStack(hopper);
 	}
 
