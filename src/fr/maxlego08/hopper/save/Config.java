@@ -63,10 +63,10 @@ public class Config implements Saveable {
 		loreLevel1.add("§f§l» §7Hopper Level: §6%level%");
 		
 		List<String> loreLevel2 = new ArrayList<>();
-		loreLevel1.add("§f§l» §7Hopper Level: §6%level%");
+		loreLevel2.add("§f§l» §7Hopper Level: §6%level%");
 		
 		List<String> loreLevel3 = new ArrayList<>();
-		loreLevel1.add("§f§l» §7Hopper Level: §6%level%");
+		loreLevel3.add("§f§l» §7Hopper Level: §6%level%");
 		
 		hopperLorePerLevel.put(1, loreLevel1);
 		hopperLorePerLevel.put(2, loreLevel2);
