@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -177,5 +178,13 @@ public interface HopperManager extends Saveable {
 	 * Allows you to update the modules of all levels according to the config
 	 */
 	void updateLevel();
+	
+	/**
+	 * Allows you to give a hoper to a player
+	 * @param sender
+	 * @param player
+	 * @param level
+	 */
+	void giveHopper(CommandSender sender, Player player, int level);
 	
 }

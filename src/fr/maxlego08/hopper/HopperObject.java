@@ -222,4 +222,9 @@ public class HopperObject extends ZUtils implements Hopper {
 		modules.put(module.getName(), active);
 	}
 
+	@Override
+	public boolean isFake() {
+		return false;
+	}
+
 }
