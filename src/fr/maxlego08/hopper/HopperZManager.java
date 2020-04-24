@@ -24,6 +24,7 @@ import fr.maxlego08.hopper.api.HopperManager;
 import fr.maxlego08.hopper.api.Level;
 import fr.maxlego08.hopper.api.events.HopperCreateEvent;
 import fr.maxlego08.hopper.api.events.HopperDestroyEvent;
+import fr.maxlego08.hopper.api.events.HopperPreCreateEvent;
 import fr.maxlego08.hopper.api.events.HopperSoftDestroyEvent;
 import fr.maxlego08.hopper.api.events.HopperUpgradeEvent;
 import fr.maxlego08.hopper.economy.Economy;
@@ -111,6 +112,20 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 
 		if (block == null || !block.getType().equals(Material.HOPPER))
 			return;
+
+		// On verif si le mec peut créer le hopper
+		if (!Config.useLevelForEveryHopper) {
+
+			@SuppressWarnings("deprecation")
+			boolean createHopper = same(player.getItemInHand(), Config.hopperName);
+
+			HopperPreCreateEvent event = new HopperPreCreateEvent(player, block, createHopper);
+			event.callEvent();
+
+			if (event.isCancelled() || !event.isCreateHopper())
+				return;
+
+		}
 
 		Hopper hopper = new HopperObject(player.getUniqueId(), block.getLocation(), this, manager.createHopper(player));
 
