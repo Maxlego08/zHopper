@@ -6,6 +6,7 @@ import org.bukkit.inventory.ItemStack;
 
 import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.nbt.NBTListener;
+import fr.maxlego08.hopper.save.Config;
 import fr.maxlego08.hopper.zcore.utils.builder.ItemBuilder;
 import net.minecraft.server.v1_7_R4.NBTTagCompound;
 
@@ -16,11 +17,11 @@ public class NBT1_7 implements NBTListener {
 
 		ItemBuilder itemStack = new ItemBuilder(Material.HOPPER);
 
-		if (hopper == null || hopper.getLevel() <= 1)
+		if (hopper == null || hopper.getLevel() <= 1 && !Config.giveCustomHopperIfLevelIsDefault)
 			return itemStack.build();
 
-		itemStack.setName("§eHopper");
-		itemStack.addLine("§f§l» §7Niveau du hopper: §6%s", hopper.getLevel());
+		itemStack.setName(Config.hopperName);
+		Config.hopperLore.forEach(lore -> itemStack.addLine(lore, hopper.getLevel()));
 
 		net.minecraft.server.v1_7_R4.ItemStack itemStackNMS = CraftItemStack.asNMSCopy(itemStack.build());
 		NBTTagCompound compound = itemStackNMS.getTag();
