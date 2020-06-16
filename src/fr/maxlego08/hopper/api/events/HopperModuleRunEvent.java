@@ -17,7 +17,7 @@ public class HopperModuleRunEvent extends HopperEvent {
 	private final boolean isAsync;
 
 	public HopperModuleRunEvent(Hopper hopper, Module module, Level level, boolean async) {
-		super();
+		super(true);
 		this.hopper = hopper;
 		this.module = module;
 		this.isAsync = async;
