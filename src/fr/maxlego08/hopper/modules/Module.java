@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 import fr.maxlego08.hopper.HopperZManager;
 import fr.maxlego08.hopper.api.Hopper;
@@ -60,7 +60,7 @@ public abstract class Module extends ZUtils {
 		if (runAsync)
 			execute(hopper, level);
 		else {
-			JavaPlugin plugin = ((HopperZManager) hopper.getManager()).getPlugin();
+			Plugin plugin = ((HopperZManager) hopper.getManager()).getPlugin();
 			Bukkit.getScheduler().runTask(plugin, () -> execute(hopper, level));
 		}
 	}

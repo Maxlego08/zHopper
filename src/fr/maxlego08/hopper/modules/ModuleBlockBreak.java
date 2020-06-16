@@ -13,7 +13,7 @@ public class ModuleBlockBreak extends Module {
 
 	public ModuleBlockBreak(int priority) {
 		super("BlockBreak", priority);
-		runAsync = false;
+		runAsync = Config.runModuleBlockBreakAsync;
 	}
 
 	@Override

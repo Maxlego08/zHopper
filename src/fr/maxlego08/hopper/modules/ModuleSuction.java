@@ -24,7 +24,7 @@ public class ModuleSuction extends Module {
 
 	public ModuleSuction(int priority) {
 		super("Suction", priority);
-		// TODO Auto-generated constructor stub
+		this.runAsync = Config.runModuleSuctionAsync;
 	}
 
 	@Override

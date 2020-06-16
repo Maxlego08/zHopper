@@ -17,6 +17,7 @@ public class ModuleLinkContainer extends Module {
 
 	public ModuleLinkContainer(int p) {
 		super("Container", p);
+		this.runAsync = Config.runModuleLinkContainerAsync;
 	}
 
 	@Override

@@ -54,6 +54,11 @@ public class Config implements Saveable {
 	public static Button moduleConfigurationButton = new Button(15, "§eModules", 138, 0);
 	public static String linkedChestLine = "§f§l» §e%x%, %y%, %z%";
 
+	public static boolean runModuleBlockBreakAsync = false;
+	public static boolean runModuleKilLMobAsync = false;
+	public static boolean runModuleLinkContainerAsync = true;
+	public static boolean runModuleSuctionAsync = true;
+	
 	static {
 
 		blacklistBlockBreak.add(Material.BEDROCK.name());

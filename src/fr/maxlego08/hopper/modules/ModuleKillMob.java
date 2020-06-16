@@ -25,7 +25,7 @@ public class ModuleKillMob extends Module {
 
 	public ModuleKillMob(int priority) {
 		super("KillMob", priority);
-		runAsync = false;
+		runAsync = Config.runModuleKilLMobAsync;
 	}
 
 	@Override
