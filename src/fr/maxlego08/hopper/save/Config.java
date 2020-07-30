@@ -34,6 +34,7 @@ public class Config implements Saveable {
 	public static boolean enableModuleBlockBreak = true;
 	public static boolean enableModuleSuctionChunk = true;
 	public static boolean closeInventoryOnReload = false;
+	public static boolean debugMode = false;
 	
 	public static List<String> blacklistBlockBreak = new ArrayList<String>();
 

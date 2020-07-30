@@ -49,6 +49,7 @@ public class ModuleSuctionChunk extends Module {
 		Stream<Item> stream = world.getEntities().stream().filter(predicate).map(entity -> (Item) entity);
 
 		List<Item> items = stream.collect(Collectors.toList());
+
 		items.forEach(item -> {
 
 			ItemStack itemStack = item.getItemStack();
@@ -58,13 +59,14 @@ public class ModuleSuctionChunk extends Module {
 			int amount = defaultAmount;
 
 			Result result = getFreeSpaceFor(inventory, itemStack, amount);
+
 			int freeSpaceInContainer = result.getFreeSpace();
 
 			if (freeSpaceInContainer != 0 && freeSpaceInContainer < amount)
 				amount = freeSpaceInContainer;
 
 			int maxAmount = result.getEmptySlot() * 64;
-			if (amount > maxAmount)
+			if (amount > maxAmount && maxAmount != 0)
 				amount = maxAmount;
 
 			if (result.getEmptySlot() == 0 && freeSpaceInContainer == 0)

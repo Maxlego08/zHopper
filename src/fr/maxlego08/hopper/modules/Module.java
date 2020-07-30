@@ -96,7 +96,9 @@ public abstract class Module extends ZUtils {
 	protected Result getFreeSpaceFor(org.bukkit.inventory.Inventory inventory, ItemStack itemStack, int amount) {
 		int maxSpace = 0;
 		int emptySlot = 0;
+
 		for (ItemStack itemStack2 : inventory.getContents()) {
+
 			if (itemStack2 == null)
 				emptySlot++;
 			if (itemStack2 != null && itemStack2.isSimilar(itemStack)) {

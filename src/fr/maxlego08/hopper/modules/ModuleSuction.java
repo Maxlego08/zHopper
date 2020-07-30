@@ -57,7 +57,7 @@ public class ModuleSuction extends Module {
 				amount = freeSpaceInContainer;
 
 			int maxAmount = result.getEmptySlot() * 64;
-			if (amount > maxAmount)
+			if (freeSpaceInContainer != 0 && freeSpaceInContainer < amount)
 				amount = maxAmount;
 			
 			if (result.getEmptySlot() == 0 && freeSpaceInContainer == 0)
