@@ -9,15 +9,17 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.maxlego08.hopper.exceptions.ItemEnchantException;
 import fr.maxlego08.hopper.exceptions.ItemFlagException;
 import fr.maxlego08.hopper.zcore.logger.Logger;
 import fr.maxlego08.hopper.zcore.logger.Logger.LogType;
+import fr.maxlego08.hopper.zcore.utils.ItemDecoder;
 import fr.maxlego08.hopper.zcore.utils.ZUtils;
 
-public class ItemStackYAMLoader extends ZUtils implements Loader<ItemStack>{
+public class ItemStackYAMLoader extends ZUtils implements Loader<ItemStack> {
 
 	@SuppressWarnings("deprecation")
 	public ItemStack load(YamlConfiguration configuration, String path) {
@@ -78,7 +80,11 @@ public class ItemStackYAMLoader extends ZUtils implements Loader<ItemStack>{
 						throw new ItemEnchantException(
 								"an error occurred while loading the enchantment " + enchantString);
 
-					meta.addEnchant(enchantment, level, true);
+					if (material.equals(Material.ENCHANTED_BOOK)) {
+						((EnchantmentStorageMeta) meta).addStoredEnchant(enchantment, level, true);
+
+					} else
+						meta.addEnchant(enchantment, level, true);
 
 				} catch (ItemEnchantException e) {
 					e.printStackTrace();
@@ -90,7 +96,7 @@ public class ItemStackYAMLoader extends ZUtils implements Loader<ItemStack>{
 		List<String> flags = configuration.getStringList(path + "flags");
 
 		// Permet de charger les différents flags
-		if (flags.size() != 0) {
+		if (flags.size() != 0 && ItemDecoder.getNMSVersion() != 1.7) {
 
 			for (String flagString : flags) {
 
@@ -133,12 +139,20 @@ public class ItemStackYAMLoader extends ZUtils implements Loader<ItemStack>{
 			configuration.set(path + "name", meta.getDisplayName().replace("&", "§"));
 		if (meta.hasLore())
 			configuration.set(path + "lore", colorReverse(meta.getLore()));
-		if (meta.getItemFlags().size() != 0)
+		if (ItemDecoder.getNMSVersion() != 1.7 && meta.getItemFlags().size() != 0)
 			configuration.set(path + "flags",
 					meta.getItemFlags().stream().map(flag -> flag.name()).collect(Collectors.toList()));
 		if (meta.hasEnchants()) {
 			List<String> enchantList = new ArrayList<>();
 			meta.getEnchants().forEach((enchant, level) -> enchantList.add(enchant.getName() + "," + level));
+			configuration.set(path + "enchants", enchantList);
+		}
+
+		if (meta instanceof EnchantmentStorageMeta && ((EnchantmentStorageMeta) meta).hasStoredEnchants()) {
+			List<String> enchantList = new ArrayList<>();
+			((EnchantmentStorageMeta) meta).getStoredEnchants()
+					.forEach((enchant, level) -> enchantList.add(enchant.getName() + "," + level));
+
 			configuration.set(path + "enchants", enchantList);
 		}
 

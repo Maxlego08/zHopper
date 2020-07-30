@@ -46,6 +46,7 @@ public class ModuleSuctionChunk extends Module {
 
 		Predicate<Entity> predicate = entity -> entity.getLocation().getChunk().equals(location.getChunk())
 				&& entity instanceof Item && entity.isValid();
+		
 		Stream<Item> stream = world.getEntities().stream().filter(predicate).map(entity -> (Item) entity);
 
 		List<Item> items = stream.collect(Collectors.toList());

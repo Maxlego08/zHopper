@@ -1,11 +1,13 @@
 package fr.maxlego08.hopper.modules;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -15,6 +17,7 @@ import com.bgsoftware.wildstacker.api.WildStackerAPI;
 import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.api.Level;
 import fr.maxlego08.hopper.save.Config;
+import fr.maxlego08.hopper.zcore.utils.ItemDecoder;
 import fr.maxlego08.hopper.zcore.utils.Result;
 import fr.maxlego08.hopper.zcore.utils.inventory.Button;
 
@@ -38,9 +41,18 @@ public class ModuleSuction extends Module {
 		if (distance <= 0 || world == null)
 			return;
 
+		Collection<Entity> entities;
+
+		if (ItemDecoder.getNMSVersion() == 1.7)
+			entities = world.getEntitiesByClasses(Entity.class).stream()
+					.filter(e -> e.getLocation().distance(hopper.getLocation()) <= distance)
+					.collect(Collectors.toList());
+		else
+			entities = world.getNearbyEntities(hopper.getLocation(), distance, distance, distance);
+
 		// On r�cup�re tout les items valides dans un certain rayon
-		Stream<Item> stream = world.getNearbyEntities(hopper.getLocation(), distance, distance, distance).stream()
-				.filter(entity -> entity instanceof Item && entity.isValid()).map(entity -> (Item) entity);
+		Stream<Item> stream = entities.stream().filter(entity -> entity instanceof Item && entity.isValid())
+				.map(entity -> (Item) entity);
 		List<Item> items = stream.collect(Collectors.toList());
 		items.forEach(item -> {
 
@@ -59,7 +71,7 @@ public class ModuleSuction extends Module {
 			int maxAmount = result.getEmptySlot() * 64;
 			if (freeSpaceInContainer != 0 && freeSpaceInContainer < amount)
 				amount = maxAmount;
-			
+
 			if (result.getEmptySlot() == 0 && freeSpaceInContainer == 0)
 				return;
 
@@ -95,7 +107,7 @@ public class ModuleSuction extends Module {
 		else
 			item.getItemStack().setAmount(toRemove);
 	}
-	
+
 	@Override
 	public boolean isCooldown(Hopper hopper, Level level) {
 		return super.isCooldown(hopper, "modulesuction", level.getLongAsProperty("milliSecondModuleSuction"));
