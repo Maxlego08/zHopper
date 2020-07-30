@@ -1,5 +1,6 @@
-name: TemplatePlugin
+name: zHopper
 author: Maxlego08
-main: fr.maxlego08.template.Template
-version: 0.0.2.2
+main: fr.maxlego08.hopper.HopperPlugin
+version: 1.0.0.4
+softdepend: [WildStacker]
 commands:
