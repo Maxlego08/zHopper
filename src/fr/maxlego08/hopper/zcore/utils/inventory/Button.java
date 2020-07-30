@@ -5,12 +5,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.maxlego08.hopper.api.Hopper;
+import fr.maxlego08.hopper.exceptions.MaterialException;
 import fr.maxlego08.hopper.save.Config;
 import fr.maxlego08.hopper.zcore.utils.ItemDecoder;
 import fr.maxlego08.hopper.zcore.utils.ZUtils;
@@ -64,6 +66,12 @@ public class Button extends ZUtils implements Cloneable {
 
 	@SuppressWarnings("deprecation")
 	public ItemStack getItem() {
+		
+		Material material = getMaterial(item);
+		
+		if (material == null)
+			throw new MaterialException("item with id " + item + " doesn't exist !");
+		
 		return new ItemStack(getMaterial(item), 1, (byte) data);
 	}
 
