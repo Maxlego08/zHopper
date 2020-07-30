@@ -5,20 +5,24 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Location;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.save.Config;
+import fr.maxlego08.hopper.zcore.utils.ItemDecoder;
 import fr.maxlego08.hopper.zcore.utils.ZUtils;
 
-public class Button extends ZUtils {
+public class Button extends ZUtils implements Cloneable {
 
 	private final int slot;
 	private final String name;
 	private final int item;
 	private final int data;
 	private final List<String> lore;
+	private boolean isGlow;
 
 	public Button(int slot, String name, int item, int data, String... lore) {
 		super();
@@ -78,6 +82,12 @@ public class Button extends ZUtils {
 			itemM.setDisplayName(getName());
 		if (hasLore())
 			itemM.setLore(getLore());
+		if (isGlow && ItemDecoder.getNMSVersion() != 1.7) {
+			
+			itemM.addEnchant(Enchantment.ARROW_DAMAGE, 10, true);
+			itemM.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+			
+		}
 		item.setItemMeta(itemM);
 		return item;
 	}
@@ -91,6 +101,13 @@ public class Button extends ZUtils {
 			List<String> lore = new ArrayList<String>();
 			getLore().forEach(line -> lore.add(line.replace(type, replace)));
 			itemM.setLore(lore);
+		}
+		
+		if (isGlow && ItemDecoder.getNMSVersion() != 1.7) {
+			
+			itemM.addEnchant(Enchantment.ARROW_DAMAGE, 10, true);
+			itemM.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+			
 		}
 		item.setItemMeta(itemM);
 		return item;
@@ -115,8 +132,34 @@ public class Button extends ZUtils {
 			});
 			itemM.setLore(lore);
 		}
+
+		if (isGlow && ItemDecoder.getNMSVersion() != 1.7) {
+
+			itemM.addEnchant(Enchantment.ARROW_DAMAGE, 10, true);
+			itemM.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+
+		}
+
 		item.setItemMeta(itemM);
 		return item;
+	}
+
+	@Override
+	public Button clone() {
+		try {
+			return (Button) super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public void glow() {
+		isGlow = true;
+	}
+
+	public void glowDown() {
+		isGlow = false;
 	}
 
 }

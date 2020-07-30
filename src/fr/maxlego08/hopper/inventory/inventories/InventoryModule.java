@@ -31,11 +31,21 @@ public class InventoryModule extends VInventory {
 		createInventory("§eModules", 27);
 
 		level.getModules().forEach(module -> {
-			Button button = module.getButton();
+			Button button = module.getButton().clone();
 			Message status = hopper.isActive(module) ? Message.CLIKC_TO_DISABLE : Message.CLIKC_TO_ENABLE;
+			
+			if (hopper.isActive(module))				
+				button.glow();
+			else
+				button.glowDown();
+			
 			addItem(button.getSlot(), button.getInitButton("%status%", status.getMessage())).setClick(event -> {
 				hopper.setActive(module, !hopper.isActive(module));
 				Message message = hopper.isActive(module) ? Message.CLIKC_TO_DISABLE : Message.CLIKC_TO_ENABLE;
+				if (hopper.isActive(module))				
+					button.glow();
+				else
+					button.glowDown();
 				inventory.setItem(button.getSlot(), button.getInitButton("%status%", message.getMessage()));
 			});
 		});

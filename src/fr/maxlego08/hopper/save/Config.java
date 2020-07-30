@@ -32,12 +32,17 @@ public class Config implements Saveable {
 	public static boolean enableModuleLinkChest = true;
 	public static boolean enableModuleItemTransfert = true;
 	public static boolean enableModuleBlockBreak = true;
+	public static boolean enableModuleSuctionChunk = true;
 	public static boolean closeInventoryOnReload = false;
 	
 	public static List<String> blacklistBlockBreak = new ArrayList<String>();
 
 	public static Button suctionButton = new Button(0, "§eSuction", 154, 0, "§f§l» §eDescription§7:",
 			"  §7Pick up objects in a radius according to the level of the hopper.", "", "§f§l» §e%status%");
+	
+	public static Button suctionChunkButton = new Button(4, "§eSuction chunk", 154, 0, "§f§l» §eDescription§7:",
+			"  §7Pick up objects in chunk of the hopper.", "", "§f§l» §e%status%");
+	
 	public static Button killButton = new Button(1, "§eKill", 256, 0, "§f§l» §eDescription§7:",
 			"  §7Kill entities in a radius according to the level of the hopper.", "", "§f§l» §e%status%");
 	public static Button linkButton = new Button(2, "§eLink", 54, 0, "§f§l» §eDescription§7:",
@@ -58,6 +63,7 @@ public class Config implements Saveable {
 	public static boolean runModuleKilLMobAsync = false;
 	public static boolean runModuleLinkContainerAsync = true;
 	public static boolean runModuleSuctionAsync = true;
+	public static boolean runModuleSuctionChunkAsync = true;
 	
 	static {
 

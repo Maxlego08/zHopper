@@ -22,6 +22,7 @@ import fr.maxlego08.hopper.modules.ModuleBlockBreak;
 import fr.maxlego08.hopper.modules.ModuleKillMob;
 import fr.maxlego08.hopper.modules.ModuleLinkContainer;
 import fr.maxlego08.hopper.modules.ModuleSuction;
+import fr.maxlego08.hopper.modules.ModuleSuctionChunk;
 import fr.maxlego08.hopper.save.Config;
 import fr.maxlego08.hopper.zcore.logger.Logger;
 import fr.maxlego08.hopper.zcore.logger.Logger.LogType;
@@ -90,6 +91,7 @@ public class LevelObject extends ZUtils implements Level {
 		properties.put("maxKillPerSecond", 0);
 		properties.put("milliSecondModuleItem", 1000);
 		properties.put("milliSecondModuleSuction", 1000);
+		properties.put("milliSecondModuleSuctionChunk", 1000);
 		properties.put("milliSecondModuleKill", 1000);
 		properties.put("milliSecondModuleBlock", 1000);
 		properties.put("maxDistanceBlock", 1);
@@ -106,6 +108,7 @@ public class LevelObject extends ZUtils implements Level {
 		properties.put("maxKillPerSecond", 1);
 		properties.put("milliSecondModuleItem", 1000);
 		properties.put("milliSecondModuleSuction", 1000);
+		properties.put("milliSecondModuleSuctionChunk", 1000);
 		properties.put("milliSecondModuleKill", 1000);
 		properties.put("milliSecondModuleBlock", 1000);
 		properties.put("maxDistanceBlock", 2);
@@ -122,6 +125,7 @@ public class LevelObject extends ZUtils implements Level {
 		properties.put("maxKillPerSecond", 3);
 		properties.put("milliSecondModuleItem", 1000);
 		properties.put("milliSecondModuleSuction", 1000);
+		properties.put("milliSecondModuleSuctionChunk", 1000);
 		properties.put("milliSecondModuleKill", 1000);
 		properties.put("milliSecondModuleBlock", 1000);
 		properties.put("maxDistanceBlock", 3);
@@ -256,15 +260,6 @@ public class LevelObject extends ZUtils implements Level {
 	}
 
 	@Override
-	public void run(Hopper hopper) {
-		Collections.sort(modules, Comparator.comparingInt(Module::getPriority));
-
-		Module module;
-		for (Iterator<Module> iterator = modules.iterator(); iterator.hasNext(); module.preRun(hopper, this))
-			module = iterator.next();
-	}
-
-	@Override
 	public int getMaxDistanceSuction() {
 		return getIntegerAsProperty("maxDistanceSuction");
 	}
@@ -360,14 +355,16 @@ public class LevelObject extends ZUtils implements Level {
 
 		modules = new ArrayList<>();
 
+		if (Config.enableModuleSuctionChunk)
+			modules.add(new ModuleSuctionChunk(1));
 		if (Config.enableModuleSuction)
-			modules.add(new ModuleSuction(1));
+			modules.add(new ModuleSuction(2));
 		if (Config.enableModuleItemTransfert)
-			modules.add(new ModuleLinkContainer(2));
+			modules.add(new ModuleLinkContainer(3));
 		if (Config.enableModuleKillMob)
-			modules.add(new ModuleKillMob(3));
+			modules.add(new ModuleKillMob(4));
 		if (Config.enableModuleBlockBreak)
-			modules.add(new ModuleBlockBreak(4));
+			modules.add(new ModuleBlockBreak(5));
 
 		HopperModuleRegisterEvent event = new HopperModuleRegisterEvent(modules, this);
 		event.callEvent();
@@ -375,6 +372,15 @@ public class LevelObject extends ZUtils implements Level {
 		if (event.isCancelled())
 			modules.clear();
 
+	}
+	
+	@Override
+	public void run(Hopper hopper) {
+		Collections.sort(modules, Comparator.comparingInt(Module::getPriority));
+
+		Module module;
+		for (Iterator<Module> iterator = modules.iterator(); iterator.hasNext(); module.preRun(hopper, this))
+			module = iterator.next();
 	}
 
 }
