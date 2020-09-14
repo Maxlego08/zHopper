@@ -41,15 +41,15 @@ public class Config implements Saveable {
 	public static Button suctionButton = new Button(0, "§eSuction", 154, 0, "§f§l» §eDescription§7:",
 			"  §7Pick up objects in a radius according to the level of the hopper.", "", "§f§l» §e%status%");
 	
-	public static Button suctionChunkButton = new Button(4, "§eSuction chunk", 154, 0, "§f§l» §eDescription§7:",
-			"  §7Pick up objects in chunk of the hopper.", "", "§f§l» §e%status%");
-	
 	public static Button killButton = new Button(1, "§eKill", 256, 0, "§f§l» §eDescription§7:",
 			"  §7Kill entities in a radius according to the level of the hopper.", "", "§f§l» §e%status%");
 	public static Button linkButton = new Button(2, "§eLink", 54, 0, "§f§l» §eDescription§7:",
 			"  §7Transfer the items from the hopper to the different chests", "", "§f§l» §e%status%");
 	public static Button blockButton = new Button(3, "§eBlock", 2, 0, "§f§l» §eDescription§7:",
 			"  §7Destroys a certain number of blocks above the hopper", "", "§f§l» §e%status%");
+	public static Button suctionChunkButton = new Button(4, "§eSuction chunk", 154, 0, "§f§l» §eDescription§7:",
+			"  §7Pick up objects in chunk of the hopper.", "", "§f§l» §e%status%");
+	
 	public static Button backButton = new Button(22, "§cBack to hopper", 166, 0);
 
 	public static Button removeHopperButton = new Button(22, "§cRemove hopper", 166, 0, "",
@@ -62,9 +62,9 @@ public class Config implements Saveable {
 
 	public static boolean runModuleBlockBreakAsync = false;
 	public static boolean runModuleKilLMobAsync = false;
-	public static boolean runModuleLinkContainerAsync = true;
-	public static boolean runModuleSuctionAsync = true;
-	public static boolean runModuleSuctionChunkAsync = true;
+	public static boolean runModuleLinkContainerAsync = false;
+	public static boolean runModuleSuctionAsync = false;
+	public static boolean runModuleSuctionChunkAsync = false;
 	
 	static {
 
