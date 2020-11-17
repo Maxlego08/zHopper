@@ -1,6 +1,6 @@
 name: zHopper
 author: Maxlego08
 main: fr.maxlego08.hopper.HopperPlugin
-version: 1.0.0.6
-softdepend: [WildStacker]
+version: 1.0.0.7
+softdepend: [WildStacker, zItemStacker]
 commands:

@@ -5,15 +5,12 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import com.bgsoftware.wildstacker.api.WildStackerAPI;
 
 import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.api.Level;
@@ -22,8 +19,6 @@ import fr.maxlego08.hopper.zcore.utils.Result;
 import fr.maxlego08.hopper.zcore.utils.inventory.Button;
 
 public class ModuleSuctionChunk extends Module {
-
-	private final boolean isWildStacker = Bukkit.getPluginManager().isPluginEnabled("WildStacker");
 
 	/**
 	 * 
@@ -95,30 +90,6 @@ public class ModuleSuctionChunk extends Module {
 	@Override
 	public Button getButton() {
 		return Config.suctionChunkButton;
-	}
-
-	/**
-	 * 
-	 * @param item
-	 * @return
-	 */
-	private int getAmount(Item item) {
-		if (isWildStacker)
-			return WildStackerAPI.getItemAmount(item);
-		else
-			return item.getItemStack().getAmount();
-	}
-
-	/**
-	 * 
-	 * @param item
-	 * @param toRemove
-	 */
-	private void setAmount(Item item, int toRemove) {
-		if (isWildStacker)
-			WildStackerAPI.getStackedItem(item).setStackAmount(toRemove, true);
-		else
-			item.getItemStack().setAmount(toRemove);
 	}
 
 }

@@ -15,6 +15,7 @@ import fr.maxlego08.hopper.zcore.logger.Logger;
 import fr.maxlego08.hopper.zcore.logger.Logger.LogType;
 import fr.maxlego08.hopper.zcore.utils.Metrics;
 import fr.maxlego08.hopper.zcore.utils.UpdateChecker;
+import fr.maxlego08.zitemstacker.api.ItemManager;
 
 /**
  * System to create your plugins very simply Projet:
@@ -52,8 +53,10 @@ public class HopperPlugin extends ZPlugin {
 		addListener(inventoryManager);
 		addListener(hopperListener);
 
-		if (!hookPlayerPoints())
+		if (hookPlayerPoints())
 			getLog().log("Playerpoint loading done successfully", LogType.SUCCESS);
+		if (getProvider(ItemManager.class) != null)
+			getLog().log("zItemManager loading done successfully", LogType.SUCCESS);
 
 		/* Add Saver */
 

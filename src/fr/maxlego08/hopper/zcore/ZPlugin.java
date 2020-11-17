@@ -220,5 +220,14 @@ public abstract class ZPlugin extends JavaPlugin {
 	public PlayerPointsAPI getPlayerPointsAPI() {
 		return playerPointsAPI;
 	}
+	
+	public <T> T getProvider(Class<T> classz) {
+		RegisteredServiceProvider<T> provider = getServer().getServicesManager().getRegistration(classz);
+		if (provider == null) {
+			log.log("Unable to retrieve the provider " + classz.toString(), LogType.WARNING);
+			return null;
+		}
+		return provider.getProvider() != null ? (T) provider.getProvider() : null;
+	}
 
 }
