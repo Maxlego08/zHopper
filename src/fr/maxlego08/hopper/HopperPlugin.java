@@ -2,6 +2,7 @@ package fr.maxlego08.hopper;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.ServicePriority;
 
 import fr.maxlego08.hopper.api.HopperManager;
@@ -55,7 +56,7 @@ public class HopperPlugin extends ZPlugin {
 
 		if (hookPlayerPoints())
 			getLog().log("Playerpoint loading done successfully", LogType.SUCCESS);
-		if (getProvider(ItemManager.class) != null)
+		if (getServer().getPluginManager().isPluginEnabled("zItemStacker") && getProvider(ItemManager.class) != null)
 			getLog().log("zItemManager loading done successfully", LogType.SUCCESS);
 
 		/* Add Saver */

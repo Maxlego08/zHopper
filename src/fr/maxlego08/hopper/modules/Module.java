@@ -110,8 +110,9 @@ public abstract class Module extends ZUtils {
 
 			if (itemStack2 == null)
 				emptySlot++;
+			
 			if (itemStack2 != null && itemStack2.isSimilar(itemStack)) {
-				int space = 64 - itemStack2.getAmount();
+				int space = itemStack.getMaxStackSize() - itemStack2.getAmount();
 				if (space >= amount)
 					return new Result(emptySlot, amount);
 				maxSpace = Math.max(maxSpace, space);

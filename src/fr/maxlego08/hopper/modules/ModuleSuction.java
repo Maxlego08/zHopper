@@ -63,15 +63,17 @@ public class ModuleSuction extends Module {
 			if (freeSpaceInContainer != 0 && freeSpaceInContainer < amount)
 				amount = freeSpaceInContainer;
 
-			int maxAmount = result.getEmptySlot() * 64;
+			int maxAmount = result.getEmptySlot() * itemStack.getMaxStackSize();
 			if (freeSpaceInContainer != 0 && freeSpaceInContainer < amount)
 				amount = maxAmount;
 
 			if (result.getEmptySlot() == 0 && freeSpaceInContainer == 0)
 				return;
 
-			int toRemove = defaultAmount - amount;
+			amount = Math.min(amount, itemStack.getMaxStackSize());
 
+			int toRemove = defaultAmount - amount;
+			
 			if (toRemove == 0)
 				item.remove();
 			else
