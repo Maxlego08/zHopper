@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -66,8 +67,9 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 	public void run() {
 		if (runnable != null)
 			return;
+
 		this.runnable = new HopperRunnable(this);
-		this.runnable.runTaskTimer(plugin, Config.taskTickPerSecond, Config.taskTickPerSecond);
+		Bukkit.getScheduler().runTaskTimer(plugin, this.runnable, Config.taskTickPerSecond, Config.taskTickPerSecond);
 	}
 
 	/**
@@ -431,29 +433,29 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 	public void giveHopper(CommandSender sender, Player player, int level) {
 
 		Level lastLevel = getLastLevel();
-		level = level < 0 ? 1 : level > lastLevel.getInteger() ? lastLevel.getInteger() : level; 
-		
+		level = level < 0 ? 1 : level > lastLevel.getInteger() ? lastLevel.getInteger() : level;
+
 		FakeHopper fakeHopper = new HopperFakeObject(this, level);
 		ItemStack itemStack = manager.createItemStack(fakeHopper);
-		
+
 		HopperGiveEvent event = new HopperGiveEvent(fakeHopper, sender, player, itemStack);
 		event.callEvent();
-		
+
 		if (event.isCancelled())
 			return;
-		
+
 		give(player, event.getItemStack());
-		
+
 		message(sender, Message.HOPPER_GIVE_SENDER, player.getName());
 		message(player, Message.HOPPER_GIVE_RECEIVER, level);
-		
+
 	}
 
 	@Override
 	public Level getLastLevel() {
 		Level level = getDefaultLevel();
 		Iterator<Level> iterator = this.levels.values().iterator();
-		while(iterator.hasNext()){
+		while (iterator.hasNext()) {
 			Level currentLevel = iterator.next();
 			if (currentLevel.getInteger() > level.getInteger())
 				level = currentLevel;

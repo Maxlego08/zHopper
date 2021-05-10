@@ -1,10 +1,8 @@
 package fr.maxlego08.hopper;
 
-import org.bukkit.scheduler.BukkitRunnable;
-
 import fr.maxlego08.hopper.api.HopperManager;
 
-public class HopperRunnable extends BukkitRunnable {
+public class HopperRunnable implements Runnable {
 
 	private final HopperManager hopperManager;
 

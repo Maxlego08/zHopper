@@ -39,7 +39,7 @@ public class ModuleSuctionChunk extends Module {
 			return;
 
 		List<Entity> entities = Arrays.asList(location.getChunk().getEntities());
-		Stream<Item> stream = entities.stream().map(entity -> (Item) entity);
+		Stream<Item> stream = entities.stream().filter(entity -> entity instanceof Item && entity.isValid()).map(entity -> (Item) entity);
 
 		stream.forEach(item -> {
 

@@ -17,9 +17,8 @@ public class CommandHopperVersion extends VCommand {
 		
 		message(sender, "§eVersion du plugin§7: §a" + main.getDescription().getVersion());
 		message(sender, "§eAuteur§7: §aMaxlego08");
-		message(sender, "§eDiscord§7: §ahttps://discord.gg/p9Mdste");
-		String user = "%%__USER__%%";
-		message(sender, "§eUser account§7: §ahttps://www.spigotmc.org/members/" + user);
+		message(sender, "§eDiscord§7: §ahttps://discord.groupez.dev");
+		message(sender, "§aBuy it for §d10€§7: §2https://groupez.dev/resources/6");
 		
 		return CommandType.SUCCESS;
 	}

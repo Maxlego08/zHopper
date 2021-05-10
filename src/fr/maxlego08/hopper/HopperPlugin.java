@@ -1,7 +1,5 @@
 package fr.maxlego08.hopper;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import org.bukkit.plugin.ServicePriority;
 
 import fr.maxlego08.hopper.api.HopperManager;
@@ -11,10 +9,9 @@ import fr.maxlego08.hopper.listener.AdapterListener;
 import fr.maxlego08.hopper.save.Config;
 import fr.maxlego08.hopper.save.Lang;
 import fr.maxlego08.hopper.zcore.ZPlugin;
-import fr.maxlego08.hopper.zcore.logger.Logger;
 import fr.maxlego08.hopper.zcore.logger.Logger.LogType;
 import fr.maxlego08.hopper.zcore.utils.Metrics;
-import fr.maxlego08.hopper.zcore.utils.UpdateChecker;
+import fr.maxlego08.hopper.zcore.utils.VersionChecker;
 import fr.maxlego08.zitemstacker.api.ItemManager;
 
 /**
@@ -70,17 +67,8 @@ public class HopperPlugin extends ZPlugin {
 
 		new Metrics(this);
 
-		UpdateChecker checker = new UpdateChecker(this, 77542);
-		AtomicBoolean atomicBoolean = new AtomicBoolean();
-		checker.getVersion(version -> {
-			atomicBoolean.set(this.getDescription().getVersion().equalsIgnoreCase(version));
-			hopperListener.setUseLastVersion(atomicBoolean.get());
-			if (atomicBoolean.get())
-				Logger.info("There is not a new update available.");
-			else
-				Logger.info("There is a new update available. Your version: " + this.getDescription().getVersion()
-						+ ", Laste version: " + version);
-		});
+		VersionChecker checker = new VersionChecker(this, 6);
+		checker.useLastVersion();
 
 		postEnable();
 

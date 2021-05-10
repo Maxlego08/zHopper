@@ -24,7 +24,7 @@ public abstract class Module extends ZUtils {
 
 	private final String name;
 	private final int priority;
-	protected boolean runAsync = true;
+	protected boolean runAsync = false;
 	protected Map<Hopper, Long> cooldows = new HashMap<Hopper, Long>();
 	private ItemManager itemManager;
 	
@@ -61,7 +61,7 @@ public abstract class Module extends ZUtils {
 		if (isCooldown(hopper, level))
 			return;
 
-		HopperModuleRunEvent event = new HopperModuleRunEvent(hopper, this, level, runAsync);
+		HopperModuleRunEvent event = new HopperModuleRunEvent(hopper, this, level, false);
 		event.callEvent();
 		if (event.isCancelled())
 			return;
