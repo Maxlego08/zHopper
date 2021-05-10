@@ -67,7 +67,7 @@ public class HopperZManager extends EconomyUtils implements HopperManager {
 		if (runnable != null)
 			return;
 		this.runnable = new HopperRunnable(this);
-		this.runnable.runTaskTimerAsynchronously(plugin, Config.taskTickPerSecond, Config.taskTickPerSecond);
+		this.runnable.runTaskTimer(plugin, Config.taskTickPerSecond, Config.taskTickPerSecond);
 	}
 
 	/**

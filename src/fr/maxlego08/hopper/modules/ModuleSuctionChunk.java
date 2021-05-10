@@ -1,8 +1,7 @@
 package fr.maxlego08.hopper.modules;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.bukkit.Location;
@@ -39,14 +38,10 @@ public class ModuleSuctionChunk extends Module {
 		if (world == null || location == null)
 			return;
 
-		Predicate<Entity> predicate = entity -> entity.getLocation().getChunk().equals(location.getChunk())
-				&& entity instanceof Item && entity.isValid();
-		
-		Stream<Item> stream = world.getEntities().stream().filter(predicate).map(entity -> (Item) entity);
+		List<Entity> entities = Arrays.asList(location.getChunk().getEntities());
+		Stream<Item> stream = entities.stream().map(entity -> (Item) entity);
 
-		List<Item> items = stream.collect(Collectors.toList());
-
-		items.forEach(item -> {
+		stream.forEach(item -> {
 
 			ItemStack itemStack = item.getItemStack();
 			ItemStack clone = itemStack.clone();
@@ -70,7 +65,7 @@ public class ModuleSuctionChunk extends Module {
 			amount = Math.min(amount, itemStack.getMaxStackSize());
 
 			int toRemove = defaultAmount - amount;
-			
+
 			if (toRemove == 0)
 				item.remove();
 			else

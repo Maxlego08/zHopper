@@ -13,6 +13,8 @@ import org.bukkit.inventory.ItemStack;
 
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
+import fr.maxlego08.hopper.api.EnumVersion;
+
 public class ItemDecoder {
 
 	private static volatile Map<ItemStack, String> itemstackSerialized = new HashMap<ItemStack, String>();
@@ -114,6 +116,14 @@ public class ItemDecoder {
 		return localClass;
 	}
 
+	public static EnumVersion getVersion() {
+		String var1 = Bukkit.getServer().getClass().getPackage().getName();
+		String[] arrayOfString = var1.replace(".", ",").split(",")[3].split("_");
+		String var2 = arrayOfString[2];
+//		System.out.println(var1 + " -- " + Arrays.asList(arrayOfString));
+		return EnumVersion.getVersion(getNMSVersion(), var2);
+	}
+	
 	public static double version;
 	
 	public static double getNMSVersion() {

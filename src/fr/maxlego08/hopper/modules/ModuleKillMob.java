@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Animals;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
@@ -61,7 +62,7 @@ public class ModuleKillMob extends Module {
 			if (amount > maxPerSecond)
 				return;
 
-			if (isWildStacker) {
+			if (isWildStacker && isStackeable(entity.getType())) {
 
 				StackedEntity stackedEntity = WildStackerAPI.getStackedEntity(entity);
 				if (stackedEntity == null) {
@@ -97,12 +98,22 @@ public class ModuleKillMob extends Module {
 
 					}
 			} else {
+
 				entity.teleport(location);
 				entity.damage(entity.getHealth() * 10);
 				amount++;
 			}
 		}
 
+	}
+
+	private boolean isStackeable(EntityType type) {
+		switch (type) {
+		case ARMOR_STAND:
+			return false;
+		default:
+			return true;
+		}
 	}
 
 	@Override
