@@ -1,9 +1,9 @@
 package fr.maxlego08.hopper.modules;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Animals;
@@ -12,17 +12,13 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 
-import com.bgsoftware.wildstacker.api.WildStackerAPI;
-import com.bgsoftware.wildstacker.api.objects.StackedEntity;
-
 import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.api.Level;
 import fr.maxlego08.hopper.save.Config;
+import fr.maxlego08.hopper.stackedentities.SEntity;
 import fr.maxlego08.hopper.zcore.utils.inventory.Button;
 
 public class ModuleKillMob extends Module {
-
-	private final boolean isWildStacker = Bukkit.getPluginManager().isPluginEnabled("WildStacker");
 
 	public ModuleKillMob(int priority) {
 		super("KillMob", priority);
@@ -62,17 +58,18 @@ public class ModuleKillMob extends Module {
 			if (amount > maxPerSecond)
 				return;
 
-			if (isWildStacker && isStackeable(entity.getType())) {
+			if (isStackeable(entity.getType())) {
 
-				StackedEntity stackedEntity = WildStackerAPI.getStackedEntity(entity);
-				if (stackedEntity == null) {
+				Optional<SEntity> optional = SEntity.hook(entity);
+				if (!optional.isPresent()) {
 					entity.teleport(location);
 					entity.damage(entity.getHealth() * 10);
 					amount++;
 					continue;
 				}
 
-				int stackedAmount = stackedEntity.getStackAmount();
+				SEntity stackedEntity = optional.get();
+				int stackedAmount = stackedEntity.getSize();
 
 				// Si le nombre d'entity est un alors on s'en fou
 				if (stackedAmount == 1) {
@@ -89,7 +86,7 @@ public class ModuleKillMob extends Module {
 							return;
 
 						stackedAmount = stackedAmount - 1;
-						stackedEntity.setStackAmount(stackedAmount, true);
+						stackedEntity.setSize(stackedAmount);
 						LivingEntity spawnedEntity = (LivingEntity) entity.getWorld().spawnEntity(entity.getLocation(),
 								stackedEntity.getType());
 						spawnedEntity.teleport(location);

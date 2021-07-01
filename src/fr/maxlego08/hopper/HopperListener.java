@@ -66,8 +66,6 @@ public class HopperListener extends ListenerAdapter {
 				
 				event.getPlayer()
 						.sendMessage(Message.PREFIX_END.getMessage() + " §aUtilisateur spigot §2" + name + " §a!");
-				event.getPlayer().sendMessage(Message.PREFIX_END.getMessage() + " §aAdresse du serveur §2"
-						+ Bukkit.getServer().getIp().toString() + ":" + Bukkit.getServer().getPort() + " §a!");
 			}
 			if (ZPlugin.z().getDescription().getFullName().toLowerCase().contains("dev")) {
 				event.getPlayer().sendMessage(Message.PREFIX_END.getMessage()
