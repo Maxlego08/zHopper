@@ -76,7 +76,7 @@ public class HopperObject extends ZUtils implements Hopper {
 
 	@Override
 	public Block getBlock() {
-		return location == null ? null : location.getBlock();
+		return location == null ? null : getWorld() != null ? location.getBlock() : null;
 	}
 
 	@Override
@@ -150,9 +150,10 @@ public class HopperObject extends ZUtils implements Hopper {
 		return linkedContainers;
 	}
 
+	
 	@Override
 	public boolean isValid() {
-		return location != null && getBlock().getType().equals(Material.HOPPER);
+		return location != null && getWorld() != null && getBlock().getType().equals(Material.HOPPER);
 	}
 
 	@Override

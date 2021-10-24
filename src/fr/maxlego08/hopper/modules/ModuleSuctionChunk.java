@@ -1,10 +1,10 @@
 package fr.maxlego08.hopper.modules;
 
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
@@ -14,42 +14,34 @@ import org.bukkit.inventory.ItemStack;
 import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.api.Level;
 import fr.maxlego08.hopper.save.Config;
-import fr.maxlego08.hopper.zcore.utils.ItemDecoder;
 import fr.maxlego08.hopper.zcore.utils.Result;
 import fr.maxlego08.hopper.zcore.utils.inventory.Button;
 
-public class ModuleSuction extends Module {
+public class ModuleSuctionChunk extends Module {
 
-	public ModuleSuction(int priority) {
-		super("Suction", priority);
-		this.runAsync = Config.runModuleSuctionAsync;
+	/**
+	 * 
+	 * @param priority
+	 */
+	public ModuleSuctionChunk(int p) {
+		super("SuctionChunk", p);
+		this.runAsync = Config.runModuleSuctionChunkAsync;
 	}
 
 	@Override
 	public void execute(Hopper hopper, Level level) {
 
-		int distance = level.getMaxDistanceSuction();
-
 		World world = hopper.getWorld();
+		Location location = hopper.getLocation();
 		Inventory inventory = hopper.toBukkitHopper().getInventory();
 
-		if (distance <= 0 || world == null)
+		if (world == null || location == null)
 			return;
 
-		Collection<Entity> entities;
+		List<Entity> entities = Arrays.asList(location.getChunk().getEntities());
+		Stream<Item> stream = entities.stream().filter(entity -> entity instanceof Item && entity.isValid()).map(entity -> (Item) entity);
 
-		if (ItemDecoder.getNMSVersion() == 1.7)
-			entities = world.getEntitiesByClasses(Entity.class).stream()
-					.filter(e -> e.getLocation().distance(hopper.getLocation()) <= distance)
-					.collect(Collectors.toList());
-		else
-			entities = world.getNearbyEntities(hopper.getLocation(), distance, distance, distance);
-
-		// On r�cup�re tout les items valides dans un certain rayon
-		Stream<Item> stream = entities.stream().filter(entity -> entity instanceof Item && entity.isValid())
-				.map(entity -> (Item) entity);
-		List<Item> items = stream.collect(Collectors.toList());
-		items.forEach(item -> {
+		stream.forEach(item -> {
 
 			ItemStack itemStack = item.getItemStack();
 			ItemStack clone = itemStack.clone();
@@ -73,7 +65,7 @@ public class ModuleSuction extends Module {
 			amount = Math.min(amount, itemStack.getMaxStackSize());
 
 			int toRemove = defaultAmount - amount;
-			
+
 			if (toRemove == 0)
 				item.remove();
 			else
@@ -88,12 +80,12 @@ public class ModuleSuction extends Module {
 
 	@Override
 	public boolean isCooldown(Hopper hopper, Level level) {
-		return super.isCooldown(hopper, "modulesuction", level.getLongAsProperty("milliSecondModuleSuction"));
+		return super.isCooldown(hopper, "modulesuctionchunk", level.getLongAsProperty("milliSecondModuleSuctionChunk"));
 	}
 
 	@Override
 	public Button getButton() {
-		return Config.suctionButton;
+		return Config.suctionChunkButton;
 	}
 
 }

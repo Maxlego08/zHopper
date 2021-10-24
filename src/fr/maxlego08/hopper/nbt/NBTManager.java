@@ -3,6 +3,7 @@ package fr.maxlego08.hopper.nbt;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import fr.maxlego08.hopper.api.EnumVersion;
 import fr.maxlego08.hopper.api.Hopper;
 import fr.maxlego08.hopper.nbt.versions.NBT1_10;
 import fr.maxlego08.hopper.nbt.versions.NBT1_11;
@@ -10,6 +11,8 @@ import fr.maxlego08.hopper.nbt.versions.NBT1_12;
 import fr.maxlego08.hopper.nbt.versions.NBT1_13;
 import fr.maxlego08.hopper.nbt.versions.NBT1_14;
 import fr.maxlego08.hopper.nbt.versions.NBT1_15;
+import fr.maxlego08.hopper.nbt.versions.NBT1_16;
+import fr.maxlego08.hopper.nbt.versions.NBT1_16_R3;
 import fr.maxlego08.hopper.nbt.versions.NBT1_7;
 import fr.maxlego08.hopper.nbt.versions.NBT1_8;
 import fr.maxlego08.hopper.nbt.versions.NBT1_9;
@@ -27,6 +30,14 @@ public class NBTManager {
 			listener = new NBT1_8();
 		} else if (version == 1.15) {
 			listener = new NBT1_15();
+		} else if (version == 1.16) {
+
+			EnumVersion enumVersion = ItemDecoder.getVersion();
+			if (enumVersion.equals(EnumVersion.V_16_R2))
+				listener = new NBT1_16();
+			else
+				listener = new NBT1_16_R3();
+
 		} else if (version == 1.14) {
 			listener = new NBT1_14();
 		} else if (version == 1.13) {

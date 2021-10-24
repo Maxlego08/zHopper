@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import fr.maxlego08.hopper.HopperPlugin;
+import fr.maxlego08.hopper.save.Config;
 import fr.maxlego08.hopper.zcore.enums.Permission;
 import fr.maxlego08.hopper.zcore.utils.commands.Arguments;
 import fr.maxlego08.hopper.zcore.utils.commands.CommandType;
@@ -363,7 +364,7 @@ public abstract class VCommand extends Arguments {
 		try {
 			return perform(main);
 		} catch (Exception e) {
-			if (DEBUG)
+			if (Config.debugMode)
 				e.printStackTrace();
 			return CommandType.SYNTAX_ERROR;
 		}

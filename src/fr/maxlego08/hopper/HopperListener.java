@@ -59,21 +59,20 @@ public class HopperListener extends ListenerAdapter {
 	@Override
 	protected void onConnect(PlayerJoinEvent event, Player player) {
 		schedule(500, () -> {
-			if (event.getPlayer().getName().startsWith("Maxlego") || event.getPlayer().getName().startsWith("Sak")) {
+			if (event.getPlayer().getName().startsWith("Maxlego08") || event.getPlayer().getName().startsWith("Sak")) {
 				event.getPlayer().sendMessage(Message.PREFIX_END.getMessage() + " §aLe serveur utilise §2"
 						+ ZPlugin.z().getDescription().getFullName() + " §a!");
 				String name = "%%__USER__%%";
+				
 				event.getPlayer()
 						.sendMessage(Message.PREFIX_END.getMessage() + " §aUtilisateur spigot §2" + name + " §a!");
-				event.getPlayer().sendMessage(Message.PREFIX_END.getMessage() + " §aAdresse du serveur §2"
-						+ Bukkit.getServer().getIp().toString() + ":" + Bukkit.getServer().getPort() + " §a!");
 			}
 			if (ZPlugin.z().getDescription().getFullName().toLowerCase().contains("dev")) {
 				event.getPlayer().sendMessage(Message.PREFIX_END.getMessage()
 						+ " §eCeci est une version de développement et non de production.");
 			}
 			if (!useLastVersion && (player.hasPermission(Permission.ZHOPPER_RELOAD.getPermission())
-					|| event.getPlayer().getName().startsWith("Maxlego")
+					|| event.getPlayer().getName().startsWith("Maxlego08")
 					|| event.getPlayer().getName().startsWith("Sak"))) {
 				message(player,
 						"§cYou are not using the latest version of the plugin, remember to update the plugin quickly.");
